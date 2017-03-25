@@ -22,3 +22,10 @@ _testmain.go
 *.exe
 *.test
 *.prof
+
+# Project Specific
+log/
+personal-website
+resources/min.css
+resources/min.js
+
