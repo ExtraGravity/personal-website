@@ -4,6 +4,7 @@ go build -o personal-website
 
 echo "Minifying CSS"
 minify \
+	resources/css/reset.css \
 	resources/css/base.css \
     --output resources/min.css
 
