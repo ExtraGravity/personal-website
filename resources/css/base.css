@@ -65,6 +65,13 @@ header {
     overflow: hidden;
 }
 
+@media (max-width: 500px) {
+    .nav-bar input {
+        border: none;
+        min-width: 480px;
+    }
+}
+
 footer {
     border-top: 1px solid #777;
     position: absolute;
