@@ -6,6 +6,8 @@ echo "Minifying CSS"
 minify \
 	resources/css/reset.css \
 	resources/css/base.css \
+	resources/css/content.css \
+	resources/css/home.css \
     --output resources/min.css
 
 echo "Minifying JS"

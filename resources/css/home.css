@@ -1,0 +1,16 @@
+.home {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+    width: 100%;
+    height: 50vh;
+}
+
+.home h1 {
+	margin: 40px;
+}
+
+.home h2 {
+	margin: 40px;
+}

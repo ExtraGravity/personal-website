@@ -4,19 +4,37 @@
 <head>
 	<meta content="text/html; charset=utf-8" http-equiv="content-type">
 	<title>Enoch Tsang</title>
-	<link href="https://fonts.googleapis.com/css?family=Inconsolata|Source+Sans+Pro" rel="stylesheet">
+	<link href="https://fonts.googleapis.com/css?family=Raleway|Share+Tech+Mono" rel="stylesheet">
 	<link href="resources/min.css" rel="stylesheet" type="text/css">
 </head>
 <body>
 	<header>
-		<img alt="Enoch Tsang" class="signature" src="/resources/images/signature.png">
+		<img alt="Enoch Tsang" class="signature" src="/resources/images/signature-logo.png">
 	</header>
 	<div class="nav-bar-border"></div>
 	<div class="nav-bar">
-		<input type="text">
+		<input type="text" placeholder="START EXPLORING">
 	</div>
 	<div class="nav-bar-border"></div>
-	<footer></footer>
+	<div class="navigation-container">
+		<div class="navigation-background"></div>
+		<div class="navigation-icon">
+			<h1>Hello world!</h1>
+		</div>
+	</div>
+	<div class="content">
+	    {{template "content" .}}
+	</div>
+	<footer>
+		<div class="github-link">
+			<img src="/resources/images/github-icon.png" alt="github-icon">
+			<a>github.com/enochtsang</a>
+		</div>
+		<div class="email-link">
+			<a>ECHTsang@gmail.com</a>
+			<img src="/resources/images/email-icon.png" alt="email-icon">
+		</div>
+	</footer>
 	<script src="resources/min.js" type="text/javascript">
 	</script>
 </body>

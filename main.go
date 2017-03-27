@@ -33,7 +33,9 @@ func check(err error, exit bool) {
 }
 
 func rootHandler(w http.ResponseWriter, r *http.Request) {
-	t := template.Must(template.ParseFiles(absPath("templates/base.html")))
+	t := template.Must(template.ParseFiles(
+		absPath("templates/base.html"),
+		absPath("templates/home.html")))
 	err := t.ExecuteTemplate(w, "base", nil)
 	check(err, true)
 }
@@ -44,7 +46,7 @@ func faviconHandler(w http.ResponseWriter, r *http.Request) {
 
 func cache(h http.Handler) http.Handler {
 	var cacheHeaders = map[string]string{
-		"Cache-Control": "public, max-age=2592000",
+	// "Cache-Control": "public, max-age=2592000",
 	}
 
 	fn := func(w http.ResponseWriter, r *http.Request) {

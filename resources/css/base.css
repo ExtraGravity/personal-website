@@ -5,12 +5,13 @@ html {
 }
 
 body {
-    font-family: 'Source Sans Pro', sans-serif;
+    font-family: 'Raleway', sans-serif;
     margin: 0 0 40px; /* bottom = footer height */
     background-image: url("/resources/images/geometric-background.jpg");
     background-position: bottom;
     background-size: contain;
     background-repeat: no-repeat;
+    overflow: hidden;
 }
 
 header {
@@ -23,6 +24,7 @@ header {
     display: flex;
     justify-content: space-around;
     align-items: center;
+    opacity: 1;
 }
 
 .signature {
@@ -49,20 +51,32 @@ header {
     justify-content: center;
 }
 
+.nav-bar:hover > input {
+    background-color: #555;
+    cursor: pointer;
+}
+
 .nav-bar input {
-    font-family: 'Inconsolata', monospace;
+    font-family: 'Share Tech Mono', monospace;
     background-color: #444;
-    border-bottom: none;
-    border-left: 3px solid #777;
-    border-right: 3px solid #777;
-    border-top: none;
-    color: #DDD;
+    border: none;
+    text-align: center;
+    color: #AAA;
+    text-transform: uppercase;
     min-width: 474px; /* screen width - 2*padding - 2*border */
     font-size: 3vh;
     outline:none;
     padding: 10px;
     width: 50%;
     overflow: hidden;
+    border-bottom: none;
+    border-left: 3px solid #777;
+    border-right: 3px solid #777;
+    border-top: none;
+}
+
+::-webkit-input-placeholder {
+    color: #666;
 }
 
 @media (max-width: 500px) {
@@ -72,12 +86,62 @@ header {
     }
 }
 
+.navigation-container {
+    position: absolute;
+    width: 100%;
+}
+
+.navigation-background {
+    background: linear-gradient(to bottom, 
+        rgba(255, 255, 255, 1) 0%,
+        rgba(255, 255, 255, 1) 68%,
+        rgba(255, 255, 255, 0) 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+    position: absolute;
+    height: 40vh;
+    width: 100%;
+    display: none;
+}
+
+.navigation-icon {
+    align-items: center;
+    justify-content: center;
+    position: absolute;
+    min-height: 25vh;
+    width: 100%;
+    display: none;
+}
+
+
 footer {
-    border-top: 1px solid #777;
+    border-top: 3px solid #777;
     position: absolute;
     left: 0;
     bottom: 0;
     height: 40px;
     width: 100%;
     background-color: #222;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    color: white;
+    font-size: 14px;
+}
+
+footer div {
+    margin-left: 14px;
+    margin-right: 14px;
+}
+
+footer img {
+    height: 14px;
+    width: 14px;
+    vertical-align: bottom;
+}
+
+.github-link img {
+    padding-right: 5px;
+}
+
+.email-link img {
+    padding-left: 5px;
 }
