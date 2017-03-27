@@ -81,11 +81,6 @@ header {
     justify-content: center;
 }
 
-.nav-bar input:hover {
-    background-color: #555;
-    cursor: pointer;
-}
-
 .nav-bar input {
     font-family: 'Share Tech Mono', monospace;
     background-color: #444;
@@ -104,6 +99,12 @@ header {
     border-right: 3px solid #777;
     border-top: none;
 }
+
+.nav-bar input:hover {
+    background-color: #555;
+    cursor: pointer;
+}
+
 
 ::-webkit-input-placeholder {
     color: #666;
@@ -133,8 +134,12 @@ header {
 }
 
 .navigation-icon {
+    text-transform: uppercase;
+    font-family: 'Share Tech Mono', monospace;
     align-items: center;
+    color: #444;
     justify-content: center;
+    flex-direction: column;
     position: absolute;
     min-height: 25vh;
     width: 100%;
