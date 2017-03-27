@@ -97,6 +97,7 @@ header {
     border-left: 3px solid #777;
     border-right: 3px solid #777;
     border-top: none;
+    vertical-align: center;
 }
 
 .nav-bar input:focus {
@@ -150,6 +151,13 @@ header {
 }
 
 .pentagon {
+    position: absolute;
+    left: 0;
+    right: 0;
+    margin-left: auto;
+    margin-right: auto;
+    width: 100%;
+    top: 62px;
     height: 150px;
     width: 150px;
 }

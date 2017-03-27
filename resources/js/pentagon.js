@@ -4,9 +4,9 @@ var defaultColor = "#444";
 var highlightColor = "#F20";
 
 $('document').ready(function(){
-	ctx.lineWidth = 10;
+	ctx.lineWidth = 10.5;
 	ctx.strokeStyle= defaultColor;
-	ctx.translate(0.65, 0.65);
+	ctx.translate(0.5, 0.5);
 	widthRatio = c.offsetWidth / c.width;
 	heightRatio = c.offsetHeight / c.height;
 

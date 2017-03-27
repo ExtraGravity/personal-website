@@ -21,4 +21,19 @@ $('document').ready(function(){
         	$(".navigation-background").delay(200).slideUp(300);
 	    }
 	});
+
+	navLinks = [
+		$(".about"),
+		$(".contact"),
+		$(".articles"),
+		$(".resume"),
+		$(".portfolio")
+	]
+
+	for (i = 0; i < navLinks.length; i++) {
+    	navLinks[i].click(function(){
+    	    $(".navigation-icon").delay(200).fadeOut(300);
+    	    $(".navigation-background").delay(200).delay(200).slideUp(300);
+    	});	
+	}
 });
