@@ -6,7 +6,7 @@ var highlightColor = "#F20";
 $('document').ready(function(){
 	ctx.lineWidth = 10;
 	ctx.strokeStyle= defaultColor;
-
+	ctx.translate(0.65, 0.65);
 	widthRatio = c.offsetWidth / c.width;
 	heightRatio = c.offsetHeight / c.height;
 
@@ -108,6 +108,7 @@ function drawAnimatedLine(p1, p2, color) {
 	    };
 		ctx.strokeStyle = color;
 		ctx.beginPath();
+		ctx.lineCap = "round";
 	    ctx.moveTo(p1[0], p1[1]);
 	    // lerp : a  + (b - a) * f
 	    ctx.lineTo(p1[0] + (p2[0] - p1[0]) * amount, 
