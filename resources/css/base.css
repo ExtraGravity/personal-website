@@ -49,7 +49,7 @@ h6 {
 }
 
 header {
-    height: 30vh;
+    height: 20rem;
     width: 100%;
     display: flex;
     justify-content: space-around;
@@ -62,7 +62,7 @@ header {
     left: 0;
 
     width: 100%;
-    height: 30vh;
+    height: 20rem;
     
     background: linear-gradient( rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5) ),
         url("/resources/images/coffeeshop-background.jpg");
@@ -75,7 +75,7 @@ header {
 .signature {
     position: absolute;
 
-    height: 15vh;
+    height: 10rem;
 
     display: none;
 }
@@ -96,26 +96,26 @@ header {
     overflow: hidden;
     background-color: #222;
     display: flex;
-    height: 5vh;
+    height: 2.8rem;
     justify-content: center;
 }
 
 .nav-bar input {
-    font-family: 'Share Tech Mono', monospace;
     background-color: #444;
-    border: none;
-    text-align: center;
-    color: #AAA;
-    text-transform: uppercase;
     min-width: 474px; /* screen width - 2*padding - 2*border */
-    font-size: 3vh;
     padding: 10px;
     width: 50%;
-    /*overflow: hidden;*/
+
     border-bottom: none;
     border-left: 3px solid #777;
     border-right: 3px solid #777;
     border-top: none;
+
+    color: #999;
+    font-family: 'Share Tech Mono', monospace;
+    text-align: center;
+    text-transform: uppercase;
+    font-size: 1.65rem;
     vertical-align: center;
 }
 
@@ -125,12 +125,17 @@ header {
 
 .nav-bar input:hover {
     background-color: #555;
+    color: #AAA;
     cursor: pointer;
 }
 
 
 ::-webkit-input-placeholder {
     color: #666;
+}
+
+::-webkit-input-placeholder:hover {
+    color: #777;
 }
 
 @media (max-width: 500px) {
@@ -150,7 +155,7 @@ header {
         rgba(255, 255, 255, 1) 0%,
         rgba(255, 255, 255, 1) 75%,
         rgba(255, 255, 255, 0) 100%);
-    height: 400px;
+    height: 25rem;
     width: 100%;
     display: none;
 }
@@ -163,7 +168,8 @@ header {
     color: #444;
     justify-content: center;
     flex-direction: column;
-    min-height: 280px;
+    /*min-height: 280px;*/
+    /*height: 16rem;*/
     width: 100%;
     display: none;
 }
@@ -173,9 +179,9 @@ header {
     margin-left: auto;
     margin-right: auto;
     width: 100%;
-    top: 62px;
-    height: 150px;
-    width: 150px;
+    top: 4.3rem;
+    height: 10rem;
+    width: 10rem;
 }
 
 .navigation-links {
@@ -183,10 +189,9 @@ header {
     margin-left: auto;
     margin-right: auto;
     width: 100%;
-    top: 62px;
-    height: 150px;
-    width: 150px;
-
+    top: 4.3rem;
+    height: 10rem;
+    width: 10rem;
 }
 
 .navigation-links h2 {
@@ -210,32 +215,38 @@ header {
 }
 
 .about {
-    top: -30px;
+    top: -2.6rem;
     width: 100%;
 }
 
 .portfolio {
-    top: 45px;
-    right: 145px;
+    top: 3.1rem;
+    right: 10rem;
     width: 100%;
 }
 
 .contact {
-    bottom: -30px;
-    right: 100px;
+    bottom: -2.6rem;
+    right: 6.5rem;
     width: 100%;
 }
 
 .articles {
-    top: 45px;
-    left: 140px;
+    top: 3.1rem;
+    left: 9.5rem;
     width: 100%;
 }
 
 .resume {
-    bottom: -30px;
-    left: 100px;
+    bottom: -2.6rem;
+    left: 6.5rem;
     width: 100%;
+}
+
+.content {
+    margin: auto;
+    width: 50%;
+    min-height: 25rem;
 }
 
 footer {
