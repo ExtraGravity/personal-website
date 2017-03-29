@@ -5,11 +5,13 @@ if( /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(naviga
 }
 
 $("document").ready(function(){
-    easeInHeader();
-    insertContent();
-    setTimeout(fadeInFooter, 900);
-    setTimeout(fillPlaceholder, 1500);
-    setupNavbarEvents();
+    window.onload = function() {
+        easeInHeader();
+        insertContent();
+        setTimeout(fadeInFooter, 900);
+        setTimeout(fillPlaceholder, 1500);
+        setupNavbarEvents();
+    } 
 });
 
 function easeInHeader() {
