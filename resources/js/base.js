@@ -5,13 +5,13 @@ if( /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(naviga
 }
 
 $("document").ready(function(){
-    window.onload = function() {
+    setTimeout(function() {
         easeInHeader();
-        insertContent();
+        setTimeout(insertContent, 800);
         setTimeout(fadeInFooter, 900);
         setTimeout(fillPlaceholder, 1500);
         setupNavbarEvents();
-    } 
+    }, 1000);
 });
 
 function easeInHeader() {
@@ -27,7 +27,7 @@ function easeInHeader() {
 }
 
 function insertContent() {
-    $(".content-wrapper").hide().fadeIn("slow");
+    $(".content-wrapper").hide().css("opacity", "1").fadeIn("slow");
 }
 
 function fillPlaceholder(){

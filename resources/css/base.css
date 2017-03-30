@@ -263,6 +263,7 @@ header {
     width: 70%;
     min-height: 25rem;
     z-index: -30;
+    opacity: 0;
 }
 
 .content {
