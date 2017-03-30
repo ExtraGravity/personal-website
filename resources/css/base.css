@@ -266,12 +266,29 @@ header {
 }
 
 .content {
+    display: flex;
+    justify-content: center; 
+    min-height: 25rem;
     position: relative;
     z-index: -15;
     width: 100%;
     height: 100%;
     margin-top: 4rem;
     margin-bottom: 4rem;
+    
+    background-color: rgba(0, 0, 0, 0.1);
+    border-width: 3px;
+    border-style: solid;
+    -webkit-border-image: 
+      -webkit-gradient(linear, 0 100%, 0 0, from(black), to(rgba(0, 0, 0, 0))) 1 100%;
+    -webkit-border-image: 
+      -webkit-linear-gradient(bottom, rgba(0, 0, 0, 0), black, rgba(0, 0, 0, 0)) 1 100%;
+    -moz-border-image:
+      -moz-linear-gradient(bottom, rgba(0, 0, 0, 0), black, rgba(0, 0, 0, 0)) 1 100%;  
+    -o-border-image:
+      -o-linear-gradient(bottom, rgba(0, 0, 0, 0), black, rgba(0, 0, 0, 0)) 1 100%;
+    border-image:
+      linear-gradient(to bottom, rgba(0, 0, 0, 0), black, rgba(0, 0, 0, 0)) 1 100%;
 }
 
 footer {
