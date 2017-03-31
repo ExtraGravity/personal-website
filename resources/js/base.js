@@ -117,23 +117,23 @@ function handleNavClick(pageToReq) {
 
 function removeContent(callback) {
     $( ".content-wrapper" ).css({
-        "opacity": "0.3",
+        "opacity": "0.4",
         "-webkit-filter": "blur(5px)",
         "-moz-filter": "blur(5px)",
         "-o-filter": "blur(5px)",
         "-ms-filter": "blur(5px)",
         "filter": "blur(5px)",
-        "transition":"filter 0.3s linear, opacity 0.2s linear",
-        "-webkit-transition":"filter 0.3s linear, opacity 0.2s linear",
-        "-moz-transition":"filter 0.3s linear, opacity 0.2s linear",
-        "-o-transition":"filter 0.3s linear, opacity 0.2s linear",
+        "transition":"filter 0.5s ease-out, opacity 0.5s ease-out",
+        "-webkit-transition":"filter 0.5s ease-out, opacity 0.5s ease-out",
+        "-moz-transition":"filter 0.5s ease-out, opacity 0.5s ease-out",
+        "-o-transition":"filter 0.5s ease-out, opacity 0.5s ease-out",
     });
     $( ".content" ).css({
         "opacity": "0",
-        "transition":"filter 0.8s linear, opacity 0.5s linear",
-        "-webkit-transition":"filter 0.8s linear, opacity 0.5s linear",
-        "-moz-transition":"filter 0.8s linear, opacity 0.5s linear",
-        "-o-transition":"filter 0.8s linear, opacity 0.5s linear",
+        "transition":"filter 0.5s ease-out, opacity 0.5s ease-out",
+        "-webkit-transition":"filter 0.5s ease-out, opacity 0.5s ease-out",
+        "-moz-transition":"filter 0.5s ease-out, opacity 0.5s ease-out",
+        "-o-transition":"filter 0.5s ease-out, opacity 0.5s ease-out",
     });
     setTimeout(callback, 1000);
 }
@@ -146,18 +146,18 @@ function insertContent() {
         "-o-filter": "blur(0)",
         "-ms-filter": "blur(0)",
         "filter": "blur(0)",
-        "transition":"filter 0.8s linear, opacity 0.2s linear",
-        "-webkit-transition":"filter 0.8s linear, opacity 0.2s linear",
-        "-moz-transition":"filter 0.8s linear, opacity 0.2s linear",
-        "-o-transition":"filter 0.8s linear, opacity 0.2s linear",
+        "transition":"filter 0.5s ease-out, opacity 0.5s ease-out",
+        "-webkit-transition":"filter 0.5s ease-out, opacity 0.5s ease-out",
+        "-moz-transition":"filter 0.5s ease-out, opacity 0.5s ease-out",
+        "-o-transition":"filter 0.5s ease-out, opacity 0.5s ease-out",
     });
     
     $(".content").css({
         "opacity": "0",
         "opacity": "1",
-        "transition":"filter 0.8s linear, opacity 0.2s linear",
-        "-webkit-transition":"filter 0.8s linear, opacity 0.2s linear",
-        "-moz-transition":"filter 0.8s linear, opacity 0.2s linear",
-        "-o-transition":"filter 0.8s linear, opacity 0.2s linear",
+        "transition":"filter 0.5s ease-out, opacity 0.5s ease-out",
+        "-webkit-transition":"filter 0.5s ease-out, opacity 0.5s ease-out",
+        "-moz-transition":"filter 0.5s ease-out, opacity 0.5s ease-out",
+        "-o-transition":"filter 0.5s ease-out, opacity 0.5s ease-out",
     });
 }
