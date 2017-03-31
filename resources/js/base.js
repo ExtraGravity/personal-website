@@ -1,15 +1,20 @@
-var MOBILE = false
+var MOBILE = false;
 
 if( /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) ) {
     MOBILE = true;
 }
 
 $("document").ready(function(){
+    // Initial timeout 1000ms to wait for load
+    // Then total 1100ms for final load in
     setTimeout(function() {
         easeInHeader();
-        setTimeout(insertContent, 800);
-        setTimeout(fadeInFooter, 900);
-        setTimeout(fillPlaceholder, 1500);
+        $(".signature").delay(800).fadeIn(300);
+        setTimeout(function() { // fade in .content
+            $(".content-wrapper").hide().css("opacity", "1").fadeIn(300);
+        }, 800);
+        setTimeout(fadeInFooter, 800);
+        setTimeout(fillPlaceholder, 900);
         setupNavbarEvents();
     }, 1000);
 });
@@ -22,12 +27,6 @@ function easeInHeader() {
         "-moz-transition":"opacity 0.8s ease-out",
         "-o-transition":"opacity 0.8s ease-out"
     });
-
-    $(".signature").delay(900).fadeIn("fast");
-}
-
-function insertContent() {
-    $(".content-wrapper").hide().css("opacity", "1").fadeIn("slow");
 }
 
 function fillPlaceholder(){
@@ -35,24 +34,21 @@ function fillPlaceholder(){
 
     if(MOBILE){
         $(".nav-bar input").attr("placeholder", str);
-    } else {    
+    } else {
         var i = 0;
 
         (function type() {
-            $(".nav-bar input").attr("placeholder", str.slice(0, ++i)); 
-            if ($(".nav-bar input").attr("placeholder") === str) return;
+            $(".nav-bar input").attr("placeholder", str.slice(0, ++i));
+            if ($(".nav-bar input").attr("placeholder") === str) {
+                return;
+            }
             setTimeout(type, 150);
         }());
     }
 }
 
 function fadeInFooter() {
-    $("footer div").fadeIn("fast");
-}
-
-function closeNavigation() {
-    $(".navigation-icon").fadeOut(300);
-    $(".navigation-background").delay(200).slideUp(300);
+    $("footer div").fadeIn(300);
 }
 
 function setupNavbarEvents() {
@@ -65,7 +61,7 @@ function setupNavbarEvents() {
             $(".navigation-background").slideDown(300);
             $(".navigation-icon").css("display", "flex").hide().delay(300).fadeIn(400);
         }
-    });    
+    });
 
     $(document).mouseup(function (e)
     {
@@ -78,41 +74,48 @@ function setupNavbarEvents() {
         {
             closeNavigation();
         }
-    });    
+    });
 
-    var navCloseDelay = 250;
-    if(MOBILE) {
-        navCloseDelay = 700;
+    var pages = [
+        "about",
+        "portfolio",
+        "contact",
+        "articles",
+        "resume"
+    ];
+
+    for (var i = 0; i < pages.length; i += 1)
+    {
+        $("." + pages[i]).click(handleNavClick(pages[i]));
     }
-
-    $(".about").click(function() {
-        setTimeout(closeNavigation, navCloseDelay);
-        removeContent();
-    });
-
-    $(".portfolio").click(function() {
-        setTimeout(closeNavigation, navCloseDelay);
-        removeContent();
-    });
-
-    $(".contact").click(function() {
-        setTimeout(closeNavigation, navCloseDelay);
-        removeContent();
-    });
-
-    $(".articles").click(function() {
-        setTimeout(closeNavigation, navCloseDelay);
-        removeContent();
-    });
-
-    $(".resume").click(function() {
-        setTimeout(closeNavigation, navCloseDelay);
-        removeContent();
-    });
 }
 
+function closeNavigation() {
+    $(".navigation-icon").fadeOut(300);
+    $(".navigation-background").delay(200).slideUp(300);
+}
 
-function removeContent() {
+function handleNavClick(pageToReq) {
+    return function(e) {
+        var navCloseDelay = 250;
+        if(MOBILE) {
+            navCloseDelay = 700;
+        }    
+
+        setTimeout(function() {
+            closeNavigation()
+            removeContent(function() {
+                $.get("api", { page: pageToReq }, function(response) {
+                    $(".content").html(response);
+                    console.log(response);
+                    insertContent();
+                });
+            });
+        }, navCloseDelay);
+    };
+}
+
+function removeContent(callback) {
     $( ".content" ).css({
         "opacity": "0",
         "-webkit-filter": "blur(5px)",
@@ -120,9 +123,25 @@ function removeContent() {
         "-o-filter": "blur(5px)",
         "-ms-filter": "blur(5px)",
         "filter": "blur(5px)",
-        "transition":"filter 1s linear, opacity 1s linear",
-        "-webkit-transition":"filter 1s linear, opacity 1s linear",
-        "-moz-transition":"filter 1s linear, opacity 1s linear",
-        "-o-transition":"filter 1s linear, opacity 1s linear",
+        "transition":"filter 0.2s linear, opacity 0.2s linear",
+        "-webkit-transition":"filter 0.2s linear, opacity 0.2s linear",
+        "-moz-transition":"filter 0.2s linear, opacity 0.2s linear",
+        "-o-transition":"filter 0.2s linear, opacity 0.2s linear",
+    });
+    setTimeout(callback, 1000);
+}
+
+function insertContent() {
+    $(".content").css({
+        "opacity": "1",
+        "-webkit-filter": "blur(0)",
+        "-moz-filter": "blur(0)",
+        "-o-filter": "blur(0)",
+        "-ms-filter": "blur(0)",
+        "filter": "blur(0)",
+        "transition":"filter 0.2s linear, opacity 0.2s linear",
+        "-webkit-transition":"filter 0.2s linear, opacity 0.2s linear",
+        "-moz-transition":"filter 0.2s linear, opacity 0.2s linear",
+        "-o-transition":"filter 0.2s linear, opacity 0.2s linear",
     });
 }

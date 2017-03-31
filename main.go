@@ -40,6 +40,24 @@ func rootHandler(w http.ResponseWriter, r *http.Request) {
 	check(err, true)
 }
 
+func apiHandler(w http.ResponseWriter, r *http.Request) {
+	if r.URL.Path != "/api" {
+		http.NotFound(w, r)
+		return
+	}
+
+	if r.Method == "GET" {
+		fmt.Println("GET params were:", r.URL.Query())
+		fmt.Println("URL was ", r.URL)
+		r.ParseForm()
+		page := r.URL.Query().Get("page")
+		pageTmpl := "templates/" + page + ".html"
+		t := template.Must(template.ParseFiles(absPath(pageTmpl)))
+		err := t.ExecuteTemplate(w, "content", nil)
+		check(err, true)
+	}
+}
+
 func faviconHandler(w http.ResponseWriter, r *http.Request) {
 	http.ServeFile(w, r, absPath("resources/images/favicon.ico"))
 }
@@ -61,6 +79,7 @@ func cache(h http.Handler) http.Handler {
 func main() {
 
 	http.HandleFunc("/", rootHandler)
+	http.HandleFunc("/api", apiHandler)
 	http.Handle("/resources/", cache(http.StripPrefix("/resources/", http.FileServer(http.Dir(absPath("resources"))))))
 	http.HandleFunc("/favicon.ico", faviconHandler)
 
