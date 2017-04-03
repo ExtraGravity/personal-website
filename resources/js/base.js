@@ -4,6 +4,15 @@ if( /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(naviga
     MOBILE = true;
 }
 
+window.onpopstate = function(event) {
+    // alert("location: " + document.location + ", state: " + JSON.stringify(event.state));
+    // var pageToReq = event;
+    // console.log(event);
+    // $.get("api", { page: pageToReq }, function(response) {
+        $(".content").html(event);
+    // });        
+};
+
 $("document").ready(function(){
     // Initial timeout 1000ms to wait for load
     // Then total 1100ms for final load in
@@ -107,8 +116,8 @@ function handleNavClick(pageToReq) {
             removeContent(function() {
                 $.get("api", { page: pageToReq }, function(response) {
                     $(".content").html(response);
-                    console.log(response);
                     insertContent();
+                    window.history.pushState(pageToReq, pageToReq, "/" + pageToReq);
                 });
             });
         }, navCloseDelay);

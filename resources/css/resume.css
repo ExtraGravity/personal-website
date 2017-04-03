@@ -1,0 +1,48 @@
+.resume-content {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	font-family: 'Lora', serif;
+	padding: 4rem;
+	width: 100%;
+}
+
+.resume-content hr {
+	border: 0;
+	background: #777;
+}
+
+.resume-content ul {
+    width: 50%;
+}
+
+.resume-content li {
+	margin: 9px;
+}
+
+.resume-section {
+	margin-bottom: 1.5rem;
+	width: 80%;
+	min-width: 500px 
+}
+
+.resume-section-hr {
+	height: 2px;
+}
+
+.resume-subsection {
+	display: flex;
+	padding: 5px;
+}
+
+.resume-subsection h3 {
+	width: 50%;
+	text-align: right;
+	margin-right: 3rem;
+	margin: 9px;
+}
+
+.subsection-hr {
+	height: 1px;
+}
