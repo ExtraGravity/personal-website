@@ -9,6 +9,7 @@ minify \
 	resources/css/base.css \
 	resources/css/home.css \
 	resources/css/resume.css \
+	resources/css/about.css \
     --output resources/min.css
 
 echo "Minifying JS"
