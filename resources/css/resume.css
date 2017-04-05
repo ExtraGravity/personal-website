@@ -14,7 +14,8 @@
 
 .resume-content hr {
 	border: 0;
-	background: #777;
+	/*background: #777;*/
+	background-image: linear-gradient(to right, transparent, #444, #444, transparent);
 }
 
 .resume-content ul {
@@ -26,7 +27,7 @@
 }
 
 .resume-section {
-	margin-bottom: 1.5rem;
+	margin-bottom: 2.5rem;
 	width: 80%;
 	min-width: 500px 
 }
