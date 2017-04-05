@@ -1,3 +1,28 @@
+.about-content {
+	display: flex;
+}
+
+.about-description {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	z-index: 100;
+}
+
 .about-content p {
+	margin: 11px;
+	font-size: 1.2em;
 	text-align: left;
+	z-index: 100;
+}
+
+.about-content a {
+	color: orange;
+	text-decoration: none;
+	z-index: 100;
+}
+
+.about-profile {
+	width: auto;
+	height: 40rem;
 }

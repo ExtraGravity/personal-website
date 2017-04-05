@@ -6,6 +6,7 @@
 	font-family: 'Lora', serif;
 	padding: 4rem;
 	width: 100%;
+	pointer: text;
 }
 
 .resume-content hr {
