@@ -12,42 +12,47 @@
 	cursor: text;
 }
 
-.resume-content hr {
-	border: 0;
-	/*background: #777;*/
-	background-image: linear-gradient(to right, transparent, #444, #444, transparent);
+.resume-content h1, h2, h3 {
+	margin: 5px;
 }
 
-.resume-content ul {
-    width: 50%;
+.resume-content hr {
+	border: 0;
+	background-image: linear-gradient(to right, transparent, #444, #444, transparent);
 }
 
 .resume-content li {
 	margin: 9px;
+	text-align: center
 }
 
 .resume-section {
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: space-between;
+	align-content: center;
 	margin-bottom: 2.5rem;
 	width: 80%;
-	min-width: 500px 
+	min-width: 500px;
 }
 
 .resume-section-hr {
+	width: 100%;
 	height: 2px;
 }
 
 .resume-subsection {
 	display: flex;
-	padding: 5px;
-}
-
-.resume-subsection h3 {
+	flex-direction: column;
 	width: 50%;
-	text-align: right;
-	margin-right: 3rem;
-	margin: 9px;
 }
 
-.subsection-hr {
+
+.resume-technical > .resume-subsection {
+	width: 33%;	
+}
+
+.resume-subsection-hr {
 	height: 1px;
+	width: 100%
 }
