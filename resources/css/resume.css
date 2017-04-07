@@ -16,14 +16,15 @@
 	margin: 5px;
 }
 
+
 .resume-content hr {
 	border: 0;
-	background-image: linear-gradient(to right, transparent, #444, #444, transparent);
+	background-image: linear-gradient(to right, transparent, #444, #444, #444, transparent);
 }
 
 .resume-content li {
 	margin: 9px;
-	text-align: center
+	text-align: center;
 }
 
 .resume-section {
