@@ -39,17 +39,13 @@ func contactHandler(w http.ResponseWriter, r *http.Request) {
 
 		log.Print("contact request: ", contactRequest)
 
-		// if checkCaptcha(contactRequest["captcha"]).Success {
-		// 	sendMail(contactRequest["name"],
-		// 		contactRequest["email"],
-		// 		contactRequest["message"])
-		// } else {
-		// 	log.Print("contact POST request with failed captcha")
-		// }
-		sendMail(contactRequest["name"],
-			contactRequest["email"],
-			contactRequest["message"])
-
+		if checkCaptcha(contactRequest["captcha"]).Success {
+			sendMail(contactRequest["name"],
+				contactRequest["email"],
+				contactRequest["message"])
+		} else {
+			log.Print("contact POST request with failed captcha")
+		}
 	}
 }
 
