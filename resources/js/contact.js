@@ -50,6 +50,7 @@ function contactSubmit() {
 
 function recaptchaCallback() {
     // Check captcha filled out
+    alert("recaptchaCallback2");
     var captchaResponse = grecaptcha.getResponse()
     console.log(captchaResponse)
     if(captchaResponse.length == 0) {
