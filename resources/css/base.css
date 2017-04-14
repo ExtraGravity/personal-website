@@ -86,12 +86,15 @@ header {
     top: 5rem;
 
     margin: auto;    
-    height: 10rem;
     display: none;
 }
 
+.signature img {    
+    height: 10rem;
+}
+
 @media (max-width: 800px) {
-    .signature {
+    .signature img {
         height: auto;
         width: 80%;
     }
