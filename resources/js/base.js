@@ -23,10 +23,6 @@ $("document").ready(function(){
         setTimeout(fillPlaceholder, 900);
         setupNavbarEvents();
     }, 1000);
-
-    $(".contact-submit").on("click", function() {
-        contactSubmit();
-    })
 });
 
 function easeInHeader() {

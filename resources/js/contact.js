@@ -1,3 +1,9 @@
+$("document").ready(function(){
+    $(".contact-submit").on("click", function() {
+        contactSubmit();
+    })
+});
+
 function contactSubmit() {
     var goodInput = true;
     var inputs = [
@@ -37,8 +43,7 @@ function contactSubmit() {
         }
     }
 
-    if(goodInput) {
-        
+    if(goodInput) {        
         grecaptcha.execute();
     }
 }
