@@ -59,6 +59,10 @@ h6 {
     text-align: center;
 }
 
+em {
+    font-style: italic;
+}
+
 header {
     height: 20rem;
     width: 100%;

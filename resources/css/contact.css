@@ -2,7 +2,8 @@
 	margin: 3rem auto;
 	display: flex;
 	flex-direction: column;
-	width: 60%;
+	width: 70%;
+	min-width: 450px;
 }
 
 .contact-return-info {
@@ -15,8 +16,11 @@
 }
 
 .contact-form textarea,
-.contact-form input {
-	margin: 5px;
+.contact-form input, 
+.contact-submit,
+.contact-error,
+.contact-sent {
+	margin: 9px;
 	padding: 9px;
     
     font-family: 'Raleway', sans-serif;
@@ -26,6 +30,7 @@
     box-shadow: none;
     border-radius: 2px;
     border: 0.5px solid #444;
+    transition: background-color 0.4s;
 }
 
 .contact-form textarea {
@@ -33,19 +38,45 @@
 	resize: vertical;
 }
 
-.contact-form input[type="submit"] {
+.contact-submit-div {
+	display: flex;
+	justify-content: space-between;
+}
+
+.contact-error {
+	background: none;
+	border: none;
+	color: red;
+}
+
+.contact-submit {
     width: 6rem;
     font-family: 'Share Tech Mono', monospace;
     background: black;
     color: #EEE;
-    align-self: flex-end;
 }
 
-.contact-form input[type="submit"]:hover {
+.contact-submit:hover {
 	background: #444;
 	cursor: pointer;
 }
 
-.contact-form input[type="submit"]:active {
+.contact-submit:active {
 	background: #333;
+}
+
+.contact-sent {
+	display: none;
+	background: none;
+	border: none;
+	color: green;
+	text-align: right;
+}
+
+
+.contact-form input[name="LeaveBlank"] {
+	position: absolute;
+	top: 0;
+	left: 0;
+	z-index: -100;
 }

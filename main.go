@@ -80,6 +80,7 @@ func main() {
 
 	http.HandleFunc("/", rootHandler)
 	http.HandleFunc("/api", apiHandler)
+	http.HandleFunc("/api/contact", contactHandler)
 	http.Handle("/resources/", cache(http.StripPrefix("/resources/", http.FileServer(http.Dir(absPath("resources"))))))
 	http.HandleFunc("/favicon.ico", faviconHandler)
 

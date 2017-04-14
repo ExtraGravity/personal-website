@@ -1,14 +1,23 @@
 {{define "content"}}
 <div class="contact-content">
-	<h2>Need a kickass developer? Have some questions about an article? Just want to chat?</h2>
-	<h2>Let's talk.</h2>
-	<form class="contact-form" onsubmit="return false;">
-		<div class="contact-return-info">
-			<input type="text" placeholder="Name">
-			<input type="text" placeholder="Email">
-		</div>
-		<textarea placeholder="Message"></textarea>
-		<input type="submit" value="SUBMIT">
-	</form>
+    <h2>Need a kickass developer? Have some questions about an article?</h2>
+    <h2>Just want to chat? <em>Let's talk.</em></h2>
+    <form class="contact-form" onsubmit="return false;">
+        <div class="contact-return-info">
+            <input type="text" name="name" placeholder="Name">
+            <input type="text" name="email" placeholder="Email">
+        </div>
+        <textarea placeholder="Message" name="message"></textarea>
+        <div class="contact-submit-div">
+            <p class="contact-error"></p>
+            <button class="contact-submit">SUBMIT</button>
+        </div>
+        <div id='recaptcha' class="g-recaptcha"
+             data-sitekey="6LcIGx0UAAAAANO9ryEi6WTk9VzXKvJCRUPltQSm"
+             data-callback="recaptchaCallback"
+             data-size="invisible"></div>
+        <p class="contact-sent">Thanks for the message, I'll try to get back to you soon!</p>
+        <input type="text" name="LeaveBlank">
+    </form>
 </div>
 {{end}}

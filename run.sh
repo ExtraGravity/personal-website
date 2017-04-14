@@ -1,6 +1,5 @@
 #!/usr/bin/env bash
 
-go build -o personal-website
 
 echo "Minifying CSS"
 minify \
@@ -18,7 +17,11 @@ minify \
 	resources/js/lib/jquery-3.2.0.min.js \
 	resources/js/base.js \
 	resources/js/pentagon.js \
+	resources/js/contact.js \
     --output resources/min.js
+
+echo "Building"
+go build -o personal-website
 
 echo "================"
 echo "Starting Website"
