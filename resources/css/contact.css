@@ -1,0 +1,51 @@
+.contact-form {
+	margin: 3rem auto;
+	display: flex;
+	flex-direction: column;
+	width: 60%;
+}
+
+.contact-return-info {
+	display: flex;
+	justify-content: space-between;
+}
+
+.contact-return-info input {
+	width: 50%
+}
+
+.contact-form textarea,
+.contact-form input {
+	margin: 5px;
+	padding: 9px;
+    
+    font-family: 'Raleway', sans-serif;
+    font-size: 1.1rem;
+    
+    background: #FEFEFE;
+    box-shadow: none;
+    border-radius: 2px;
+    border: 0.5px solid #444;
+}
+
+.contact-form textarea {
+	min-height: 10rem;
+	resize: vertical;
+}
+
+.contact-form input[type="submit"] {
+    width: 6rem;
+    font-family: 'Share Tech Mono', monospace;
+    background: black;
+    color: #EEE;
+    align-self: flex-end;
+}
+
+.contact-form input[type="submit"]:hover {
+	background: #444;
+	cursor: pointer;
+}
+
+.contact-form input[type="submit"]:active {
+	background: #333;
+}
