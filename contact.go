@@ -39,13 +39,13 @@ func contactHandler(w http.ResponseWriter, r *http.Request) {
 
 		log.Print("contact request: ", contactRequest)
 
-		// if checkCaptcha(contactRequest["captcha"]).Success {
-		// } else {
-		// log.Print("contact POST request with failed captcha")
-		// }
-		sendMail(contactRequest["name"],
-			contactRequest["email"],
-			contactRequest["message"])
+		if checkCaptcha(contactRequest["captcha"]).Success {
+			sendMail(contactRequest["name"],
+				contactRequest["email"],
+				contactRequest["message"])
+		} else {
+			log.Print("contact POST request with failed captcha")
+		}
 
 	}
 }
@@ -82,7 +82,7 @@ func sendMail(name string, email string, msg string) {
 		return
 	}
 
-	client, err := smtp.Dial("localhost:587")
+	client, err := smtp.Dial("127.0.0.1:25")
 	check(err, false)
 	defer client.Close()
 
