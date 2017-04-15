@@ -51,7 +51,7 @@ func apiHandler(w http.ResponseWriter, r *http.Request) {
 		fmt.Println("URL was ", r.URL)
 		r.ParseForm()
 		page := r.URL.Query().Get("page")
-		pageTmpl := "templates/" + page + ".html"
+		pageTmpl := "templates/pages/" + page + ".html"
 		t := template.Must(template.ParseFiles(absPath(pageTmpl)))
 		err := t.ExecuteTemplate(w, "content", nil)
 		check(err, true)
