@@ -16,16 +16,17 @@
 	margin: 5px;
 }
 
-
 .resume-content hr {
 	border: 0;
 	background-image: linear-gradient(to right, transparent, #444, #444, #444, transparent);
 }
 
 .resume-content li {
-	margin: 9px;
+	margin: 11px;
 	text-align: center;
+	line-height: 1.2em;
 }
+
 
 .resume-section {
 	display: flex;
