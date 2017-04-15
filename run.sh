@@ -1,6 +1,5 @@
 #!/usr/bin/env bash
 
-
 echo "Minifying CSS"
 minify \
 	resources/css/reset.css \
@@ -20,7 +19,10 @@ minify \
 	resources/js/pentagon.js \
     --output resources/min.js
 
-echo "Building"
+echo "Building Articles"
+./build-articles.sh
+
+echo "Building Website"
 go build -o personal-website
 
 echo "================"

@@ -5,7 +5,7 @@ if( /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(naviga
 }
 
 if (window.location.pathname !== "/") {
-    $.get("api", { page: window.location.pathname }, function(response) {
+    $.get("/api", { page: window.location.pathname }, function(response) {
         $(".content").html(response);
     });
 }
