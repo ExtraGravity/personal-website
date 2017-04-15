@@ -1,0 +1,43 @@
+.portfolio-content {
+	margin: 1rem;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+}
+
+.portfolio-content h2 {
+	margin-bottom: 2rem;
+}
+
+.portfolio-item {
+	width: 70%;
+	min-width: 500px;
+	margin: auto;
+	border: 3px solid #888;
+	margin-bottom: 4rem;
+	padding: 0;
+	height: 100%
+}
+
+.portfolio-item h2 {
+	width: 100%;	
+	background: black;
+	color: white;
+	margin: 0;
+	padding-top: 9px;
+	padding-bottom: 9px;
+	border-bottom: 3px solid #888;
+}
+
+.portfolio-item img {
+	width: 100%;
+	padding: 0;
+	margin: 0;
+	transition: filter 0.2s ease-out;
+	display: block;
+}
+
+.portfolio-item img:hover {
+	filter: brightness(70%);
+}
+
