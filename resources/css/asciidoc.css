@@ -54,16 +54,40 @@
 	margin-top: 9px;
 	margin-bottom: 9px;
 	font-size: 0.8rem;
+	line-height: 1rem;
 }
 
 .article-content table {
 	border-collapse: collapse;
+	margin: 9px;
+	width: 100%;
+	background: #444;
+	color: white;
+}
+
+.article-content caption[class="title"] {
+	margin-bottom: 3px;
+	color: black;
+    font-size: 0.8rem;
+    font-style: italic;
+    text-align: right; 
+}
+
+.article-content .title {
+	font-size: 1.17rem;
+	text-align: center;
+	min-width: 4rem;
+}
+
+.article-content .icon {
+	vertical-align: middle;
+	text-transform: uppercase;
+    font-family: 'Share Tech Mono', monospace;
 }
 
 .article-content th, td {
-	border: 1px solid black;
-	padding: 5px;
-	font-size: 0.8rem;
+	border: 2px solid #999;
+	padding: 9px;
 }
 
 .article-content th {
@@ -73,6 +97,8 @@
 .quoteblock {
 	font-family: 'Lora', serif;
 	border-left: 2px solid #999;
+	margin-top: 0.5rem; 
+	margin-bottom: 0.5rem;
 	margin-left: 0.8rem;
 	padding-left: 0.8rem;
 	padding-top: 5px;
