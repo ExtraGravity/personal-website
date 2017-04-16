@@ -6,7 +6,7 @@ if( /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(naviga
 
 if (window.location.pathname !== "/") {
     $.get("/api", { page: window.location.pathname }, function(response) {
-        $(".content").html(response);
+        $(".main-content").html(response);
     });
 }
 
@@ -16,8 +16,8 @@ $("document").ready(function(){
     setTimeout(function() {
         easeInHeader();
         $(".signature").delay(800).fadeIn(300);
-        setTimeout(function() { // fade in .content
-            $(".content-wrapper").hide().css("opacity", "1").fadeIn(300);
+        setTimeout(function() { // fade in .main-content
+            $(".main-content-wrapper").hide().css("opacity", "1").fadeIn(300);
         }, 800);
         setTimeout(fadeInFooter, 800);
         setTimeout(fillPlaceholder, 900);
@@ -110,7 +110,7 @@ function handleNavClick(pageToReq) {
             closeNavigation()
             removeContent(function() {
                 $.get("api", { page: pageToReq }, function(response) {
-                    $(".content").html(response);
+                    $(".main-content").html(response);
                     insertContent();
                     window.history.pushState(pageToReq, pageToReq, "/" + pageToReq);
                 });
@@ -120,7 +120,7 @@ function handleNavClick(pageToReq) {
 }
 
 function removeContent(callback) {
-    $( ".content-wrapper" ).css({
+    $( ".main-content-wrapper" ).css({
         "opacity": "0.4",
         "-webkit-filter": "blur(5px)",
         "-moz-filter": "blur(5px)",
@@ -132,7 +132,7 @@ function removeContent(callback) {
         "-moz-transition":"filter 0.5s ease-out, opacity 0.5s ease-out",
         "-o-transition":"filter 0.5s ease-out, opacity 0.5s ease-out",
     });
-    $( ".content" ).css({
+    $( ".main-content" ).css({
         "opacity": "0",
         "transition":"filter 0.5s ease-out, opacity 0.5s ease-out",
         "-webkit-transition":"filter 0.5s ease-out, opacity 0.5s ease-out",
@@ -143,7 +143,7 @@ function removeContent(callback) {
 }
 
 function insertContent() {
-    $(".content-wrapper").css({
+    $(".main-content-wrapper").css({
         "opacity": "1",
         "-webkit-filter": "blur(0)",
         "-moz-filter": "blur(0)",
@@ -156,7 +156,7 @@ function insertContent() {
         "-o-transition":"filter 0.5s ease-out, opacity 0.5s ease-out",
     });
     
-    $(".content").css({
+    $(".main-content").css({
         "opacity": "0",
         "opacity": "1",
         "transition":"filter 0.5s ease-out, opacity 0.5s ease-out",

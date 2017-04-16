@@ -1,0 +1,85 @@
+.article-content {
+	margin: 1rem;
+	width: 60%;
+	min-width: 500px;
+	text-align: left;
+}
+
+.article-content p, li {
+	font-size: 1.1rem;
+	line-height: 1.5rem;
+}
+
+.article-content li {
+	margin-left: 2rem;
+	margin-top: 5px;
+	margin-bottom: 5px;
+}
+
+
+.article-content ul li {
+	list-style-type: square;
+}
+
+.article-content ul ul li {
+	list-style-type: circle;
+}
+
+.article-content ol li {
+	list-style-type: decimal;
+}
+
+.article-content img {
+	height: auto;
+	width: 100%;
+	margin-top: 0.5rem;
+	margin-bottom: 0.5rem;
+}
+
+.article-content h2,
+.article-content h3,
+.article-content h4,
+.article-content h5,
+.article-content h6 {
+	margin-top: 1.5rem;
+	margin-bottom: 1rem;
+}
+
+.article-content pre {
+	font-family: "Courier New", Courier, monospace;
+	border: 2px solid #999;
+	background: #EEE;
+	border-radius: 3px;
+	padding: 6px;
+	margin-top: 9px;
+	margin-bottom: 9px;
+	font-size: 0.8rem;
+}
+
+.article-content table {
+	border-collapse: collapse;
+}
+
+.article-content th, td {
+	border: 1px solid black;
+	padding: 5px;
+	font-size: 0.8rem;
+}
+
+.article-content th {
+	font-weight: bold;
+}
+
+.quoteblock {
+	font-family: 'Lora', serif;
+	border-left: 2px solid #999;
+	margin-left: 1rem;
+	padding-left: 1rem;
+	text-align: right;
+	font-size: 1rem;
+}
+
+.quoteblock .content {
+	text-align: left;
+	font-style: italic;
+}

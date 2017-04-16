@@ -12,7 +12,9 @@
 	cursor: text;
 }
 
-.resume-content h1, h2, h3 {
+.resume-content h1, 
+.resume-content h2, 
+.resume-content h3 {
 	margin: 5px;
 }
 

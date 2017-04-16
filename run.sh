@@ -5,6 +5,7 @@ minify \
 	resources/css/reset.css \
 	resources/css/lib/animate.css \
 	resources/css/base.css \
+	resources/css/asciidoc.css \
 	resources/css/home.css \
 	resources/css/resume.css \
 	resources/css/about.css \

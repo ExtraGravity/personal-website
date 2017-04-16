@@ -63,6 +63,11 @@ em {
     font-style: italic;
 }
 
+a {
+    text-decoration: none;
+    color: #EE7600;
+}
+
 header {
     height: 20rem;
     width: 100%;
@@ -228,7 +233,8 @@ header {
 .navigation-links a {
     -webkit-transition: color 0.2s;
     -o-transition:  color 0.2s;
-    -moz-transition:  color 0.2s;    
+    -moz-transition:  color 0.2s;
+    color: black;
 }
 
 .navigation-links a:hover {
@@ -264,7 +270,7 @@ header {
     left: 6.5rem;
 }
 
-.content-wrapper {
+.main-content-wrapper {
     margin: auto;
     width: 70%;
     min-width: 500px;
@@ -276,7 +282,7 @@ header {
     border-right: 3px solid #888;
 }
 
-.content {
+.main-content {
     display: flex;
     justify-content: center; 
     min-height: 21rem;
