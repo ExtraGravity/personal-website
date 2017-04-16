@@ -1,4 +1,6 @@
 .about-content {
+	width: 60%;
+	min-width: 500px;
 	display: flex;
 	cursor: text;
 }

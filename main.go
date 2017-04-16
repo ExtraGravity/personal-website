@@ -33,9 +33,17 @@ func check(err error, exit bool) {
 }
 
 func rootHandler(w http.ResponseWriter, r *http.Request) {
-	t := template.Must(template.ParseFiles(
-		absPath("templates/base.html"),
-		absPath("templates/home.html")))
+	fmt.Println("URL was ", r.URL)
+	var t *template.Template
+	if r.URL.String() == "/" {
+		t = template.Must(template.ParseFiles(
+			absPath("templates/base.html"),
+			absPath("templates/home.html")))
+	} else {
+		t = template.Must(template.ParseFiles(
+			absPath("templates/base.html"),
+			absPath("templates/pages/"+r.URL.String()+".html")))
+	}
 	err := t.ExecuteTemplate(w, "base", nil)
 	check(err, true)
 }

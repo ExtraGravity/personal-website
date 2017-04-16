@@ -4,12 +4,6 @@ if( /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(naviga
     MOBILE = true;
 }
 
-if (window.location.pathname !== "/") {
-    $.get("/api", { page: window.location.pathname }, function(response) {
-        $(".main-content").html(response);
-    });
-}
-
 $("document").ready(function(){
     // Initial timeout 1000ms to wait for load
     // Then total 1100ms for final load in
@@ -109,7 +103,8 @@ function handleNavClick(pageToReq) {
         setTimeout(function() {
             closeNavigation()
             removeContent(function() {
-                $.get("api", { page: pageToReq }, function(response) {
+                $.get("/api", { page: pageToReq }, function(response) {
+                    console.log("nav click get");
                     $(".main-content").html(response);
                     insertContent();
                     window.history.pushState(pageToReq, pageToReq, "/" + pageToReq);

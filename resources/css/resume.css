@@ -12,8 +12,8 @@
 	cursor: text;
 }
 
-.resume-content h1, 
-.resume-content h2, 
+.resume-content h1,
+.resume-content h2,
 .resume-content h3 {
 	margin: 5px;
 }
@@ -53,7 +53,7 @@
 
 
 .resume-technical > .resume-subsection {
-	width: 33%;	
+	width: 33%;
 }
 
 .resume-subsection-hr {

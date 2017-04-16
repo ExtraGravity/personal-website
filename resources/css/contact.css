@@ -1,3 +1,8 @@
+.contact-content {
+	width: 60%;
+	min-width: 500px;
+}
+
 .contact-form {
 	margin: 3rem auto;
 	display: flex;
@@ -16,16 +21,16 @@
 }
 
 .contact-form textarea,
-.contact-form input, 
+.contact-form input,
 .contact-submit,
 .contact-error,
 .contact-sent {
 	margin: 9px;
 	padding: 9px;
-    
+
     font-family: 'Raleway', sans-serif;
     font-size: 1.1rem;
-    
+
     background: #FEFEFE;
     box-shadow: none;
     border-radius: 2px;
