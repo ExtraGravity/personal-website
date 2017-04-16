@@ -1,0 +1,21 @@
+.articles-content {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+}
+
+.articles-content h1 {
+	margin-bottom: 1rem;
+}
+
+.articles-list {
+	display: flex;
+	flex-wrap: wrap;
+}
+
+.articles-list a {
+	width: 22%;
+	flex-grow: 1;
+	display: inline-block;
+	margin: 0.5rem;
+}

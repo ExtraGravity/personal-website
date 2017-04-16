@@ -20,6 +20,10 @@
 	margin: 5px;
 }
 
+.resume-content h1 {
+	text-transform: uppercase;
+}
+
 .resume-content hr {
 	border: 0;
 	background-image: linear-gradient(to right, transparent, #444, #444, #444, transparent);

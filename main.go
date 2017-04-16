@@ -32,7 +32,7 @@ func check(err error, exit bool) {
 	}
 }
 
-func rootHandler(w http.ResponseWriter, r *http.Request) {
+func genericPageHandler(w http.ResponseWriter, r *http.Request) {
 	fmt.Println("URL was ", r.URL)
 	var t *template.Template
 	if r.URL.String() == "/" {
@@ -45,6 +45,20 @@ func rootHandler(w http.ResponseWriter, r *http.Request) {
 			absPath("templates/pages/"+r.URL.String()+".html")))
 	}
 	err := t.ExecuteTemplate(w, "base", nil)
+	check(err, true)
+}
+
+func articlesPageHandler(w http.ResponseWriter, r *http.Request) {
+	fmt.Println("URL was ", r.URL)
+	if r.URL.Path != "/articles" {
+		http.NotFound(w, r)
+		return
+	}
+
+	t := template.Must(template.ParseFiles(
+		absPath("templates/base.html"),
+		absPath("templates/pages/articles.html")))
+	err := t.ExecuteTemplate(w, "base", getPagesList())
 	check(err, true)
 }
 
@@ -66,8 +80,15 @@ func apiHandler(w http.ResponseWriter, r *http.Request) {
 		}
 
 		t := template.Must(template.ParseFiles(absPath(pageTmpl)))
-		err := t.ExecuteTemplate(w, "content", nil)
-		check(err, true)
+		if page == "articles" {
+			err := t.ExecuteTemplate(w, "content", getPagesList())
+			check(err, true)
+		} else {
+			err := t.ExecuteTemplate(w, "content", nil)
+			check(err, true)
+
+		}
+
 	}
 }
 
@@ -90,10 +111,11 @@ func cache(h http.Handler) http.Handler {
 }
 
 func main() {
-
-	http.HandleFunc("/", rootHandler)
+	http.HandleFunc("/", genericPageHandler)
+	http.HandleFunc("/articles", articlesPageHandler)
 	http.HandleFunc("/api", apiHandler)
 	http.HandleFunc("/api/contact", contactHandler)
+	http.HandleFunc("/api/page-list", pageListHandler)
 	http.Handle("/resources/", cache(http.StripPrefix("/resources/", http.FileServer(http.Dir(absPath("resources"))))))
 	http.HandleFunc("/favicon.ico", faviconHandler)
 

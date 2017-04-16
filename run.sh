@@ -11,6 +11,7 @@ minify \
 	resources/css/about.css \
 	resources/css/contact.css \
  	resources/css/portfolio.css \
+ 	resources/css/articles.css \
     --output resources/min.css
 
 echo "Minifying JS"
