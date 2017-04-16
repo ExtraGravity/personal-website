@@ -107,7 +107,7 @@ function handleNavClick(pageToReq) {
                     console.log("nav click get");
                     $(".main-content").html(response);
                     insertContent();
-                    window.history.pushState(pageToReq, pageToReq, "/" + pageToReq);
+                    window.history.pushState(null, null, pageToReq);
                 });
             });
         }, navCloseDelay);
