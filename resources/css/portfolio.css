@@ -7,8 +7,9 @@
 	min-width: 500px;
 }
 
-.portfolio-content h2 {
+.portfolio-content h3 {
 	margin: auto;
+	margin-top: 1rem;
 	margin-bottom: 2rem;
 }
 
