@@ -49,7 +49,7 @@ func getPagesList() PagesList {
 			noSuffix := f.Name()[:len(f.Name())-len(suffix)]
 			pagesList.Articles = append(pagesList.Articles, Article{
 				Name:  noSuffix,
-				URL:   "/article/" + noSuffix,
+				URL:   "/articles/" + noSuffix,
 				Title: generateTitle(noSuffix),
 			})
 			pagesList.Pages = append(pagesList.Pages, noSuffix)
