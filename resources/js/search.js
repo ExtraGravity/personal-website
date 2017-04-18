@@ -1,13 +1,13 @@
 function setupSearch() {
 	console.log("Setting up Search");
 	$.get("/api/page-list", {}, function(response) {
-   	    responseObj = JSON.parse(response);
+   	    var responseObj = JSON.parse(response);
 
    	    window.pageList = responseObj.Pages;
    	    window.searchList = [];
 
    	    for(var i = 0; i <= window.pageList.length; i++) {
-   	    	page = window.pageList[i];
+   	    	var page = window.pageList[i];
    	    	window.searchList.push({
    	    		full: page,
    	    		searched: page
@@ -25,9 +25,9 @@ function handleSearchInput() {
 		return;
 	}
 
-	var results = fuzzySearch(search, window.pageList)
+	var results = fuzzySearch(search, window.pageList);
 
-	resultsHtml = "";
+	var resultsHtml = "";
 	for(var i = 0; i < results.length && i < 10; i++) { // only top 10 results
 		resultsHtml += '<p class="search-result">' + results[i] + '</p>';
 	}
@@ -39,8 +39,8 @@ function handleSearchInput() {
 function fuzzySearch(query, list) {
 	var fuzzyResults = [];
 	for(var i = 0; i < list.length; i++){
-		item = list[i];
-		res = fuzzyMatch(query, item)
+		var item = list[i];
+		res = fuzzyMatch(query, item);
 		if (res.fuzzyScore !== -1){
 			fuzzyResults.push({
 				item: item, 
@@ -52,11 +52,27 @@ function fuzzySearch(query, list) {
 
 	fuzzyResults.sort(function(a, b) {
 		return a.fuzzyScore > b.fuzzyScore;
-	})
+	});
 
-	results = []
-	for(var i = 0; i < fuzzyResults.length; i++) {
-		results.push(fuzzyResults[i].item);
+	results = [];
+	for(i = 0; i < fuzzyResults.length; i++) {
+		result = fuzzyResults[i].item;
+		indices = fuzzyResults[i].indices; 
+		highlightedResult = "";
+
+		console.log(indices);
+		for(j = 0; j < result.length; j++) {
+			// console.log(result.indexOf(j));
+			// console.log(j);
+			if (indices.indexOf(j) !== -1) { // doesn't exist
+				highlightedResult += "<b class='fuzzy-bold'>" + result[j] + "</b>";
+			} else {
+				highlightedResult += result[j];
+			}
+		}
+
+		console.log(highlightedResult);
+		results.push(highlightedResult);
 	}
 	return results;
 }
@@ -68,7 +84,7 @@ function fuzzyMatch(search, str) {
 	fuzzyScore = 0;
 	
 	currIndex = 0;
-	indices = []
+	indices = [];
 	
 	for(var i = 0; i < search.length; i++) {
 		key = search[i].toLowerCase();
@@ -77,7 +93,7 @@ function fuzzyMatch(search, str) {
 			return {fuzzyScore:-1, indices:[]};
 		} else {
 			currIndex += index;
-			indices.push(currIndex)
+			indices.push(currIndex);
 			fuzzyScore += index * Math.pow(10, search.length-1-i);
 			searched = searched.substr(index + 1, searched.length);
 			currIndex += 1;
