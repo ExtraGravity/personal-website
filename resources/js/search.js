@@ -16,21 +16,56 @@ function setupSearch() {
    	});
 
 	$(".search-bar").on("input", handleSearchInput);
+	$(".search-bar").keydown(function(e) {
+	    var currentPicked = $(".picked-result");
+	    if (!currentPicked.length) {
+	    	return;
+	    }
+	    currentPicked.removeClass("picked-result");
+	    switch(e.which) {
+	        case 13: // enter
+	        	console.log($(".search-results").attr("picked-result"));
+	        	break;
+	        case 38: // up
+	        	currentPicked.prev().addClass("picked-result");
+	        	$(".search-results").attr("picked-result", currentPicked.prev().attr("val"));
+	        	break;
+	        case 40: // down
+	        	currentPicked.next().addClass("picked-result");
+	        	$(".search-results").attr("picked-result", currentPicked.next().attr("val"));
+	        	break;
+	        default:
+	        	return; // exit this handler for other keys
+	    }
+   	});
 }
 
 function handleSearchInput() {
 	var search = $(".search-bar").val();
 	if (search === ""){
 		$(".search-results").html("");
+		$(".search-results").attr("picked-result", "");
 		return;
 	}
 
+
 	var results = fuzzySearch(search, window.pageList);
+
+	if(search !== "" && $(".search-results").attr("picked-result") === "") {
+		$(".search-results").attr("picked-result", results[0].item);
+	}
 
 	var resultsHtml = "";
 	for(var i = 0; i < results.length && i < 10; i++) { // only top 10 results
-		resultsHtml += '<p class="search-result">' + results[i] + '</p>';
+		if($(".search-results").attr("picked-result") === results[i].item) {
+			resultsHtml += '<p class="search-result picked-result" val="'+results[i].item+'">' + 
+				results[i].highlighted + '</p>';
+		} else {
+			resultsHtml += '<p class="search-result" val="'+results[i].item+'">' +
+				results[i].highlighted + '</p>';
+		}
 	}
+
 	$(".search-results").html(resultsHtml);
 }
 
@@ -45,7 +80,8 @@ function fuzzySearch(query, list) {
 			fuzzyResults.push({
 				item: item, 
 				fuzzyScore: res.fuzzyScore,
-				indices: res.indices
+				indices: res.indices,
+				highlighted: ""
 			});
 		}
 	}
@@ -54,27 +90,22 @@ function fuzzySearch(query, list) {
 		return a.fuzzyScore > b.fuzzyScore;
 	});
 
-	results = [];
 	for(i = 0; i < fuzzyResults.length; i++) {
 		result = fuzzyResults[i].item;
 		indices = fuzzyResults[i].indices; 
 		highlightedResult = "";
 
-		console.log(indices);
 		for(j = 0; j < result.length; j++) {
-			// console.log(result.indexOf(j));
-			// console.log(j);
-			if (indices.indexOf(j) !== -1) { // doesn't exist
+			if (indices.indexOf(j) !== -1) {
 				highlightedResult += "<b class='fuzzy-bold'>" + result[j] + "</b>";
 			} else {
 				highlightedResult += result[j];
 			}
 		}
 
-		console.log(highlightedResult);
-		results.push(highlightedResult);
+		fuzzyResults[i].highlighted = (highlightedResult);
 	}
-	return results;
+	return fuzzyResults;
 }
 
 // Returns -1 if search does not fuzzyMatch str

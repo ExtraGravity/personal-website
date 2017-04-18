@@ -206,6 +206,10 @@ header {
     color: #DDD;
 }
 
+.picked-result {
+    background-color: #555;
+}
+
 @media (max-width: 500px) {
     .search-result {
         border: none;
