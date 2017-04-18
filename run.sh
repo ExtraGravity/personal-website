@@ -18,6 +18,7 @@ echo "Minifying JS"
 minify \
 	resources/js/lib/jquery-3.2.0.min.js \
 	resources/js/base.js \
+	resources/js/search.js \
 	resources/js/pentagon.js \
     --output resources/min.js
 

@@ -16,6 +16,7 @@ $("document").ready(function(){
         setTimeout(fadeInFooter, 800);
         setTimeout(fillPlaceholder, 900);
         setupNavbarEvents();
+        setupSearch();
     }, 1000);
 });
 
