@@ -72,6 +72,8 @@ function setupNavbarEvents() {
             && container.has(e.target).length === 0) // ... nor a descendant of the container
         {
             closeNavigation();
+            $(".search-results").html("");
+            $(".search-bar").val("");
         }
     });
 

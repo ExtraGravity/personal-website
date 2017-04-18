@@ -17,25 +17,31 @@ function setupSearch() {
 
 	$(".search-bar").on("input", handleSearchInput);
 	$(".search-bar").keydown(function(e) {
-	    var currentPicked = $(".picked-result");
-	    if (!currentPicked.length) {
-	    	return;
-	    }
-	    currentPicked.removeClass("picked-result");
-	    switch(e.which) {
-	        case 13: // enter
-	        	console.log($(".search-results").attr("picked-result"));
-	        	break;
-	        case 38: // up
-	        	currentPicked.prev().addClass("picked-result");
-	        	$(".search-results").attr("picked-result", currentPicked.prev().attr("val"));
-	        	break;
-	        case 40: // down
-	        	currentPicked.next().addClass("picked-result");
-	        	$(".search-results").attr("picked-result", currentPicked.next().attr("val"));
-	        	break;
-	        default:
-	        	return; // exit this handler for other keys
+    	if(e.which == 38 || e.which == 40){
+    	    e.preventDefault();
+    	}
+    	var currentPicked = $(".picked-result");
+	    if (currentPicked.length) {
+		    switch(e.which) {
+		        case 13: // enter
+		        	break;
+		        case 38: // up
+		        	if (currentPicked.prev().length) { // ensure a prev
+			        	currentPicked.prev().addClass("picked-result");
+			        	$(".search-results").attr("picked-result", currentPicked.prev().attr("val"));
+						currentPicked.removeClass("picked-result");
+		        	}
+		        	break;
+		        case 40: // down
+		        	if(currentPicked.next().length) { // ensure a next
+		        		currentPicked.next().addClass("picked-result");
+		        		$(".search-results").attr("picked-result", currentPicked.next().attr("val"));
+						currentPicked.removeClass("picked-result");		        		
+		        	}
+		        	break;
+		        default:
+		        	return; // exit this handler for other keys
+		    }
 	    }
    	});
 }
@@ -44,29 +50,30 @@ function handleSearchInput() {
 	var search = $(".search-bar").val();
 	if (search === ""){
 		$(".search-results").html("");
-		$(".search-results").attr("picked-result", "");
 		return;
 	}
 
-
 	var results = fuzzySearch(search, window.pageList);
 
-	if(search !== "" && $(".search-results").attr("picked-result") === "") {
-		$(".search-results").attr("picked-result", results[0].item);
-	}
-
-	var resultsHtml = "";
+	$(".search-results").html("");
 	for(var i = 0; i < results.length && i < 10; i++) { // only top 10 results
-		if($(".search-results").attr("picked-result") === results[i].item) {
-			resultsHtml += '<p class="search-result picked-result" val="'+results[i].item+'">' + 
-				results[i].highlighted + '</p>';
-		} else {
-			resultsHtml += '<p class="search-result" val="'+results[i].item+'">' +
-				results[i].highlighted + '</p>';
+		var newResult = $("<p></p>")
+		newResult.addClass("search-result");
+		
+		var text = "";
+		for(j = 0; j < results[i].item.length; j++) {
+			if (results[i].indices.indexOf(j) !== -1) {
+				text += "<b class='fuzzy-bold'>" + results[i].item[j] + "</b>";
+			} else {
+				text += results[i].item[j];
+			}
 		}
+		
+		newResult.html(text);
+		$(".search-results").append(newResult)
 	}
 
-	$(".search-results").html(resultsHtml);
+	$(".search-results .search-result").first().addClass("picked-result");
 }
 
 // query is the search string, list is an array of strings to match
@@ -81,7 +88,6 @@ function fuzzySearch(query, list) {
 				item: item, 
 				fuzzyScore: res.fuzzyScore,
 				indices: res.indices,
-				highlighted: ""
 			});
 		}
 	}
@@ -89,22 +95,6 @@ function fuzzySearch(query, list) {
 	fuzzyResults.sort(function(a, b) {
 		return a.fuzzyScore > b.fuzzyScore;
 	});
-
-	for(i = 0; i < fuzzyResults.length; i++) {
-		result = fuzzyResults[i].item;
-		indices = fuzzyResults[i].indices; 
-		highlightedResult = "";
-
-		for(j = 0; j < result.length; j++) {
-			if (indices.indexOf(j) !== -1) {
-				highlightedResult += "<b class='fuzzy-bold'>" + result[j] + "</b>";
-			} else {
-				highlightedResult += result[j];
-			}
-		}
-
-		fuzzyResults[i].highlighted = (highlightedResult);
-	}
 	return fuzzyResults;
 }
 
