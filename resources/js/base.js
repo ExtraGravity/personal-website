@@ -72,8 +72,6 @@ function setupNavbarEvents() {
             && container.has(e.target).length === 0) // ... nor a descendant of the container
         {
             closeNavigation();
-            $(".search-results").html("");
-            $(".search-bar").val("");
         }
     });
 
@@ -94,6 +92,8 @@ function setupNavbarEvents() {
 function closeNavigation() {
     $(".navigation-icon").fadeOut(300);
     $(".navigation-background").delay(200).slideUp(300);
+    $(".search-results").html("");
+    $(".search-bar").val("");
 }
 
 function handleNavClick(pageToReq) {
@@ -104,18 +104,25 @@ function handleNavClick(pageToReq) {
         }    
 
         setTimeout(function() {
-            closeNavigation()
-            removeContent(function() {
-                $.get("/api", { page: pageToReq }, function(response) {
-                    console.log("nav click get");
-                    $(".main-content").html(response);
-                    insertContent();
-                    console.log(pageToReq);
-                    window.history.pushState(null, null, "/" + pageToReq);
-                });
-            });
+            changeContent(pageToReq);
         }, navCloseDelay);
     };
+}
+
+function changeContent(pageToReq) {
+    closeNavigation()
+    removeContent(function() {
+        $.get("/api", { page: pageToReq }, function(response) {
+            console.log("Changing content to: " + pageToReq);
+            $(".main-content").html(response);
+            if (pageToReq.substring(0, 10) != "/articles/") {
+                pageToReq = "/" + pageToReq;
+            }
+            insertContent();
+            console.log(pageToReq);
+            window.history.pushState(null, null, pageToReq);
+        });
+    });    
 }
 
 function removeContent(callback) {

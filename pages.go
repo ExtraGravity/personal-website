@@ -52,7 +52,7 @@ func getPagesList() PagesList {
 				URL:   "/articles/" + noSuffix,
 				Title: generateTitle(noSuffix),
 			})
-			pagesList.Pages = append(pagesList.Pages, noSuffix)
+			pagesList.Pages = append(pagesList.Pages, "/articles/"+noSuffix)
 		}
 	}
 
