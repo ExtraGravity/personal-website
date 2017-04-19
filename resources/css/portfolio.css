@@ -32,6 +32,20 @@
 	border-bottom: 3px solid #888;
 }
 
+.portfolio-item h2:hover {
+	cursor: pointer;
+}
+
+.portfolio-item p {
+	display: none;
+	background-color: #FFF;
+
+	padding: 1rem;
+	border-bottom: 3px solid #888;
+
+	line-height: 1.3em;	
+}
+
 .portfolio-item img {
 	width: 100%;
 	padding: 0;
