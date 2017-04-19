@@ -198,6 +198,7 @@ header {
 }
 
 .search-result:hover {
+    background-color: #666;
     cursor: pointer;
 }
 
@@ -206,7 +207,7 @@ header {
 }
 
 .picked-result {
-    background-color: #666;
+    background-color: #555;
 }
 
 @media (max-width: 500px) {

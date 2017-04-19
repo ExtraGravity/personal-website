@@ -78,6 +78,9 @@ function handleSearchInput() {
     }
 
     $(".search-results .search-result").first().addClass("picked-result");
+    $(".search-result").on("click", function(){
+        changeContent($(this).attr("link-val"));
+    });
 }
 
 // query is the search string, list is an array of strings to match
