@@ -328,7 +328,7 @@ header {
 .main-content-wrapper {
     margin: auto;
     width: 70%;
-    min-width: 600px;
+    min-width: 500px;
     height: 100%;
     opacity: 0;
 

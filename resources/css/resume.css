@@ -4,10 +4,9 @@
 	align-items: center;
 	justify-content: center;
 	font-family: 'Lora', serif;
-	padding: 4rem;
 	width: 100%;
 	width: 80%;
-	min-width: 600px;
+	min-width: 500px;
 }
 
 .resume-content:hover {
@@ -34,7 +33,6 @@
 	text-align: center;
 	line-height: 1.2em;
 }
-
 
 .resume-section {
 	display: flex;
