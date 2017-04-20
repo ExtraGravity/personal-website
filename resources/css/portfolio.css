@@ -22,18 +22,29 @@
 	background-color: #AAA;
 }
 
-.portfolio-item h2 {
-	width: 100%;	
+.portfolio-header {
+	/*width: 100%;	*/
 	background: black;
-	color: white;
 	margin: 0;
-	padding-top: 9px;
-	padding-bottom: 9px;
+	padding: 9px 20px;
 	border-bottom: 3px solid #888;
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
 }
 
-.portfolio-item h2:hover {
+.portfolio-header:hover {
 	cursor: pointer;
+}
+
+.portfolio-header h2 {
+	text-align: left;
+	color: white;
+}
+
+.portfolio-header img {
+	height: 1.5rem;
+	display: block;
 }
 
 .portfolio-item p {
@@ -46,7 +57,7 @@
 	line-height: 1.3em;	
 }
 
-.portfolio-item img {
+.portfolio-item a img {
 	width: 100%;
 	padding: 0;
 	margin: 0;
@@ -54,7 +65,7 @@
 	display: block;
 }
 
-.portfolio-item img:hover {
+.portfolio-item a img:hover {
 	filter: brightness(70%);
 }
 

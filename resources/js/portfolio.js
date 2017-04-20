@@ -1,5 +1,5 @@
 $("document").ready(function(){
-    $(".portfolio-item h2").each(function() {
+    $(".portfolio-header").each(function() {
     	$(this).on("click", function() {
     		$(this).siblings("p").slideToggle();
     	})
