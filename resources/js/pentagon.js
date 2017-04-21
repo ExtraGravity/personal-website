@@ -12,11 +12,11 @@ $('document').ready(function(){
 	heightRatio = c.offsetHeight / c.height;
 
 	points = [
-		[260, 10],
-		[10, 191.5],
+		[260.0, 10.0],
+		[10.0, 191.5],
 		[105.5, 475.5],
 		[414.5, 475.5],
-		[510, 191.5]
+		[510.0, 191.5]
 	]
 
 	var center = [c.width/2, c.height/2 + 25];
