@@ -8,15 +8,51 @@
 	margin-bottom: 1rem;
 }
 
+.articles-content hr {
+	width: 80%;
+	height: 2px;
+	border: none;
+	background: black;
+}
+
 .articles-list {
 	display: flex;
 	flex-wrap: wrap;
+	margin-top: 1rem;
+	margin-left: 1rem;
+	margin-right: 1rem;
+    justify-content: space-around;
 }
 
 .articles-list a {
 	width: 22%;
-	flex-grow: 1;
-	display: inline-block;
-	margin: 0.5rem;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	padding: 2rem 1rem;
 	cursor: pointer;
+    font-family: 'Share Tech Mono', monospace;
+    text-transform: uppercase;
+    color: black;
+}
+
+@media (max-width: 700px) {
+	.articles-list a {
+		width: 30%;
+	}
+}
+
+.articles-list a:hover {
+	color: #DDD;
+	background: #444;
+}
+
+.articles-list a:focus {
+	color: #DDD;
+	background: #444;
+}
+
+.articles-list a:active {
+	color: #DDD;
+	background: #444;
 }

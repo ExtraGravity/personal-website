@@ -1,9 +1,10 @@
 {{define "content"}}
 <div class="articles-content">
 	<h1>Articles</h1>
+	<hr>
 	<div class="articles-list">
 	{{range .Articles}}
-		<a url="{{.URL}}"><h2>{{.Title}}</h2></a>
+		<a url="{{.URL}}"><h3>{{.Title}}</h3></a>
 	{{end}}
 	</div>
 </div>
