@@ -4,6 +4,7 @@
 	align-items: center;
 	justify-content: center;
 	font-family: 'Lora', serif;
+	margin-top: 3rem;
 	width: 100%;
 	width: 80%;
 	min-width: 500px;
@@ -40,6 +41,7 @@
 	justify-content: space-between;
 	align-content: center;
 	margin-bottom: 2.5rem;
+	width: 100%;
 }
 
 .resume-section-hr {
@@ -53,6 +55,10 @@
 	width: 50%;
 }
 
+.resume-subsection ul {
+	margin-left: 1rem;
+	margin-right: 1rem;
+}
 
 .resume-technical > .resume-subsection {
 	width: 33%;
