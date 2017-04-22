@@ -72,7 +72,7 @@ a {
 }
 
 a:hover {
-    color: #FFCC11;   
+    color: #FFCC11;
 }
 
 header {
@@ -86,6 +86,8 @@ header {
 
 .header-bg {
     position: absolute;
+    top: 0;
+    left: 0;
 
     width: 100%;
     min-width: 600px;
@@ -99,7 +101,7 @@ header {
 }
 
 .signature {
-    position: absolute;
+    z-index: 100;
     top: 5rem;
 
     margin: auto;
@@ -190,7 +192,7 @@ header {
     padding: 5px 10px;
     width: 50%;
     margin: auto;
-    
+
     border: 3px solid #777;
     border-top: none;
 
@@ -218,7 +220,7 @@ header {
     .search-result {
         border: none;
         min-width: 480px;
-    }    
+    }
 }
 
 .navigation-container {
@@ -238,7 +240,7 @@ header {
         rgba(255, 255, 255, 1) 75%,
         rgba(255, 255, 255, 0) 100%);
 
-    /*display: none;*/
+    display: none;
 }
 
 .navigation-icon {
@@ -251,7 +253,7 @@ header {
     font-family: 'Share Tech Mono', monospace;
     color: #444;
 
-    /*display: none;*/
+    display: none;
     flex-direction: column;
     align-items: center;
     justify-content: center;
@@ -271,8 +273,14 @@ header {
 
 .pentagon path, .pentagon line {
     stroke-width: 8;
-    stroke: rgb(0, 0, 0);
+    stroke: #444;
     fill: none;
+}
+
+.pentagon .penta-red {
+    stroke-width: 10;
+    stroke: #F20;
+    stroke-linecap: round;
 }
 
 .navigation-links {
@@ -301,10 +309,10 @@ header {
 .navigation-links a:hover {
     color: #F20;
     cursor: pointer;
-    transition: color 0.2s;
-    -webkit-transition: color 0.2s;
-    -o-transition:  color 0.2s;
-    -moz-transition:  color 0.2s;
+    transition: color 0.3s;
+    -webkit-transition: color 0.3s;
+    -o-transition:  color 0.3s;
+    -moz-transition:  color 0.3s;
 }
 
 .about {

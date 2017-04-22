@@ -1,119 +1,86 @@
 var defaultColor = "#444";
 var highlightColor = "#F20";
+var lineAnimTime = 300;
 
 $('document').ready(function(){
-	var c = $(".pentagon").get(0);
-	var ctx = c.getContext("2d");
-	
-	ctx.lineWidth = 10.5;
-	ctx.strokeStyle= defaultColor;
-	ctx.translate(0.5, 0.5);
-	widthRatio = c.offsetWidth / c.width;
-	heightRatio = c.offsetHeight / c.height;
+    var topPt = [260.0, 10.0];
+    var topLeftPt = [10.0, 191.5];
+    var botLeftPt = [105.5, 475.5];
+    var botRightPt = [414.5, 475.5];
+    var topRightPt = [510.0, 191.5];
+    var centerPt = [260.0, 272.5];
 
-	points = [
-		[260.0, 10.0],
-		[10.0, 191.5],
-		[105.5, 475.5],
-		[414.5, 475.5],
-		[510.0, 191.5]
-	]
+    var newLines = [];
 
-	var center = [c.width/2, c.height/2 + 25];
+    handleNavLinkHover($(".about a"), "about-lines", topPt,
+        [
+            topLeftPt,
+            centerPt,
+            topRightPt
+        ]
+    );
 
-	ctx.moveTo(points[0][0], points[0][1]); // go to any point
-	ctx.beginPath();
-	for (i = 0; i < points.length; i++) {
-		ctx.lineTo(points[i][0], points[i][1]);
-	}
-	ctx.closePath();
-	ctx.stroke();
+    handleNavLinkHover($(".portfolio a"), "portfolio-lines", topLeftPt,
+        [
+            botLeftPt,
+            centerPt,
+            topPt
+        ]
+    );
 
-	for (i = 0; i < points.length; i++) {
-		drawLine(ctx, center, points[i], defaultColor);
-		ctx.beginPath();
-		ctx.moveTo(c.width/2, c.height/2 + 25);
-		ctx.lineTo(points[i][0], points[i][1]);
-		ctx.stroke();
-	}
+    handleNavLinkHover($(".contact a"), "contact-lines", botLeftPt,
+        [
+            botRightPt,
+            centerPt,
+            topLeftPt
+        ]
+    );
 
+    handleNavLinkHover($(".resume a"), "resume-lines", botRightPt,
+        [
+            topRightPt,
+            centerPt,
+            botLeftPt
+        ]
+    );
 
-	$('.about a').hover(function(){
-		drawAnimatedLine(ctx, points[4], points[0], highlightColor);
-		drawAnimatedLine(ctx, center, points[0], highlightColor);
-		drawAnimatedLine(ctx, points[1], points[0], highlightColor);
-	}, function() {
-		drawAnimatedLine(ctx, points[4], points[0], defaultColor);
-		drawAnimatedLine(ctx, center, points[0], defaultColor);
-		drawAnimatedLine(ctx, points[1], points[0], defaultColor);
-	});
-
-	$('.portfolio a').hover(function(){
-		drawAnimatedLine(ctx, points[0], points[1], highlightColor);
-		drawAnimatedLine(ctx, center, points[1], highlightColor);
-		drawAnimatedLine(ctx, points[2], points[1], highlightColor);
-	}, function() {
-		drawAnimatedLine(ctx, points[0], points[1], defaultColor);
-		drawAnimatedLine(ctx, center, points[1], defaultColor);
-		drawAnimatedLine(ctx, points[2], points[1], defaultColor);
-	});
-
-	$('.contact a').hover(function(){
-		drawAnimatedLine(ctx, points[1], points[2], highlightColor);
-		drawAnimatedLine(ctx, center, points[2], highlightColor);
-		drawAnimatedLine(ctx, points[3], points[2], highlightColor);
-	}, function() {
-		drawAnimatedLine(ctx, points[1], points[2], defaultColor);
-		drawAnimatedLine(ctx, center, points[2], defaultColor);
-		drawAnimatedLine(ctx, points[3], points[2], defaultColor);
-	});
-
-	$('.resume a').hover(function(){
-		drawAnimatedLine(ctx, points[2], points[3], highlightColor);
-		drawAnimatedLine(ctx, center, points[3], highlightColor);
-		drawAnimatedLine(ctx, points[4], points[3], highlightColor);
-	}, function() {
-		drawAnimatedLine(ctx, points[2], points[3], defaultColor);
-		drawAnimatedLine(ctx, center, points[3], defaultColor);
-		drawAnimatedLine(ctx, points[4], points[3], defaultColor);
-	});
-
-	$('.articles a').hover(function(){
-		drawAnimatedLine(ctx, points[3], points[4], highlightColor);
-		drawAnimatedLine(ctx, center, points[4], highlightColor);
-		drawAnimatedLine(ctx, points[0], points[4], highlightColor);
-	}, function() {
-		drawAnimatedLine(ctx, points[3], points[4], defaultColor);
-		drawAnimatedLine(ctx, center, points[4], defaultColor);
-		drawAnimatedLine(ctx, points[0], points[4], defaultColor);
-	});
-
+    handleNavLinkHover($(".articles a"), "articles-lines", topRightPt,
+        [
+            topPt,
+            centerPt,
+            botRightPt
+        ]
+    );
 });
 
-function drawLine(ctx, p1, p2, color) {
-	ctx.strokeStyle = color;
-	ctx.beginPath();
-	ctx.moveTo(p1[0], p1[1]);
-	ctx.lineTo(p2[0], p2[1]);
-	ctx.stroke();			
-}
+function handleNavLinkHover(navLink, lineClass, endPt, beginPts) {
+    navLink.hover(function() {
 
-function drawAnimatedLine(ctx, p1, p2, color) {
-	var amount = 0;
+        for (var i = 0; i < beginPts.length; i++) {
+            newLine = document.createElementNS('http://www.w3.org/2000/svg','line');
+            newLine.setAttribute("class", "penta-red " + lineClass);
+            newLine.setAttribute("x1", beginPts[i][0]);
+            newLine.setAttribute("y1", beginPts[i][1]);
+            newLine.setAttribute("x2", beginPts[i][0]);
+            newLine.setAttribute("y2", beginPts[i][1]);
+            $(".pentagon").append(newLine);
 
-	var inter = setInterval(function() {
-	    amount += 0.025; // change to alter duration
-	    if (amount > 1){
-	    	amount = 1;
-	    	clearInterval(inter);
-	    };
-		ctx.strokeStyle = color;
-		ctx.beginPath();
-		ctx.lineCap = "round";
-	    ctx.moveTo(p1[0], p1[1]);
-	    // lerp : a  + (b - a) * f
-	    ctx.lineTo(p1[0] + (p2[0] - p1[0]) * amount, 
-	             p1[1] + (p2[1] - p1[1]) * amount);
-	    ctx.stroke();
-	}, 10);
+            $(newLine).velocity({
+                x2: endPt[0],
+                y2: endPt[1]
+            }, lineAnimTime);
+        }
+    }, function() {
+        $("." + lineClass).each(function() {
+            $(this).velocity({
+                x1: endPt[0],
+                y1: endPt[1]
+            }, {
+                duration: lineAnimTime,
+                complete: function() {
+                    $(this).remove();
+                }
+            });
+        });
+    });
 }
