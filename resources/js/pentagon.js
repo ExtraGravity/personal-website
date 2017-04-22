@@ -1,6 +1,6 @@
 var defaultColor = "#444";
 var highlightColor = "#F20";
-var lineAnimTime = 300;
+var lineAnimTime = 500;
 
 $('document').ready(function(){
     var topPt = [260.0, 10.0];
@@ -77,6 +77,7 @@ function handleNavLinkHover(navLink, lineClass, endPt, beginPts) {
                 y1: endPt[1]
             }, {
                 duration: lineAnimTime,
+                queue: false,
                 complete: function() {
                     $(this).remove();
                 }
