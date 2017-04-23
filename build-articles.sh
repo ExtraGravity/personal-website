@@ -1,6 +1,7 @@
 #!/bin/bash
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 ADOC_SUFFIX=".adoc"
+HIGHLIGHTER=coderay
 
 for ADOC_FILE in articles/*$ADOC_SUFFIX; do
 	echo \> $ADOC_FILE

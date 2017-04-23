@@ -35,7 +35,7 @@ Any static elements should probably be done in the HTML.
 This caused a problem when using a canvas because everything drawn in a canvas must be done via scripting.
 
 This is the HTML code when I used a canvas.
-[source, html]
+[source,html]
 .base.html
 ----
 <canvas class="pentagon" width="520" height="495"></canvas>
@@ -45,7 +45,7 @@ To me this was a problem because the HTML no longer gave a clear representation 
 And dynamic as well as static elements were then mixed together in the JavaScript.
 
 On the contrary, once I switched to SVG, this was the resulting HTML code.
-[source, html]
+[source,html]
 .base.html
 ----
 <svg class="pentagon" viewbox="0 0 520 495">

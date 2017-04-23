@@ -1,13 +1,22 @@
 .article-content {
-	margin: 1rem;
-	width: 60%;
+	max-width: 1000px;
+	width: 95%;
 	min-width: 500px;
 	text-align: left;
+	font-family: 'Lora', serif;
 }
 
-.article-content p, li {
+.article-content p, 
+.article-content li {
 	font-size: 1.1rem;
-	line-height: 1.5rem;
+	line-height: 1.8rem;
+	margin: auto;
+}
+
+.article-content ul,
+.article-content ol {
+	margin-top: 1rem;
+	margin-bottom: 1rem;	
 }
 
 .article-content li {
@@ -15,7 +24,6 @@
 	margin-top: 5px;
 	margin-bottom: 5px;
 }
-
 
 .article-content ul li {
 	list-style-type: square;
@@ -31,8 +39,10 @@
 
 .article-content img {
 	display: block;
-	margin: 0.5rem auto;
+	margin: 1rem auto;
 	max-width: 100%;
+	border: 2px solid #222;
+	box-shadow: 10px 10px 10px #888888;
 }
 
 .article-content h1,
@@ -42,9 +52,19 @@
 .article-content h5,
 .article-content h6 {
 	padding: 0.5rem;
-	margin: 1rem;
-	font-family: 'Lora', serif;
+	margin-top: 5rem;
+	margin-bottom: 2rem;
+	margin-left: 0.5rem;
+	margin-right: 0.5rem;
+    
+	text-align: left;
+    font-family: 'Raleway', sans-serif;
 	text-transform: uppercase;
+}
+
+/* Negate 5rem margin top if h2 immediately preceded by another header*/
+.article-content h2 + .sectionbody {
+	margin-top: -3rem;
 }
 
 .article-content h1 {
@@ -66,23 +86,22 @@
 	border-bottom: 0.5px solid black;
 }
 
-
 .article-content h1 ~ div,
 .article-content h2 ~ div,
 .article-content h3 ~ div,
 .article-content h4 ~ div,
 .article-content h5 ~ div,
 .article-content h6 ~ div {
-	margin: 1rem;
+	margin: 0.5rem;
 }
 
 .article-content pre, code {
 	font-family: "Courier New", Courier, monospace;
 	background: #FEFEFE;
-	border-radius: 3px;
+	border-radius: 1px;
 	font-size: 0.8rem;
 	vertical-align: middle;
-	overflow-x: scroll;
+	overflow-x: auto;
 }
 
 .article-content code {
@@ -90,11 +109,23 @@
 }
 
 .article-content pre {
-	border: 2px solid #999;
-	line-height: 1rem;
-	margin-top: 9px;
-	margin-bottom: 9px;
+	margin: 9px 0px;
 	padding: 6px 10px;
+	
+	border: 2px solid #666;
+	box-shadow: 5px 5px 10px #888888;
+	
+	line-height: 1rem;
+}
+
+.article-content div .content {
+	margin-bottom: 0;
+}
+
+.article-content .listingblock {
+	margin-left: 1rem;
+	margin-right: 1rem;
+	margin-bottom: 2rem;
 }
 
 .article-content table {
@@ -114,8 +145,9 @@
 }
 
 .article-content .title {
-	font-size: 1.17rem;
-	text-align: center;
+	font-size: 0.8rem;
+	text-align: right;
+	font-style: italic;
 	min-width: 4rem;
 }
 

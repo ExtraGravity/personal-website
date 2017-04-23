@@ -23,7 +23,6 @@ body {
     body {
         background-image: url("/resources/images/geometric-mobile.jpg");
     }
-
 }
 
 h1 {
@@ -344,7 +343,8 @@ header {
 
 .main-content-wrapper {
     margin: auto;
-    width: 70%;
+ 
+    width: 90%;
     min-width: 550px;
     height: 100%;
     opacity: 0;
