@@ -54,17 +54,20 @@
 .article-content h4,
 .article-content h5,
 .article-content h6 {
-	padding: 0.5rem;
 	margin-bottom: 2rem;
-	margin-left: 0.5rem;
-	margin-right: 0.5rem;
+	/*margin-left: 0.5rem;*/
+	/*margin-right: 0.5rem;*/
     
 	text-align: left;
     font-family: 'Raleway', sans-serif;
 	text-transform: uppercase;
+	box-shadow: 5px 5px 10px #888888;
+	color: white;
+	background: #444;
 }
 
 .article-content h1 {
+	padding: 1rem 1.5rem;
 	margin-top: 2rem;
 }
 
@@ -73,6 +76,7 @@
 .article-content h4,
 .article-content h5,
 .article-content h6 {
+	padding: 0.5rem 1.5rem;
 	margin-top: 5rem;
 }
 
@@ -82,22 +86,26 @@
 }
 
 .article-content h1 {
+	border: 0.5px solid black;
 	border-bottom: 2.5px solid black;
 }
 .article-content h2 {
+	border: 0.5px solid black;
 	border-bottom: 2px solid black;
 }
 .article-content h3 {
+	border: 0.5px solid black;
 	border-bottom: 1.5px solid black;
 }
 .article-content h4 {
+	border: 0.5px solid black;
 	border-bottom: 1px solid black;
 }
 .article-content h5 {
-	border-bottom: 0.5px solid black;
+	border: 0.5px solid black;
 }
 .article-content h6 {
-	border-bottom: 0.5px solid black;
+	border: 0.5px solid black;
 }
 
 .article-content h1 ~ div,
@@ -106,7 +114,7 @@
 .article-content h4 ~ div,
 .article-content h5 ~ div,
 .article-content h6 ~ div {
-	margin: 0.5rem;
+	margin: 1rem;
 }
 
 .article-content pre, code {
@@ -177,7 +185,7 @@
 	font-weight: bold;
 }
 
-.article-content .listingcontent .title {
+.article-content .listingblock .title {
 	font-size: 0.8rem;
 	font-style: italic;
 	text-align: right;

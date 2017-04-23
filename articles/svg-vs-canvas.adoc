@@ -6,8 +6,8 @@ The pentagon animation was originally created using the html `<canvas>` tag.
 Although using a canvas wasn't particularly difficult, there were a few pain points:
 
 . <<anti-aliasing, The lack of anti-aliasing>>
-. <<static-and, JavaScript requirement for static elements>>
-. <<drawing-over, Inability to interact with already drawn elements>>
+. <<static-and-dynamic, JavaScript requirement for static elements>>
+. <<drawing-over-vs-editing, Inability to interact with already drawn elements>>
 . <<timing-oddities, Strange timing related behaviour>>
 
 Mostly due to the first issue, I decided to switch to using SVG graphics.
@@ -18,7 +18,7 @@ Otherwise you can keep reading on to see how SVG fixed all the pain points I des
 == Pain points
 
 [[anti-aliasing]]
-=== Anti Aliasing
+=== The lack of anti-aliasing
 
 If you don't know, anti-aliasing is basically edge smoothing.
 This is very common practice in graphics work.
@@ -28,7 +28,7 @@ This was a problem on the canvas version on the pentagon, the jagged edges were 
 image:/resources/images/pentagon-anti-aliasing.png[alt="pentagon-anti-aliasing",width=500]
 
 [[static-and-dynamic]]
-=== Separating Static Elements and Dynamic Logic
+=== JavaScript requirement for static elements
 
 In general, I've found that it's a good idea to keep client side scripting limited to dynamic elements.
 Any static elements should probably be done in the HTML.
@@ -70,7 +70,7 @@ The HTML now gave a clear representation of what the page looked like.
 Not only that, dynamic and static concerns were now separated.
 
 [[drawing-over-vs-editing]]
-=== Drawing Over vs Editing Lines
+=== Inability to interact with already drawn elements
 
 Ultimately the effect I was thinking of with the pentagon was energy coming towards the cursor and then disappating when the cursor left.
 So ideally, to keep the thought process the same as how it's represented in the code, the red lines would be an object created on hover and be destroyed off hover.
@@ -89,7 +89,7 @@ image:/resources/images/pentagon-svg-inplace.gif[alt="pentagon-svg-inplace-gif",
 
 
 [[timing-oddities]]
-=== Canvas Timing Oddities
+=== Strange timing related behaviour
 
 Due to the nature of pixels being drawn and not elements being edited, using a canvas came with some timing oddities.
 The first being some lines being left while during various interactions.
