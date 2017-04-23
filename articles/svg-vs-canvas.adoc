@@ -1,0 +1,108 @@
+[float]
+= The Pentagon - SVG vs Canvas
+
+If you haven't checked out the fancy pentagon animation in the navigation pane, I'd highly encourage you to do so!
+The pentagon animation was originally created using the html `<canvas>` tag.
+Although using a canvas wasn't particularly difficult, there were a few pain points:
+
+. <<anti-aliasing, The lack of anti-aliasing>>
+. <<static-and, JavaScript requirement for static elements>>
+. <<drawing-over, Inability to interact with already drawn elements>>
+. <<timing-oddities, Strange timing related behaviour>>
+
+Mostly due to the first issue, I decided to switch to using SVG graphics.
+To my pleasant suprise, switching to using SVG resulted in fixing all the other pain points as well.
+If you're looking for an explanation of the SVG code or just some example code, you can skip down to the <<implementation, implementation>> section.
+Otherwise you can keep reading on to see how SVG fixed all the pain points I described!
+
+== Pain points
+
+[[anti-aliasing]]
+=== Anti Aliasing
+
+If you don't know, anti-aliasing is basically edge smoothing.
+This is very common practice in graphics work.
+image:/resources/images/anti-aliasing.png[alt="anti-aliasing",height=128]
+
+This was a problem on the canvas version on the pentagon, the jagged edges were very noticeable at 1080p and below.
+image:/resources/images/pentagon-anti-aliasing.png[alt="pentagon-anti-aliasing",width=500]
+
+[[static-and-dynamic]]
+=== Separating Static Elements and Dynamic Logic
+
+In general, I've found that it's a good idea to keep client side scripting limited to dynamic elements.
+Any static elements should probably be done in the HTML.
+This caused a problem when using a canvas because everything drawn in a canvas must be done via scripting.
+
+This is the HTML code when I used a canvas.
+[source, html]
+.base.html
+----
+<canvas class="pentagon" width="520" height="495"></canvas>
+----
+The rest of it was defined in JavaScript.
+To me this was a problem because the HTML no longer gave a clear representation of what the page looks like.
+And dynamic as well as static elements were then mixed together in the JavaScript.
+
+On the contrary, once I switched to SVG, this was the resulting HTML code.
+[source, html]
+.base.html
+----
+<svg class="pentagon" viewbox="0 0 520 495">
+    <!-- Perimeter -->
+    <!-- [260.0, 10.0]  top -->
+    <!-- [10.0, 191.5]  topleft -->
+    <!-- [105.5, 475.5] botleft -->
+    <!-- [414.5, 475.5] botright -->
+    <!-- [510.0, 191.5] topright -->
+    <path d="M260.0,10.0 L10.0,191.5 L105.5,475.5 L414.5,475.5 L510.0,191.5 L260.0,10.0 Z"/>
+    <!-- Inner lines -->
+        <!-- center -->
+        <!-- [260.0, 272.5] -->
+    <line x1="260.0" y1="10.0" x2="260.0" y2="272.5" />
+    <line x1="10.0" y1="191.5" x2="260.0" y2="272.5" />
+    <line x1="105.5" y1="475.5" x2="260.0" y2="272.5" />
+    <line x1="414.5" y1="475.5" x2="260.0" y2="272.5" />
+    <line x1="510.0" y1="191.5" x2="260.0" y2="272.5" />
+</svg>
+----
+The HTML now gave a clear representation of what the page looked like.
+Not only that, dynamic and static concerns were now separated.
+
+[[drawing-over-vs-editing]]
+=== Drawing Over vs Editing Lines
+
+Ultimately the effect I was thinking of with the pentagon was energy coming towards the cursor and then disappating when the cursor left.
+So ideally, to keep the thought process the same as how it's represented in the code, the red lines would be an object created on hover and be destroyed off hover.
+
+This isn't possible on a canvas, because after drawing, it's like painting, it can't be taken off or edited after the fact.
+My solution at the time was to redraw a black line over the newly drawn red line, which worked, but was a little finicky.
+I had attempted to add box-shadowing to the lines earlier on to fix the anti-aliasing problem, but then the black lines would not cleanly draw over the red lines.
+image:/resources/images/pentagon-shadow-blur.gif[alt="pentagon-shadow-blur-gif",width=300]
+
+You can see a tinge of red left over after redrawing the black lines.
+image:/resources/images/pentagon-shadow-blur.png[alt="pentagon-shadow-blur-png",width=300]
+
+Using SVG elements, the red lines can be drawn, undrawn, and removed.
+All as it's own object, this follows much more fluently with the original thought process and also give security that the red line will actually be gone, not just covered up.
+image:/resources/images/pentagon-svg-inplace.gif[alt="pentagon-svg-inplace-gif",width=500]
+
+
+[[timing-oddities]]
+=== Canvas Timing Oddities
+
+Due to the nature of pixels being drawn and not elements being edited, using a canvas came with some timing oddities.
+The first being some lines being left while during various interactions.
+image:/resources/images/pentagon-canvas-glitch.png[alt="pentagon-canvas-glitch",width=300]
+
+While that was resolved using SVG elements, it also gave a much crisper effect.
+I had noticed with the canvas the lines would end up being erratic when continouously switching them on and off.
+image:/resources/images/pentagon-canvas-fast-move.gif[alt="pentagon-canvas-fast-move",width=500]
+
+With the SVG elements it became much smoother.
+image:/resources/images/pentagon-svg-fast-move.gif[alt="pentagon-svg-fast-move",width=500]
+
+[[implementation]]
+== Implementation
+
+== Conclusion and Lessons Learned

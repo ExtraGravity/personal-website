@@ -30,10 +30,9 @@
 }
 
 .article-content img {
-	height: auto;
-	width: 100%;
-	margin-top: 0.5rem;
-	margin-bottom: 0.5rem;
+	display: block;
+	margin: 0.5rem auto;
+	max-width: 100%;
 }
 
 .article-content h1,
@@ -42,20 +41,60 @@
 .article-content h4,
 .article-content h5,
 .article-content h6 {
-	margin-top: 1.5rem;
-	margin-bottom: 1rem;
+	padding: 0.5rem;
+	margin: 1rem;
+	font-family: 'Lora', serif;
+	text-transform: uppercase;
+}
+
+.article-content h1 {
+	border-bottom: 2.5px solid black;
+}
+.article-content h2 {
+	border-bottom: 2px solid black;
+}
+.article-content h3 {
+	border-bottom: 1.5px solid black;
+}
+.article-content h4 {
+	border-bottom: 1px solid black;
+}
+.article-content h5 {
+	border-bottom: 0.5px solid black;
+}
+.article-content h6 {
+	border-bottom: 0.5px solid black;
+}
+
+
+.article-content h1 ~ div,
+.article-content h2 ~ div,
+.article-content h3 ~ div,
+.article-content h4 ~ div,
+.article-content h5 ~ div,
+.article-content h6 ~ div {
+	margin: 1rem;
+}
+
+.article-content pre, code {
+	font-family: "Courier New", Courier, monospace;
+	background: #FEFEFE;
+	border-radius: 3px;
+	font-size: 0.8rem;
+	vertical-align: middle;
+	overflow-x: scroll;
+}
+
+.article-content code {
+	padding: 0 5px;
 }
 
 .article-content pre {
-	font-family: "Courier New", Courier, monospace;
 	border: 2px solid #999;
-	background: #FEFEFE;
-	border-radius: 3px;
-	padding: 6px 10px;
+	line-height: 1rem;
 	margin-top: 9px;
 	margin-bottom: 9px;
-	font-size: 0.8rem;
-	line-height: 1rem;
+	padding: 6px 10px;
 }
 
 .article-content table {
