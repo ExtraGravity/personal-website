@@ -11,8 +11,11 @@ Although using a canvas wasn't particularly difficult, there were a few pain poi
 . <<timing-oddities, Strange timing related behaviour>>
 
 Mostly due to the first issue, I decided to switch to using SVG graphics.
+SVG stands for _scalable vector graphics_, in a nutshell it's an image format but defined in a text format compared to a binary one like JPEG.
 To my pleasant suprise, switching to using SVG resulted in fixing all the other pain points as well.
-If you're looking for an explanation of the SVG code or just some example code, you can skip down to the <<implementation, implementation>> section.
+
+*If you're looking for an explanation of the SVG code or just some example code, you can skip down to the <<implementation, implementation>> section.
+If you're looking for a summary of SVG vs canvas, you can skip down to the <<conclusion, conclusion>> section.*
 Otherwise you can keep reading on to see how SVG fixed all the pain points I described!
 
 == Pain points
@@ -27,6 +30,12 @@ image:/resources/images/anti-aliasing.png[alt="anti-aliasing",height=128]
 This was a problem on the canvas version on the pentagon, the jagged edges were very noticeable at 1080p and below.
 image:/resources/images/pentagon-anti-aliasing.png[alt="pentagon-anti-aliasing",width=500]
 
+SVG fixes this problem because an SVG file doesn't define an image by pixel locations, but instead as a set of instructions.
+This let's a browser (or any application) decide how to render say a line or a path element.
+You can see this first hand by zooming in on the pentagon versus zooming in on any of the images in this article.
+You should see, with the images, more and more pixels as you zoom in.
+But with the SVG graphic of the pentagon, the quality doesn't deteoriate as you zoom in; hence the S in SVG, *scalable*.
+
 [[static-and-dynamic]]
 === JavaScript requirement for static elements
 
@@ -34,15 +43,15 @@ In general, I've found that it's a good idea to keep client side scripting limit
 Any static elements should probably be done in the HTML.
 This caused a problem when using a canvas because everything drawn in a canvas must be done via scripting.
 
-This is the HTML code when I used a canvas.
+This is the HTML code when I used with the canvas implementation.
 [source,html]
 .base.html
 ----
 <canvas class="pentagon" width="520" height="495"></canvas>
 ----
 The rest of it was defined in JavaScript.
-To me this was a problem because the HTML no longer gave a clear representation of what the page looks like.
-And dynamic as well as static elements were then mixed together in the JavaScript.
+To me this was a problem because the HTML no longer gave a clear representation of what the page looked like.
+This meant that dynamic as well as static elements were then mixed together in the JavaScript.
 
 On the contrary, once I switched to SVG, this was the resulting HTML code.
 [source,html]
@@ -87,7 +96,6 @@ Using SVG elements, the red lines can be drawn, undrawn, and removed.
 All as it's own object, this follows much more fluently with the original thought process and also gives security that the red line will actually be gone, not just covered up.
 image:/resources/images/pentagon-svg-inplace.gif[alt="pentagon-svg-inplace-gif",width=500]
 
-
 [[timing-oddities]]
 === Strange timing related behaviour
 
@@ -105,4 +113,76 @@ image:/resources/images/pentagon-svg-fast-move.gif[alt="pentagon-svg-fast-move",
 [[implementation]]
 == Implementation
 
+There were two steps in implementing the pentagon graphic.
+
+. <<drawing-pentagon, Defining the space and drawing the pentagon>>
+. <<animating-pentagon, Drawing the red lines and removing them on hover>>
+
+I also had to pre-calculate all the points, but that was just some trigonometry.
+image:/resources/images/pentagon-calc.jpg[alt="pentagon-calc",width=300]
+
+[[drawing-pentagon]]
+=== Drawing the Pentagon
+
+Minus the comments, here is the static HTML code for the entirety of the navigation icon.
+
+[source,html]
+.base.html
+----
+<div class="navigation-icon">
+    <div class="navigation-links">
+        <h2 class="about"><a>about</a></h2> <!-- top -->
+        <h2 class="portfolio"><a>portfolio</a></h2> <!-- topleft -->
+        <h2 class="contact"><a>contact</a></h2> <!-- botleft -->
+        <h2 class="resume"><a>resume</a></h2> <!-- botright -->
+        <h2 class="articles"><a>articles</a></h2> <!-- topright -->
+    </div>
+    <svg class="pentagon" viewbox="0 0 520 495">
+        <path d="M260.0,10.0 L10.0,191.5 L105.5,475.5 L414.5,475.5 L510.0,191.5 L260.0,10.0 Z"/>
+        <line x1="260.0" y1="10.0" x2="260.0" y2="272.5" />
+        <line x1="10.0" y1="191.5" x2="260.0" y2="272.5" />
+        <line x1="105.5" y1="475.5" x2="260.0" y2="272.5" />
+        <line x1="414.5" y1="475.5" x2="260.0" y2="272.5" />
+        <line x1="510.0" y1="191.5" x2="260.0" y2="272.5" />
+    </svg>
+</div>
+----
+
+The CSS code to position the navigation links was just alot of guess and check work with absolute positioning.
+You can get an idea of what that looks like by seeing part of the css code below.
+
+[source,css]
+.base.css
+----
+...
+
+.about {
+    top: -2.6rem;
+}
+
+.portfolio {
+    top: 3.1rem;
+    right: 10rem;
+}
+
+.contact {
+    bottom: -2.6rem;
+    right: 6.5rem;
+}
+
+...
+----
+
+The entirety of it is publicly available on my link:https://github.com/enochtsang/personal-website/blob/master/resources/css/base.css[GitHub].
+
+But that's not the interesting part, let's break down the `<svg>` tag.
+
+==== View Box
+
+[[animating-pentagon]]
+=== Animating the Pentagon
+
+Blah blah
+
+[[conclusion]]
 == Conclusion and Lessons Learned
