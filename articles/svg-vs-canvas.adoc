@@ -84,7 +84,7 @@ You can see a tinge of red left over after redrawing the black lines.
 image:/resources/images/pentagon-shadow-blur.png[alt="pentagon-shadow-blur-png",width=300]
 
 Using SVG elements, the red lines can be drawn, undrawn, and removed.
-All as it's own object, this follows much more fluently with the original thought process and also give security that the red line will actually be gone, not just covered up.
+All as it's own object, this follows much more fluently with the original thought process and also gives security that the red line will actually be gone, not just covered up.
 image:/resources/images/pentagon-svg-inplace.gif[alt="pentagon-svg-inplace-gif",width=500]
 
 

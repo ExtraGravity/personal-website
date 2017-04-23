@@ -2,6 +2,9 @@
 	max-width: 1000px;
 	width: 95%;
 	min-width: 500px;
+
+	margin-bottom: 4rem;
+	
 	text-align: left;
 	font-family: 'Lora', serif;
 }
@@ -52,7 +55,6 @@
 .article-content h5,
 .article-content h6 {
 	padding: 0.5rem;
-	margin-top: 5rem;
 	margin-bottom: 2rem;
 	margin-left: 0.5rem;
 	margin-right: 0.5rem;
@@ -62,9 +64,21 @@
 	text-transform: uppercase;
 }
 
+.article-content h1 {
+	margin-top: 2rem;
+}
+
+.article-content h2,
+.article-content h3,
+.article-content h4,
+.article-content h5,
+.article-content h6 {
+	margin-top: 5rem;
+}
+
 /* Negate 5rem margin top if h2 immediately preceded by another header*/
-.article-content h2 + .sectionbody {
-	margin-top: -3rem;
+.sect2:first-child h3  {
+	margin-top: 2rem;
 }
 
 .article-content h1 {
@@ -134,9 +148,11 @@
 	width: 100%;
 	background: #444;
 	color: white;
+	text-align: center;
+    font-family: 'Raleway', sans-serif;
 }
 
-.article-content caption[class="title"] {
+.article-content caption.title {
 	margin-bottom: 3px;
 	color: black;
     font-size: 0.8rem;
@@ -144,11 +160,27 @@
     text-align: right; 
 }
 
-.article-content .title {
-	font-size: 0.8rem;
-	text-align: right;
-	font-style: italic;
+.article-content .admonitionblock {
+    display: table;
+    margin-left: 1rem;
+}
+
+.article-content .admonitionblock .title {
+	font-size: 1.18rem;
 	min-width: 4rem;
+}
+
+.article-content .admonitionblock .content .title {
+	font-size: 1.18rem;
+	min-width: 4rem;
+	text-transform: uppercase;
+	font-weight: bold;
+}
+
+.article-content .listingcontent .title {
+	font-size: 0.8rem;
+	font-style: italic;
+	text-align: right;
 }
 
 .article-content .icon {
@@ -160,6 +192,7 @@
 .article-content th, td {
 	border: 2px solid #999;
 	padding: 9px;
+	text-align: center; 
 }
 
 .article-content th {
