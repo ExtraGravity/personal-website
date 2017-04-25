@@ -33,8 +33,8 @@ $('document').ready(function(){
             botRightPt,
             centerPt,
             topLeftPt
-        ]
-    );
+        ]def
+    );def
 
     handleNavLinkHover($(".resume a"), "resume-lines", botRightPt,
         [
@@ -57,7 +57,7 @@ function handleNavLinkHover(navLink, lineClass, endPt, beginPts) {
     navLink.hover(function() {
 
         for (var i = 0; i < beginPts.length; i++) {
-            newLine = document.createElementNS('http://www.w3.org/2000/svg','line');
+            var newLine = document.createElementNS('http://www.w3.org/2000/svg','line');
             newLine.setAttribute("class", "penta-red " + lineClass);
             newLine.setAttribute("x1", beginPts[i][0]);
             newLine.setAttribute("y1", beginPts[i][1]);

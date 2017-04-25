@@ -31,7 +31,7 @@ This was a problem on the canvas version on the pentagon, the jagged edges were 
 image:/resources/images/pentagon-anti-aliasing.png[alt="pentagon-anti-aliasing",width=500]
 
 SVG fixes this problem because an SVG file doesn't define an image by pixel locations, but instead as a set of instructions.
-This let's a browser (or any application) decide how to render say a line or a path element.
+This let's a browser (or any application) decide how to render say a `<line>` or a `<path>` element.
 You can see this first hand by zooming in on the pentagon versus zooming in on any of the images in this article.
 You should see, with the images, more and more pixels as you zoom in.
 But with the SVG graphic of the pentagon, the quality doesn't deteoriate as you zoom in; hence the S in SVG, *scalable*.
@@ -175,14 +175,97 @@ You can get an idea of what that looks like by seeing part of the css code below
 
 The entirety of it is publicly available on my link:https://github.com/enochtsang/personal-website/blob/master/resources/css/base.css[GitHub].
 
-But that's not the interesting part, let's break down the `<svg>` tag.
+But that's not the interesting part, let's break down the `<svg>` element.
 
-==== View Box
+==== viewbox
+
+[source,html]
+----
+<svg class="pentagon" viewbox="0 0 520 495">
+----
+
+The `viewbox` attribute defines the space that you'll be working with, this is different from the width and height.
+You can set any size of viewbox, and then resize it later using the width and height properties in the CSS.
+The first two numbers `0 0` define the starting x and y coordinates of the space.
+The second two numbers `520 495` define the length and height of the space, in other words, defining how far you can draw before leaving the `<svg>` element.
+
+==== path
+
+[source,html]
+----
+<path d="M260.0,10.0 L10.0,191.5 L105.5,475.5 L414.5,475.5 L510.0,191.5 L260.0,10.0 Z"/>
+----
+The `<path>` element is defined by it's `d` attribute, which is a set of instructions for a path to follow.
+The first instruction `M260.0,10.0` means **M**ove to the coordinates (260.0, 10.0).
+The subsequent `L` instructions mean **L**ineto the coordinate location.
+And finally the `Z` instruction means to close the path.
+
+==== line
+
+[source,html]
+----
+<line x1="260.0" y1="10.0" x2="260.0" y2="272.5" />
+----
+
+The `<line>` element is fairly self explanatory, it just draws a line from `x1`, `y1` to `x2`, `y2`.
+
+
+==== CSS
+
+Lastly, to setting the width and color of the lines require special css properties.
+
+[source,css]
+----
+.pentagon path, .pentagon line {
+    stroke-width: 11;
+    stroke: #444;
+    fill: none;
+}
+----
+
+`stroke-width` defines the thickness of the paths and lines.
+`stroke` defines the color of the path and lines.
+`fill` sets just for the path what color to fill an enclosed path with.
 
 [[animating-pentagon]]
 === Animating the Pentagon
 
-Blah blah
+Animating the pentagon was done with big help from the `velocity.js` and `jquery.js` libraries.
+
+Let's start by creating a new `<line>` element.
+The most logical approach would be to use the standard approach in jQuery, but it turns out that creating SVG elements require a namespace.
+Here is the correct code to create a new SVG element.
+
+[source,javasccript]
+----
+var newLine = document.createElementNS('http://www.w3.org/2000/svg','line');
+----
+
+Next, we'll set the attributes so it is a non existent line that starts from the center of the pentagon.
+We'll also give it a `penta-red` class which will make these animated lines red.
+The `lineClass`
+
+[source,javascript]
+----
+newLine.setAttribute("class", "penta-red");
+newLine.setAttribute("x1", 260.0);
+newLine.setAttribute("y1", 272.5);
+newLine.setAttribute("x2", 260.0);
+newLine.setAttribute("y2", 272.5);
+----
+
+Now we can use the `velocity.js` library to animate drawing the line.
+
+[source,javascript]
+----
+$(newLine).velocity({
+    x2: 260.0,
+    y2: 10.0
+}, 500);
+----
+
+This creates an animation over 500ms to extend the line from the previous set `x1` and `y1` to the new `x2` and `y2`.
+
 
 [[conclusion]]
 == Conclusion and Lessons Learned
