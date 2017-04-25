@@ -55,8 +55,6 @@
 .article-content h5,
 .article-content h6 {
 	margin-bottom: 2rem;
-	/*margin-left: 0.5rem;*/
-	/*margin-right: 0.5rem;*/
     
 	text-align: left;
     font-family: 'Raleway', sans-serif;
@@ -68,7 +66,7 @@
 
 .article-content h1 {
 	padding: 1rem 1.5rem;
-	margin-top: 2rem;
+	margin-top: 1rem;
 }
 
 .article-content h2,

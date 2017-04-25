@@ -7,10 +7,14 @@
     min-width: 500px;
 }
 
-.portfolio-content h3 {
-    margin: auto;
-    margin-top: 1rem;
+.portfolio-intro {
     margin-bottom: 2rem;
+}
+
+.portfolio-intro h1,
+.portfolio-intro h2,
+.portfolio-intro h3 {
+    margin: 1rem;
 }
 
 .portfolio-item {
@@ -66,7 +70,7 @@
     padding: 1rem;
     border-bottom: 3px solid #888;
 
-    line-height: 1.3em; 
+    line-height: 1.3em;
 }
 
 .portfolio-item a img {

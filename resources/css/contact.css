@@ -4,7 +4,7 @@
 }
 
 .contact-form {
-	margin: 3rem auto;
+	margin: 3rem auto -2rem;
 	display: flex;
 	flex-direction: column;
 	width: 70%;
