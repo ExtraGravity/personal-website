@@ -1,8 +1,7 @@
 [float]
-= The Pentagon - SVG vs Canvas
+= SVG vs Canvas in Practice
 
-If you haven't checked out the fancy pentagon animation in the navigation pane, I'd highly encourage you to do so!
-The pentagon animation was originally created using the html `<canvas>` tag.
+The pentagon animation in the navigation bar was originally created using the html `<canvas>` tag.
 Although using a canvas wasn't particularly difficult, there were a few pain points:
 
 . <<anti-aliasing, The lack of anti-aliasing>>
@@ -11,11 +10,12 @@ Although using a canvas wasn't particularly difficult, there were a few pain poi
 . <<timing-oddities, Strange timing related behaviour>>
 
 Mostly due to the first issue, I decided to switch to using SVG graphics.
-SVG stands for _scalable vector graphics_, in a nutshell it's an image format but defined in a text format compared to a binary one like JPEG.
-To my pleasant suprise, switching to using SVG resulted in fixing all the other pain points as well.
+SVG stands for _scalable vector graphics_, it's an image format but defined in a text format compared to a binary one like JPEG.
+You can read more about the benefits of using SVG in the <<conclusion, conclusion>>.
+To my pleasant suprise, switching to using SVG graphics resulted in fixing all the other pain points as well.
 
 *If you're looking for an explanation of the SVG code or just some example code, you can skip down to the <<implementation, implementation>> section.
-If you're looking for a summary of SVG vs canvas, you can skip down to the <<conclusion, conclusion>> section.*
+If you're looking for a summary of using SVG vs canvas, you can skip down to the <<conclusion, conclusion>> section.*
 Otherwise you can keep reading on to see how SVG fixed all the pain points I described!
 
 == Pain points
@@ -27,30 +27,30 @@ If you don't know, anti-aliasing is basically edge smoothing.
 This is very common practice in graphics work.
 image:/resources/images/anti-aliasing.png[alt="anti-aliasing",height=128]
 
-This was a problem on the canvas version on the pentagon, the jagged edges were very noticeable at 1080p and below.
+This was a problem on the canvas version of the pentagon, the jagged edges were very noticeable at 1080p and below.
 image:/resources/images/pentagon-anti-aliasing.png[alt="pentagon-anti-aliasing",width=500]
 
 SVG fixes this problem because an SVG file doesn't define an image by pixel locations, but instead as a set of instructions.
-This let's a browser (or any application) decide how to render say a `<line>` or a `<path>` element.
+This let's a browser (or any application) decide how to render a `<line>` or a `<path>`.
 You can see this first hand by zooming in on the pentagon versus zooming in on any of the images in this article.
-You should see, with the images, more and more pixels as you zoom in.
+You should see more and more pixels as you zoom into the images.
 But with the SVG graphic of the pentagon, the quality doesn't deteoriate as you zoom in; hence the S in SVG, *scalable*.
 
 [[static-and-dynamic]]
 === JavaScript requirement for static elements
 
 In general, I've found that it's a good idea to keep client side scripting limited to dynamic elements.
-Any static elements should probably be done in the HTML.
-This caused a problem when using a canvas because everything drawn in a canvas must be done via scripting.
+Any static elements are better done in the HTML.
+Using a canvas broke this methodology because everything drawn in a canvas must be done via scripting.
 
-This is the HTML code when I used with the canvas implementation.
+This was the HTML code in the canvas implementation.
 [source,html]
 .base.html
 ----
 <canvas class="pentagon" width="520" height="495"></canvas>
 ----
 The rest of it was defined in JavaScript.
-To me this was a problem because the HTML no longer gave a clear representation of what the page looked like.
+This was a problem because the HTML no longer gave a clear representation of what the page looked like.
 This meant that dynamic as well as static elements were then mixed together in the JavaScript.
 
 On the contrary, once I switched to SVG, this was the resulting HTML code.
@@ -92,22 +92,22 @@ image:/resources/images/pentagon-shadow-blur.gif[alt="pentagon-shadow-blur-gif",
 You can see a tinge of red left over after redrawing the black lines.
 image:/resources/images/pentagon-shadow-blur.png[alt="pentagon-shadow-blur-png",width=300]
 
-Using SVG elements, the red lines can be drawn, undrawn, and removed.
-All as it's own object, this follows much more fluently with the original thought process and also gives security that the red line will actually be gone, not just covered up.
+Using SVG elements, the red lines can be drawn, undrawn, and removed, all as it's own object.
+This follows much more fluently with the original thought process and also gives security that the red line will actually be gone, not just covered up.
 image:/resources/images/pentagon-svg-inplace.gif[alt="pentagon-svg-inplace-gif",width=500]
 
 [[timing-oddities]]
 === Strange timing related behaviour
 
 Due to the nature of pixels being drawn and not elements being edited, using a canvas came with some timing oddities.
-The first being some lines being left while during various interactions.
+The first being some lines being left over during various interactions.
 image:/resources/images/pentagon-canvas-glitch.png[alt="pentagon-canvas-glitch",width=300]
 
 While that was resolved using SVG elements, it also gave a much crisper effect.
-I had noticed with the canvas the lines would end up being erratic when continouously switching them on and off.
+With the canvas, the lines would end up being erratic when continouously switching them on and off.
 image:/resources/images/pentagon-canvas-fast-move.gif[alt="pentagon-canvas-fast-move",width=500]
 
-With the SVG elements it became much smoother.
+With the SVG elements it became smoother.
 image:/resources/images/pentagon-svg-fast-move.gif[alt="pentagon-svg-fast-move",width=500]
 
 [[implementation]]
@@ -149,7 +149,7 @@ Minus the comments, here is the static HTML code for the entirety of the navigat
 ----
 
 The CSS code to position the navigation links was just alot of guess and check work with absolute positioning.
-You can get an idea of what that looks like by seeing part of the css code below.
+You can get an idea of what that looks like with some of the css code.
 
 [source,css]
 .base.css
@@ -185,7 +185,7 @@ But that's not the interesting part, let's break down the `<svg>` element.
 ----
 
 The `viewbox` attribute defines the space that you'll be working with, this is different from the width and height.
-You can set any size of viewbox, and then resize it later using the width and height properties in the CSS.
+You can set the viewbox to be any size, then resize it later using the width and height properties in CSS.
 The first two numbers `0 0` define the starting x and y coordinates of the space.
 The second two numbers `520 495` define the length and height of the space, in other words, defining how far you can draw before leaving the `<svg>` element.
 
@@ -207,12 +207,12 @@ And finally the `Z` instruction means to close the path.
 <line x1="260.0" y1="10.0" x2="260.0" y2="272.5" />
 ----
 
-The `<line>` element is fairly self explanatory, it just draws a line from `x1`, `y1` to `x2`, `y2`.
+The `<line>` element is fairly self explanatory, it just draws a line from (`x1`, `y1`) to (`x2`, `y2`).
 
 
 ==== CSS
 
-Lastly, to setting the width and color of the lines require special css properties.
+Lastly, setting the width and color of the lines require unique css properties.
 
 [source,css]
 ----
@@ -225,12 +225,12 @@ Lastly, to setting the width and color of the lines require special css properti
 
 `stroke-width` defines the thickness of the paths and lines.
 `stroke` defines the color of the path and lines.
-`fill` sets just for the path what color to fill an enclosed path with.
+`fill` sets what color to fill an enclosed `<path>` with.
 
 [[animating-pentagon]]
 === Animating the Pentagon
 
-Animating the pentagon was done with big help from the `velocity.js` and `jquery.js` libraries.
+Animating the pentagon was done using the `velocity.js` and `jquery.js` libraries.
 
 Let's start by creating a new `<line>` element.
 The most logical approach would be to use the standard approach in jQuery, but it turns out that creating SVG elements require a namespace.
@@ -243,7 +243,7 @@ var newLine = document.createElementNS('http://www.w3.org/2000/svg','line');
 
 Next, we'll set the attributes so it is a non existent line that starts from the center of the pentagon.
 We'll also give it a `penta-red` class which will make these animated lines red.
-The `lineClass`
+The `penta-red` class is custom defined in the CSS.
 
 [source,javascript]
 ----
