@@ -115,6 +115,10 @@
 	margin: 1rem;
 }
 
+.article-content .paragraph {
+	margin: 1rem;
+}
+
 .article-content pre, code {
 	font-family: "Courier New", Courier, monospace;
 	background: #FEFEFE;

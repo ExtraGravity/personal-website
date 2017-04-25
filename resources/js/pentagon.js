@@ -33,8 +33,8 @@ $('document').ready(function(){
             botRightPt,
             centerPt,
             topLeftPt
-        ]def
-    );def
+        ]
+    );
 
     handleNavLinkHover($(".resume a"), "resume-lines", botRightPt,
         [

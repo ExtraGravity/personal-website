@@ -378,3 +378,16 @@ In the actual code, there's more parametrization to draw multiple lines for vary
 [[conclusion]]
 == Conclusion and Lessons Learned
 
+SVG graphics are very easy to define as an HTML element, and from a development perspective, they are easy to manipulate.
+Canvases on the other hand are fast and have a lot of freedom, down to editing pixel by pixel, but they lack the ease of manipulation as a dynamic element.
+
+
+In the future, SVG will most likely be the solution for uniquely dynamic elements in a web page.
+They are easy to manipulate since SVG graphics are composed of many smaller elements, all of which can be individually managed.
+SVG graphics are also much more scalable and delegate the responsibility of drawing smooth images to the browser.
+Also since SVG is defined in XML, it can be directly embedded in HTML, keeping static and dynamic concerns separate.
+
+
+The use case for canvas is not dynamic icons in a web page, but rather complex pixel level problems.
+In the future I hope to employ SVG graphics in more of my work and have the experience of creating complicated exceptional graphics using SVG.
+
