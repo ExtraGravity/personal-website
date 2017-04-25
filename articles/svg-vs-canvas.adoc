@@ -236,7 +236,7 @@ Let's start by creating a new `<line>` element.
 The most logical approach would be to use the standard approach in jQuery, but it turns out that creating SVG elements require a namespace.
 Here is the correct code to create a new SVG element.
 
-[source,javasccript]
+[source,javascript]
 ----
 var newLine = document.createElementNS('http://www.w3.org/2000/svg','line');
 ----
@@ -254,6 +254,13 @@ newLine.setAttribute("x2", 260.0);
 newLine.setAttribute("y2", 272.5);
 ----
 
+And add the line to the svg element.
+
+[source,javascript]
+----
+$(".pentagon").append(newLine);
+----
+
 Now we can use the `velocity.js` library to animate drawing the line.
 
 [source,javascript]
@@ -266,6 +273,108 @@ $(newLine).velocity({
 
 This creates an animation over 500ms to extend the line from the previous set `x1` and `y1` to the new `x2` and `y2`.
 
+Putting it all together, and encapsulating into an on hover callback, we get:
+
+[source,javascript]
+----
+$(".about a").hover(function() {
+    var newLine = document.createElementNS('http://www.w3.org/2000/svg','line');
+    newLine.setAttribute("class", "penta-red");
+    newLine.setAttribute("x1", 260.0);
+    newLine.setAttribute("y1", 272.5);
+    newLine.setAttribute("x2", 260.0);
+    newLine.setAttribute("y2", 272.5);
+    $(".pentagon").append(newLine);
+
+    $(newLine).velocity({
+        x2: 260.0,
+        y2: 10.0
+    }, 500);
+});
+----
+
+Now we need to undraw the line when off hover.
+That's easy, just animate the start point into the end point.
+
+[source,javascript]
+----
+$(".penta-red").velocity({
+    x1: 260.0,
+    y1: 10.0
+}, 500);
+----
+
+But there's a problem with this.
+By default, velocity will queue up animations, so the line won't undraw itself until the previous animation of drawing itself is finished.
+
+To fix this, we just override that default option by setting `queue` to `false`.
+
+[source,javascript]
+----
+$(this).velocity({
+    x1: 260.0,
+    y1: 10.0
+}, {
+    duration: lineAnimTime,
+    queue: false
+});
+----
+
+You can see below what what it looks like with the default behaviour, and with `queue` as `false`.
+
+TODO
+
+The last piece of the puzzle is removing the line when the animation finishes.
+This can be done with the `complete` option.
+
+[source,javascript]
+----
+$(this).velocity({
+    x1: 260.0,
+    y1: 10.0
+}, {
+    duration: lineAnimTime,
+    queue: false
+    complete: function() {
+        $(this).remove();
+    }
+});
+----
+
+Putting it altogether into the off hover callback it looks like.
+
+[source,javascript]
+----
+$(".about a").hover(function() {
+    var newLine = document.createElementNS('http://www.w3.org/2000/svg','line');
+    newLine.setAttribute("class", "penta-red");
+    newLine.setAttribute("x1", 260.0);
+    newLine.setAttribute("y1", 272.5);
+    newLine.setAttribute("x2", 260.0);
+    newLine.setAttribute("y2", 272.5);
+    $(".pentagon").append(newLine);
+
+    $(newLine).velocity({
+        x2: 260.0,
+        y2: 10.0
+    }, 500);
+}, function() {
+    $(this).velocity({
+        x1: 260.0,
+        y1: 10.0
+    }, {
+        duration: lineAnimTime,
+        queue: false
+        complete: function() {
+            $(this).remove();
+        }
+    });
+});
+----
+
+Functionally, this is what it takes to draw a line on hover, and undraw off hover.
+In the actual code, there's more parametrization to draw multiple lines for varying links, you can read the entirety of it on my link:https://github.com/enochtsang/personal-website/blob/master/resources/js/pentagon.js[GitHub].
 
 [[conclusion]]
 == Conclusion and Lessons Learned
+
