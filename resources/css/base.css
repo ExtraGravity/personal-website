@@ -25,6 +25,10 @@ body {
     }
 }
 
+body > header:first-child {
+ -webkit-flex: 0 0 auto;
+}
+
 h1 {
     font-size: 2em;
     text-align: center;
@@ -76,11 +80,14 @@ a:hover {
 
 header {
     height: 20rem;
+    flex: 0 0 20rem;
+    flex: 0 0 20rem;
     width: 100%;
     display: flex;
     justify-content: space-around;
     align-items: center;
     background-color: #EEE;
+    /*overflow: hidden;*/
 }
 
 .header-bg {
@@ -124,14 +131,15 @@ header {
 
 .nav-bar-border {
     background-color: #777;
-    height: 3px;
+    flex: 0 0 3px;
 }
 
 .nav-bar {
-    height: 2.8rem;
+    flex: 0 0 2.8rem;
 
     background-color: #222;
     display: flex;
+    border: none;
     justify-content: center;
 }
 
@@ -140,6 +148,7 @@ header {
     min-width: 474px; /* screen width - 2*padding - 2*border */
     padding: 10px;
     width: 50%;
+    margin: 0 auto;
 
     border-bottom: none;
     border-left: 3px solid #777;
@@ -347,7 +356,8 @@ header {
  
     width: 90%;
     min-width: 550px;
-    height: 100%;
+    /*height: 100%;*/
+    flex: 0 0 100%;
     opacity: 0;
 
     background-color: rgba(0, 0, 0, 0.1);
@@ -365,7 +375,7 @@ header {
 
 footer {
     border-top: 3px solid #777;
-    height: 3rem;
+    flex: 0 0 3rem;
     width: 100%;
     background-color: #222;
     display: flex;
