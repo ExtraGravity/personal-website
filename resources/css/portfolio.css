@@ -1,71 +1,83 @@
 .portfolio-content {
-	margin: 1rem;
-	display: flex;
-	flex-direction: column;
-	justify-content: center;
-	width: 60%;
-	min-width: 500px;
+    margin: 1rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    width: 60%;
+    min-width: 500px;
 }
 
 .portfolio-content h3 {
-	margin: auto;
-	margin-top: 1rem;
-	margin-bottom: 2rem;
+    margin: auto;
+    margin-top: 1rem;
+    margin-bottom: 2rem;
 }
 
 .portfolio-item {
-	margin: auto;
-	border: 3px solid #888;
-	margin-bottom: 4rem;
-	padding: 0;
-	height: 100%
-	background-color: #AAA;
+    margin: auto;
+    border: 3px solid #888;
+    margin-bottom: 4rem;
+    padding: 0;
+    height: 100%
+    background-color: #AAA;
 }
 
 .portfolio-header {
-	/*width: 100%;	*/
-	background: black;
-	margin: 0;
-	padding: 9px 20px;
-	border-bottom: 3px solid #888;
-	display: flex;
-	justify-content: space-between;
-	align-items: center;
+    background: black;
+    margin: 0;
+    padding: 9px 20px;
+    border-bottom: 3px solid #888;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
 }
 
 .portfolio-header:hover {
-	cursor: pointer;
+    cursor: pointer;
 }
 
 .portfolio-header h2 {
-	text-align: left;
-	color: white;
+    text-align: left;
+    color: white;
 }
 
-.portfolio-header img {
-	height: 1.5rem;
-	display: block;
+.portfolio-header svg {
+    height: 1rem;
+    display: block;
+    margin-right: 5px;
+    transition: all 0.25s linear;
+}
+
+.portfolio-header path {
+    stroke-width: 10;
+    stroke: #FFF;
+    fill: #FFF;
+    stroke-linecap: round;
+}
+
+.rotate-down {
+    transform: rotate(-90deg);
 }
 
 .portfolio-item p {
-	display: none;
-	background-color: #FFF;
+    display: none;
+    background-color: #FFF;
 
-	padding: 1rem;
-	border-bottom: 3px solid #888;
+    padding: 1rem;
+    border-bottom: 3px solid #888;
 
-	line-height: 1.3em;	
+    line-height: 1.3em; 
 }
 
 .portfolio-item a img {
-	width: 100%;
-	padding: 0;
-	margin: 0;
-	transition: filter 0.2s ease-out;
-	display: block;
+    width: 100%;
+    padding: 0;
+    margin: 0;
+    transition: filter 0.2s ease-out;
+    display: block;
 }
 
 .portfolio-item a img:hover {
-	filter: brightness(70%);
+    filter: brightness(70%);
 }
 
