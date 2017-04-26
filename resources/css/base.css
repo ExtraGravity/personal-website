@@ -28,10 +28,10 @@ body {
     }
 }
 
-body > header:first-child {
+/*body > header:first-child {
  -webkit-flex: 0 0 auto;
 }
-
+*/
 h1 {
     font-size: 2em;
     text-align: center;
@@ -82,13 +82,13 @@ a:hover {
 }
 
 header {
-    height: 20rem;
-    flex: 0 0 20rem;
-    flex: 0 0 20rem;
-    width: 100%;
     display: flex;
     justify-content: space-around;
     align-items: center;
+
+    width: 100%;
+    flex: 0 0 20rem;
+
     background-color: #EEE;
 }
 
@@ -133,16 +133,18 @@ header {
 
 .nav-bar-border {
     width: 100%;
-    background-color: #777;
     flex: 0 0 3px;
+    
+    background-color: #777;
 }
 
 .nav-bar {
+    display: flex;
+    
     width: 100%;
     flex: 0 0 2.8rem;
 
     background-color: #222;
-    display: flex;
     border: none;
 }
 
@@ -355,12 +357,14 @@ header {
 }
 
 .main-content-wrapper {
-    display: table;
+    display: flex;
+    justify-content: center;
+    align-items: center;
  
     width: 90%;
     min-width: 550px;
-    flex: 0 0 100%;
-    opacity: 0;
+    height: auto;
+    flex-grow: 1;
 
     background-color: rgba(0, 0, 0, 0.1);
     border-left: 3px solid #888;
@@ -373,8 +377,9 @@ header {
     justify-content: center;
     align-items: center;
  
-    height: 1rem; /* IE support, overriden by min-height below */
+    width: 100%;
     min-height: 21rem;
+
     margin-top: 2.5rem;
     margin-bottom: 2.5rem;
 
