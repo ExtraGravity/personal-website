@@ -364,7 +364,8 @@ header {
     width: 90%;
     min-width: 550px;
     height: auto;
-    flex-grow: 1;
+    flex-grow: 1; /* IE support */
+    flex-shrink: 0; /* Safari support */
 
     background-color: rgba(0, 0, 0, 0.1);
     border-left: 3px solid #888;
