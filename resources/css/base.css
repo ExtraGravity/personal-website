@@ -356,6 +356,15 @@ header {
     left: 6.5rem;
 }
 
+.main-content-container {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-grow: 1;
+    flex-shrink: 0;
+}
+
 .main-content-wrapper {
     display: flex;
     justify-content: center;
@@ -363,13 +372,11 @@ header {
  
     width: 90%;
     min-width: 550px;
-    height: auto;
-    flex-grow: 1; /* IE support */
-    flex-shrink: 0; /* Safari support */
 
     background-color: rgba(0, 0, 0, 0.1);
     border-left: 3px solid #888;
     border-right: 3px solid #888;
+    opacity: 0;
 }
 
 .main-content {
@@ -379,6 +386,8 @@ header {
     align-items: center;
  
     width: 100%;
+    height: auto;
+    vertical-align: center;
     min-height: 21rem;
 
     margin-top: 2.5rem;
