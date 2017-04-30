@@ -90,6 +90,9 @@ header {
     flex: 0 0 20rem;
 
     background-color: #EEE;
+    background-image: url("/resources/images/squares.svg");
+    background-repeat: no-repeat;
+    background-position: center;
 }
 
 .header-bg {

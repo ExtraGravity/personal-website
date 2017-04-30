@@ -23,12 +23,14 @@
     margin: auto;
     border: 3px solid #888;
     margin-bottom: 4rem;
+    min-height: 20rem;
     padding: 0;
     overflow: hidden;
+    min-width: 100%;
 
     background-color: #FFF;
-    background-repeat: no-repeat;
     background-image: url("/resources/images/squares.svg");
+    background-repeat: no-repeat;
     background-position: center;
 }
 
