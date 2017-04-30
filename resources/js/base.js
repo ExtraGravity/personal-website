@@ -4,20 +4,18 @@ if( /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(naviga
     MOBILE = true;
 }
 
-$("document").ready(function(){
-    // Initial timeout 1000ms to wait for load
-    // Then total 1100ms for final load in
-    setTimeout(function() {
-        easeInHeader();
-        $(".signature").delay(800).fadeIn(300);
-        setTimeout(function() { // fade in .main-content
-            $(".main-content-wrapper").hide().css("opacity", "1").fadeIn(300);
-        }, 800);
-        setTimeout(fadeInFooter, 800);
-        setTimeout(fillPlaceholder, 900);
-        setupNavbarEvents();
-        setupSearch();
-    }, 1000);
+$(window).on("load", function() {
+    // Total 1100ms for final load in
+    console.log("Starting!");
+    easeInHeader();
+    $(".signature").delay(800).fadeIn(300);
+    setTimeout(function() { // fade in .main-content
+        $(".main-content-wrapper").hide().css("opacity", "1").fadeIn(300);
+    }, 800);
+    setTimeout(fadeInFooter, 800);
+    setTimeout(fillPlaceholder, 900);
+    setupNavbarEvents();
+    setupSearch();
 });
 
 function easeInHeader() {

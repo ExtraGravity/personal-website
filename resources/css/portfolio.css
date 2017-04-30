@@ -26,7 +26,10 @@
     padding: 0;
     overflow: hidden;
 
-    background-color: #AAA;
+    background-color: #FFF;
+    background-repeat: no-repeat;
+    background-image: url("/resources/images/squares.svg");
+    background-position: center;
 }
 
 .portfolio-header {
@@ -81,8 +84,9 @@
 .portfolio-item a img {
     width: 100%;
     margin: 0;
-    transition: filter 0.2s ease-out;
+    transition: all 0.2s ease-out;
     display: block;
+    opacity: 0;
 }
 
 .portfolio-item a img:hover {
