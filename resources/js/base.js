@@ -5,8 +5,8 @@ if( /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(naviga
 }
 
 $(window).on("load", function() {
+    $("header").css("background-image", "none")
     // Total 1100ms for final load in
-    console.log("Starting!");
     easeInHeader();
     $(".signature").delay(800).fadeIn(300);
     setTimeout(function() { // fade in .main-content
