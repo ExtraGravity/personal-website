@@ -320,10 +320,6 @@ $(this).velocity({
 });
 ----
 
-You can see below what what it looks like with the default behaviour, and with `queue` as `false`.
-
-TODO
-
 The last piece of the puzzle is removing the line when the animation finishes.
 This can be done with the `complete` option.
 
