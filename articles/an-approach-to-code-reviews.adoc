@@ -1,5 +1,7 @@
 [float]
-= Approaching Code Reviews
+= An Approach for Efficient Code Reviews
+
+== Benefits of Code Reviews
 
 Code reviews are awesome, they are an absolute must have for any collective developing software together.
 Aside from the obvious purpose of catching bugs, they also have many other benefits:
@@ -14,17 +16,24 @@ Aside from the obvious purpose of catching bugs, they also have many other benef
 
 * They increase accountability so no code is the sole responsibility of one person.
 
-That said, good code reviews can be tricky to conduct in practice, there's a number of hurdles to conducting complete code reviews.
-A valuable code review can take a significant amount of time to do.
-Sometimes code changes are massive and extremely daunting to lay eyes on.
-It could be written in a way that really doesn't make sense to you.
-And sometimes, the intent of the code just doesn't make any sense.
+== Code Review Hurdles
 
-While many of the aforementioned hurdles can be alleviated by a well prepared code review request, often in the real world you will be given tough pieces to review without much control over where they come from.
+With all the benefits that codereviews bring, excellent code reviews are tricky to conduct in practice.
+There's a number of hurdles to conducting thorough code reviews:
 
-== Conducting Reviews
+* A valuable code review can take a significant amount of time to do.
 
-=== A Time Saving Process
+* Sometimes code changes are massive and extremely daunting to lay eyes on.
+
+* It could be written in a way that really doesn't make sense to you.
+
+* And sometimes, the intent of the code just doesn't make any sense.
+
+From the perspective of the author, there are many ways to overcome these hurdles or just make reviews easier in general.
+This includes  incremental pull requests, static code analysis, continuous integration, and so on.
+But I want to focus efficient code reviewers from the perspective of the reviewer, how can a reviewer help themselves conduct a code review efficiently?
+
+== A Time Saving Process
 
 From reviewing code in a completely amateur environment (a University Team) and in an industry environment, I've learned to conduct my code reviews incrementally in a few steps:
 
@@ -47,13 +56,13 @@ It's tempting to comment on style/cosmetic issues first because they're the leas
 Mentally, these steps also help break up a code review into more manageable pieces before having to carefully read every line.
 If I'm crunched for time, I can comment on the first 2 points (or even just the first point) in the pull request first to let the author know it's on my radar, even if it's just a "Excited to see this change, looks good structurally! I'll give it a more in depth look later". Sometimes I'm just don't feel like reviewing code; with this I can push myself to just do the first step and often the others will easily follow, and if they don't at least I've responded to the author!
 
-=== "You" and "Your"
+== "You" and "Your"
 
 In my experience, code reviews are straight to the point and cold.
 With the purpose of code reviews and the efficiency programmers usually strive for, good parts will be glossed over (I do  encourage commenting on particularly well written parts though) and many negative parts highlighted.
 At that, I think the adage of "punish the behaviour, not the child" is applicable here.
 Code reviews should be written with the attitude of addressing issues in the code (obvious), being careful not to attack the author, even if unintentional.
-After every review, before I submit all my comments, I will do a `Ctrl + F` on the word "you" and reword all comments containing you or your.
+After every review, before I submit all my comments, I will do a `Ctrl + F` on the word _"you"_ and reword all comments containing _"you"_ or _"your"_.
 I'll replace them with either a pronoun-less comment or with a collective pronoun like "we" (so the author knows we're in this together).
 
 For example, instead of _"You need to add more warning to this context"_, a pronoun-less comment would be _"This warning needs more context"_.
@@ -63,6 +72,7 @@ Or instead of _"You should have used a more deliberate folder name"_, using a co
 == Conclusion
 
 Code reviews are an immeasurably beneficial asset for any software development team, but the cost they come at isn't negligible.
+There are many ways to make code reviews more efficient with various automation tools, but at no cost, I think just coming into code review with a plan will also make code reviews more efficient.
 I hope the advice I've shared helps you in your code reviews to be faster, friendlier, and more effective.
 
 
