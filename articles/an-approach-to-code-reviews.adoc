@@ -56,19 +56,6 @@ It's tempting to comment on style/cosmetic issues first because they're the leas
 Mentally, these steps also help break up a code review into more manageable pieces before having to carefully read every line.
 If I'm crunched for time, I can comment on the first 2 points (or even just the first point) in the pull request first to let the author know it's on my radar, even if it's just a "Excited to see this change, looks good structurally! I'll give it a more in depth look later". Sometimes I'm just don't feel like reviewing code; with this I can push myself to just do the first step and often the others will easily follow, and if they don't at least I've responded to the author!
 
-== "You" and "Your"
-
-In my experience, code reviews are straight to the point and cold.
-With the purpose of code reviews and the efficiency programmers usually strive for, good parts will be glossed over (I do  encourage commenting on particularly well written parts though) and many negative parts highlighted.
-At that, I think the adage of "punish the behaviour, not the child" is applicable here.
-Code reviews should be written with the attitude of addressing issues in the code (obvious), being careful not to attack the author, even if unintentional.
-After every review, before I submit all my comments, I will do a `Ctrl + F` on the word _"you"_ and reword all comments containing _"you"_ or _"your"_.
-I'll replace them with either a pronoun-less comment or with a collective pronoun like "we" (so the author knows we're in this together).
-
-For example, instead of _"You need to add more warning to this context"_, a pronoun-less comment would be _"This warning needs more context"_.
-
-Or instead of _"You should have used a more deliberate folder name"_, using a collective pronoun would look like _"Let's pick a more deliberate folder name"_.
-
 == Conclusion
 
 Code reviews are an immeasurably beneficial asset for any software development team, but the cost they come at isn't negligible.
