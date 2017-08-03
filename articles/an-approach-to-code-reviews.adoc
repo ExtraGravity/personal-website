@@ -1,0 +1,68 @@
+[float]
+= Approaching Code Reviews
+
+Code reviews are awesome, they are an absolute must have for any collective developing software together.
+Aside from the obviousness of catching bugs, they also have many other benefits:
+
+* They give a chance for everyone to share their knowledge.
+
+* They open up a way for new developers to be mentored while working at their own pace.
+
+* They create a step for a developer to review all their own work as well.
+
+* They create homogeneity in the code in terms of style.
+
+* They increase accountability so no code is the sole responsibility of one person.
+
+That said, good code reviews can be tricky to conduct in practice, there's a number of hurdles to conducing code reviews.
+A good code review can take a significant amount of time to do.
+Sometimes code changes are massive and extremely daunting to lay eyes on.
+It could be written in a way that really doesn't make sense to you.
+And sometimes, the intent of the code just doesn't make any sense.
+
+While many of the aforementioned hurdles can be alleviated by a well prepared code review request, often in the real world you will be given tough pieces to review without much control of where they come from.
+
+== Conducting Reviews
+
+=== A Time Saving Process
+
+From reviewing code in a completely amateur environment (a University Team) and in an industry environment, I've learned to conduct my code reviews incrementally in a few steps:
+
+. Does the intent of the changes make sense in the first place?
+
+. Structurally, in terms of code architecture, is the code where it should be? Will it be maintainable?
+
+. Are there any bugs or glitches?
+This is a good step to actually run the changes.
+Finding logical errors I also find are the most mentally taxing part of a code review, extra care should be take at this step.
+
+. For the last step, is the coding style sound?
+Does the code conform to the style of the rest of the project?
+
+These steps help save time by hitting the biggest overarching changes first.
+For example, as a reviewer, if the intent of the changes are misguided in the first place, then it's not longer necessary to carefully read every line in the diff.
+It's also useful as a requester; it can be quite frusturating to address a number of small issues brought up in a code review just to have them all become obsolete by a larger issue brought up later.
+It's tempting to comment on style/cosmetic issues first because they're the least mentally taxing to find, but there's a chance that those changes will become outdated when addressing a larger issue anyways.
+
+Mentally, these steps also help break up a code review into more manageable pieces before having to carefully read every line.
+If I'm crunched for time, I can comment on the first 2 points (or even just the first point) in the pull request first to let the author know it's on my radar, even if it's just a "Excited to see this change, looks good structurally! I'll give it a more in depth look later". Sometimes I'm can just not feel like reviewing code; with this I can push myself to just do the first step and often the others will easily follow, and if they don't at least I've responded to the author!
+
+=== "You" and "Your"
+
+In my experience, code reviews are straight to the point and cold.
+With the purpose of code reviews and the efficiency programmers usually strive for, good parts won't get highlighted (I do  encourage commenting on particularly well written parts though) and many negative things are brought up.
+At that, I think the adage of "punish the behaviour, not the child" is applicable here.
+Code reviews should be written with the attitude of addressing issues in the code (obvious), being careful not to attack the author, even if unintentional.
+After every review, before I submit all my comments, I will do a `Ctrl + F` on the word "you" and reword all comments containing you or your.
+I'll replace them with either a pronoun void comment or with a collective pronoun like "we" (so the authro knows we're in this together).
+
+For example, instead of _"You need to add more warning to this context"_, a pronoun void comment would be _"This warning needs more context"_.
+
+Or instead of _"You should have used a more deliberate folder name"_, using a collective pronoun would look like _"Let's pick a more deliberate folder name"_.
+
+== Conclusion
+
+Code reviews are an immeasurably beneficial asset for any software development team, but the cost they come at isn't negligible.
+I hope the advice I've shared helps you in your code reviews to be faster, friendlier, and more effective.
+
+
