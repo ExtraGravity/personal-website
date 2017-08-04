@@ -1,31 +1,15 @@
 [float]
-= An Approach for Efficient Code Reviews
-
-== Benefits of Code Reviews
+= An Approach for Reviewing Code
 
 Code reviews are awesome, they are an absolute must have for any collective developing software together.
-Aside from the obvious purpose of catching bugs, they also have many other benefits:
-
-* They give a chance for everyone to share their knowledge.
-
-* They open up a way for new developers to be mentored while working at their own pace.
-
-* They create a step for a developer to review all their own work as well.
-
-* They create homogeneity in the code in terms of style.
-
-* They increase accountability so no code is the sole responsibility of one person.
-
-== Code Review Hurdles
-
-With all the benefits that codereviews bring, excellent code reviews are tricky to conduct in practice.
-There's a number of hurdles to conducting thorough code reviews:
+But from the perspective of the code reviewer, they are tricky to conduct in practice.
+There are a number of hurdles to conducting thorough code reviews:
 
 * A valuable code review can take a significant amount of time to do.
 
 * Sometimes code changes are massive and extremely daunting to lay eyes on.
 
-* It could be written in a way that really doesn't make sense to you.
+* The code could be written in a way that really doesn't make sense to you.
 
 * And sometimes, the intent of the code just doesn't make any sense.
 
@@ -33,17 +17,17 @@ From the perspective of the author, there are many ways to overcome these hurdle
 This includes  incremental pull requests, static code analysis, continuous integration, and so on.
 But I want to focus on efficient code reviews from the perspective of the reviewer, how can a reviewer help themselves conduct a code review efficiently?
 
-== A Time Saving Process
+== A Method for Reviewing Code
 
-From reviewing code in a completely amateur environment (a University Team) and in an industry environment, I've learned to conduct my code reviews incrementally in a few steps:
+From reviewing code in a completely amateur environment (a University Team) and in an industry environment, I've formulated a method in approaching my code reviews. This means conducting code reviews incrementally in a few steps:
 
 . Does the intent of the changes make sense in the first place? If we're talking agile, do the changes match the story?
 
 . Structurally, in terms of code architecture, is the new code in the right files/directories? Will it be maintainable?
 
 . Are there any bugs or glitches?
-This is a good step to actually run the changes.
-Finding logical errors I also find are the most mentally taxing part of a code review, extra care should be take at this step.
+This is a good step to actually run the changes and/or review the logic behind accompanying unit tests.
+Finding logical errors I find are the most mentally taxing part of a code review, extra care should be taken at this step.
 
 . For the last step, is the coding style sound?
 Does the code conform to the style of the rest of the project?
