@@ -31,7 +31,7 @@ There's a number of hurdles to conducting thorough code reviews:
 
 From the perspective of the author, there are many ways to overcome these hurdles or just make reviews easier in general.
 This includes  incremental pull requests, static code analysis, continuous integration, and so on.
-But I want to focus efficient code reviewers from the perspective of the reviewer, how can a reviewer help themselves conduct a code review efficiently?
+But I want to focus on efficient code reviews from the perspective of the reviewer, how can a reviewer help themselves conduct a code review efficiently?
 
 == A Time Saving Process
 
@@ -39,7 +39,7 @@ From reviewing code in a completely amateur environment (a University Team) and 
 
 . Does the intent of the changes make sense in the first place? If we're talking agile, do the changes match the story?
 
-. Structurally, in terms of code architecture, is the code where it should be? Will it be maintainable?
+. Structurally, in terms of code architecture, is the new code in the right files/directories? Will it be maintainable?
 
 . Are there any bugs or glitches?
 This is a good step to actually run the changes.
@@ -60,6 +60,6 @@ If I'm crunched for time, I can comment on the first 2 points (or even just the 
 
 Code reviews are an immeasurably beneficial asset for any software development team, but the cost they come at isn't negligible.
 There are many ways to make code reviews more efficient with various automation tools, but at no cost, I think just coming into code review with a plan will also make code reviews more efficient.
-I hope the advice I've shared helps you in your code reviews to be faster, friendlier, and more effective.
+I hope the advice I've shared helps you in your code reviews to be faster and more effective.
 
 
