@@ -1,3 +1,4 @@
+[float]
 = Windows VM with GPU Passthrough
 
 It is becoming more and more viable to create a Windows VM in Linux that utilizes a GPU.
@@ -52,9 +53,9 @@ In my case virtualization was enabled by default.
 
 I checked by looking for AMD-Vi entries in dmesg.
 
-[bash]
+[source, bash]
 ----
-$ dmesg | grep AMD-Vi
+~ $ dmesg | grep AMD-Vi
 [    1.073664] AMD-Vi: IOMMU performance counters supported
 [    1.075695] AMD-Vi: Found IOMMU at 0000:00:00.2 cap 0x40
 [    1.075695] AMD-Vi:  Extended features:  PPR NX GT IA GA PC
@@ -82,10 +83,10 @@ The last line will be `kvm_intel` for intel CPUs.
 == Determine GPU PCI IDs
 
 We will need to grab the PCI IDs for both the and video card and audio component.
-I did this with `lspci -nn | grep -A1 VGA`. Searching for `VGA` find the video cards, and -A1 shows the line below as well, which is likely the audio components.
+I did this with `lspci -nn | grep -A1 VGA`. Searching for `VGA` find the video cards, and `-A1` shows the line below as well, which is likely the audio components.
 
 This was my output:
-[bash]
+[source, bash]
 ----
 ~ $ lspci -nn | grep -A1 VGA
 26:00.0 VGA compatible controller [0300]: Advanced Micro Devices, Inc. [AMD/ATI] Caicos [Radeon HD 6450/7450/8450 / R5 230 OEM] [1002:6779]
@@ -103,7 +104,7 @@ With this new information, the kernel must load up differently and do 3 things.
 
 . Blacklist the video card being passed through
 . Enable IOMMU groups
-. Stub out the video card being passed through\
+. Stub out the video card being passed through
 
 This step can be done by editing the GRUB command line arguments.
 This is done at `/etc/default/grub` and in my case adding arguments to the `GRUB_CMDLINE_LINUX` variable.
@@ -135,7 +136,7 @@ Run `sudo update-grub` to update grub with the new variables.
 After all these changes, a reboot is necessary to load up the new kernel changes.
 With all these changes, you should be able to call the `lsmod | grep vfio`, `dmesg | grep pci-stub`, and `dmesg | grep VFIO` with the following outputs.
 
-[bash]
+[source, bash]
 ----
 ~ $ lsmod | grep vfio
 vfio_pci               40960  0
@@ -160,8 +161,8 @@ I installed the following packages for my VM.
 
 	sudo apt-get install qemu-kvm qemu-utils qemu-efi ovmf libvirt-bin libvirt-dev libvirt0 virt-manager hugepages gir1.2-spice-client-gtk-3.0
 
-qemu is the actual virtual machine software.
-OVMF is a port of Intel's tianocore firmware to the qemu virtual machine.
+QEMU is the actual virtual machine software.
+OVMF is a port of Intel's tianocore firmware to the QEMU virtual machine.
 Hugepages is not strictly necessary, but allows RAM to be allocated to the virtual machine, increasing performance.
 
 ==== Get your ISO
@@ -171,7 +172,7 @@ At the time of writing, this could be downloaded for free from the https://www.m
 
 ==== Hugepages
 
-To enable hugepages for qemu, edit `/etc/default/qemu-home` and set `KVM_HUGEPAGES` to `1`.
+To enable hugepages for QEMU, edit `/etc/default/qemu-home` and set `KVM_HUGEPAGES` to `1`.
 Then to allocate RAM to hugepages, I added the line `vm.nr_hugepages = 4300` to `/etc/sysctl.conf` which allocates 8GB of RAM.
 Be careful, if you allocate more RAM than your system has your has it will fail to boot..
 If you want to allocate a different amount of RAM, I would recommend looking at https://davidyat.es/2016/09/08/gpu-passthrough/#part-2-setting-up-the-vm[David Yates' guide].
