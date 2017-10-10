@@ -26,7 +26,7 @@ To do this, the following is necessary:
 
 For video cards, I would recommend different branded ones (for example one AMD one NVIDIA) as it simplifies blacklisting drivers.
 Also a CPU with integrated graphics would count as one, such as Intel CPUs (except the Xeons).
-This article does not cover the case of identical (or similar) video cards).
+This article does not cover the case of identical/similar video cards.
 
 The specific hardware used in this article is:
 
