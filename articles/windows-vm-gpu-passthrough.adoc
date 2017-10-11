@@ -161,7 +161,7 @@ vfio                   28672  2 vfio_iommu_type1,vfio_pci
 
 I installed the following packages for my VM.
 
-    sudo apt-get install qemu-kvm qemu-utils qemu-efi ovmf libvirt-bin libvirt-dev libvirt0 virt-manager hugepages gir1.2-spice-client-gtk-3.0
+    sudo apt-get install qemu-kvm qemu-utils qemu-efi ovmf libvirt-bin libvirt-dev libvirt0 virt-manager gir1.2-spice-client-gtk-3.0
 
 QEMU is the actual virtual machine software.
 OVMF is a port of Intel's tianocore firmware to the QEMU virtual machine.
@@ -172,17 +172,11 @@ Hugepages is not strictly necessary, but allows RAM to be allocated to the virtu
 For my Windows VM, I'll be using the Windows 10 Anniversary ISO.
 At the time of writing, this could be downloaded for free from the https://www.microsoft.com/en-ca/software-download/windows10ISO[Microsoft website].
 
-==== Hugepages
-
-To enable hugepages for QEMU, edit `/etc/default/qemu-home` and set `KVM_HUGEPAGES` to `1`.
-Then to allocate RAM to hugepages, I added the line `vm.nr_hugepages = 4300` to `/etc/sysctl.conf` which allocates 8GB of RAM.
-Be careful, if you allocate more RAM than your system has your has it will fail to boot..
-If you want to allocate a different amount of RAM, I would recommend looking at https://davidyat.es/2016/09/08/gpu-passthrough/#part-2-setting-up-the-vm[David Yates' guide].
-
 ==== Creating the VM
 
 You should have `virt-manager` installed, run it and follow the prompts.
 Here is some screenshots of my process.
+
 After you've installed windows, in _Boot Options_, change the boot device order to boot from _IDE Disk 1_.
 
 From there you'll want to install and set up https://symless.com/synergy/downloads[_Synergy_].
