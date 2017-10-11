@@ -14,7 +14,7 @@ Which was great, but with the caveat that whenever I wanted to game, I needed to
 
 This story is common for programmers who are also gamers.
 I would like to choronicle another chapter for the benefit for others.
-Setting up a Linux host with a Windows VM that has GPU passed through for gaming.
+Setting up a Linux host with a Windows VM that has a GPU passed through for gaming.
 
 == Hardware Setup and Prerequisites
 
@@ -28,26 +28,40 @@ For video cards, I would recommend different branded ones (for example one AMD o
 Also a CPU with integrated graphics would count as one, such as Intel CPUs (except the Xeons).
 This article does not cover the case of identical/similar video cards.
 
-The specific hardware used in this article is:
+Below is a table of the specific hardware I had for my PC.
 
-* AMD - Ryzen 5 1600 3.2GHz 6-Core Processor
-* Asus - STRIX B350-F GAMING ATX AM4 Motherboard
-* Gigabyte - GeForce GTX 1080 8GB WINDFORCE OC 8G Video Card
-* AMD - Radeon R6450 1GB PCI-E
-* G.Skill - Trident Z RGB 16GB (2 x 8GB) DDR4-3200 Memory
-* Samsung - 850 EVO-Series 250GB 2.5" Solid State Drive
-* BarraCuda - 1TB HDD, SATA III w/ 64MB Cache
-* EVGA - SuperNOVA G2 750W 80+ Gold Certified Fully-Modular ATX Power Supply
+.PC Hardware
+|===
+| CPU | AMD - Ryzen 5 1600 3.2GHz 6-Core Processor
+| Motherboard | ASUS - STRIX B350-F GAMING ATX AM4 Motherboard
+| Windows GPU | Gigabyte - GeForce GTX 1080 8GB WINDFORCE OC 8G Video Card
+| Linux GPU | AMD - Radeon R6450 1GB PCI-E
+| RAM | G.Skill - Trident Z RGB 16GB (2 x 8GB) DDR4-3200 Memory
+| SSD | Samsung - 850 EVO-Series 250GB 2.5" Solid State Drive
+| HDD | BarraCuda - 1TB HDD, SATA III w/ 64MB Cache
+| Power Supply | EVGA - SuperNOVA G2 750W 80+ Gold Certified Fully-Modular ATX Power Supply
+|===
 
 From this setup, I also have 2 monitors.
 The monitor I want to game on is connected to the NVIDIA GTX 1080 card, and the other monitor on the Radeon R6450.
 
 As a non-hardware prerequisite, I set up a mouse and keyboard to interact with the VM via https://symless.com/synergy/downloads[_Synergy_], this does have a small cost but is well worth it.
 
+To get audio from the guest VM to the host, I opted for a more hardware oriented solution compared to a software solution, you can read the <<audio, audio section>> for more specifics.
+
+.Audio Hardware
+|===
+| Speakers | Logitech Z523
+| Audio Mixer | Penstar BS-318
+| USB Audio Card | TROND AC2 Aluminum USB Audio Adapter
+|===
+
 [[execution]]
 == Execution
 
-=== Enable Virtualization
+=== Environment Preperation for VM
+
+==== Enable Virtualization
 
 First thing to do is to enable virtualization in your BIOS.
 The setting to look for varies depending on the BIOS version, motherboard, and CPU.
@@ -65,7 +79,7 @@ I checked by looking for AMD-Vi entries in dmesg.
 [    1.075822] AMD-Vi: Lazy IO/TLB flushing enabled
 ----
 
-=== Enable Modules
+==== Enable Modules
 
 Add the following to `/etc/modules`.
 
@@ -82,7 +96,7 @@ kvm_amd
 The last line will be `kvm_intel` for intel CPUs.
 `pci-stub` allows us to capture the GPU and pass it to the VM.
 
-== Determine GPU PCI IDs
+==== Determine GPU PCI IDs
 
 We will need to grab the PCI IDs for both the and video card and audio component.
 I did this with `lspci -nn | grep -A1 VGA`. Searching for `VGA` find the video cards, and `-A1` shows the line below as well, which is likely the audio components.
@@ -99,26 +113,21 @@ This was my output:
 
 So I can see my AMD card and my NVIDIA card, I want to stub out the NVIDIA card because that's the one I plan to use for the VM. The important numbers there are `[10de:1b80]` and `[10de:10f0]`, for video and audio respectively.
 
-=== Kernel Boot Changes
+==== Kernel Boot Changes
 
 
-With this new information, the kernel must load up differently and do 3 things.
-
-. Blacklist the video card being passed through
-. Enable IOMMU groups
-. Stub out the video card being passed through
-
-This step can be done by editing the GRUB command line arguments.
+With this new information, the kernel must load up differently.
+This can all be done by editing the GRUB command line arguments.
 This is done at `/etc/default/grub` and in my case adding arguments to the `GRUB_CMDLINE_LINUX` variable.
+There are 3 things that must be done.
 
-
-. To blacklist the other video card, I used `nouveau.blacklist=1`.
+. The video card being passed through must be blacklisted.
+To blacklist the other video card, I used `nouveau.blacklist=1`.
 `nouveau` is for nvidia cards, `radeon` for AMD.
-
-. To enable IOMMU support in the kernel at boot time add `amd_iommu=on` (`intel_iommu=on` for intel CPUs).
-
-. To stub out the video card with `pci-stub`, add `pci-stub.ids=10de:1b80,10de:10f0` (with the correct stubs from the previous step).
-
+. IOMMU groups must be enabled.
+To enable IOMMU support in the kernel at boot time add `amd_iommu=on` (`intel_iommu=on` for intel CPUs).
+. The video card being passed through must be stubbed out.
+To stub out the video card with `pci-stub`, add `pci-stub.ids=10de:1b80,10de:10f0` (with the correct IDs from the previous step).
 
 This is what my `/etc/default/grub/` file ended up looking like.
 ----
@@ -131,12 +140,14 @@ GRUB_CMDLINE_LINUX_DEFAULT="quiet splash"
 GRUB_CMDLINE_LINUX="nouveau.modeset=0 nouveau.blacklist=1 amd_iommu=on pci-stub.ids=10de:1b80,10de:10f0"
 ----
 
-Run `sudo update-grub` to update grub with the new variables.
+NOTE: I needed `nouveau.modeset=0` before setting up all this otherwise loading into Linux would crash.
+
+Finally, run `sudo update-grub` to update grub with the new variables.
 
 === Reboot and Check
 
 After all these changes, a reboot is necessary to load up the new kernel changes.
-With all these changes, you should be able to call the `lsmod | grep vfio`, `dmesg | grep pci-stub`, and `dmesg | grep VFIO` with the following outputs.
+With all these changes, you should be able to call `lsmod | grep vfio`, `dmesg | grep pci-stub`, `dmesg | grep VFIO`, and see something similar to the following.
 
 [source, bash]
 ----
@@ -165,11 +176,11 @@ I installed the following packages for my VM.
 
 QEMU is the actual virtual machine software.
 OVMF is a port of Intel's tianocore firmware to the QEMU virtual machine.
-Hugepages is not strictly necessary, but allows RAM to be allocated to the virtual machine, increasing performance.
+Spice is a display the QEMU will use before the display via the GPU is setup.
 
 ==== Get your ISO
 
-For my Windows VM, I'll be using the Windows 10 Anniversary ISO.
+For my Windows VM, I'll used the Windows 10 Anniversary ISO.
 At the time of writing, this could be downloaded for free from the https://www.microsoft.com/en-ca/software-download/windows10ISO[Microsoft website].
 
 ==== Creating the VM
@@ -211,6 +222,11 @@ Run `virsh edit <vm-name>` and add the following `<kvm>` tag in to the `<feature
 ----
 
 Now when you turn on the VM, the gaming monitor should light up for the first time via the other graphics card.
+
+[[audio]]
+==== Audio
+
+==== Disk Drive
 
 == References
 
