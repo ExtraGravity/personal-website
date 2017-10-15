@@ -12,7 +12,10 @@ if [ "$1" == "init" ]; then
 elif [ "$1" == "run" ]; then
 	docker run --rm -v $DIR:/go/src/github.com/enochtsang/personal-website \
 		-p 8000:8000 $IMAGE_NAME ./run.sh "${@:2}"
+elif [ "$1" == "articles" ]; then
+	docker run --rm -v $DIR:/go/src/github.com/enochtsang/personal-website \
+		$IMAGE_NAME ./build-articles.sh "${@:2}"
 else
-	echo "usage: docker_build [init | run]"
+	echo "usage: docker_build [init | run | articles]"
 fi
 
