@@ -5,33 +5,31 @@ As a programmer, a 4K monitor provides alot more real estate to work with and is
 As a gamer, a high refresh monitor looks and feels phenomenal.
 Being both, I decided to own one of each monitor, but setting up both on Linux Mint proved to be a little finicky.
 
-This was because most of the time 4K monitors need to be scaled up otherwise everything is too small, but high refresh monitors only have resolutions up to 1080p (at the time of writing).
-Searching online only gave me partial solutions to scale both monitors differently for my particular setup, in the case that someone has a very similar setup to mine, I would like to provide a complete solution for scaling two monitors differently on Linux Mint.
+This is because 4K monitors usually need to be scaled up otherwise everything is too small, but high refresh monitors don't need to be scaled since they only have resolutions up to 1080p (at the time of writing).
+Searching online only gave me partial solutions to scale both monitors differently for my particular setup, I would like to provide a complete solution for scaling two monitors differently on Linux Mint.
 
 == Setup
 
 Here are all the relevant components for my particular setup.
 
 |===
-| OS | Linux
-| Linux Distirbution  | Linux Mint 18.2 Cinnamon 64-bit Sonya
+| Linux Distribution  | Linux Mint 18.2 Cinnamon 64-bit Sonya
 | GPU | NVIDIA GeForce GTX 1080
 | CPU | AMD - Ryzen 5 1600 3.2GHz 6-Core Processor
 | High Refresh Monitor | Acer GN246HL (1920x1080 144Hz)
 | 4K Monitor | LG 27MU67 (3840x2160 @ 60Hz)
 |===
 
-I mention the OS because this is not be applicable to Mac OS X or Windows machines.
-The distribution is important as well because different Linux distributions use different display managers, which controls alot of the siutation.
-Also it seemed even among different versions of Linux Mint Cinnamon, there were easier/harder solutions.
-The GPU is important only because it uses an NVIDIA driver, the _NVIDIA X Server Settings_ tool that comes with it came in very handy.
-I've only listed the CPU because the AMD Ryzen doesn't have any integrated graphics, unlike Intel processors.
-And of course, listed are the two monitors which are physically side by side.
+The distribution is important as well because different Linux distributions use different display managers.
+Also it seemed even among different versions of Linux Mint Cinnamon, there were varying solutions.
+The GPU is important only because it uses an NVIDIA driver, the _NVIDIA X Server Settings_ tool that comes with it is very handy.
+I've listed the CPU to note that the AMD Ryzen, unlike an Intel processor, doesn't have any integrated graphics.
+To note, the two monitors I've listed are physically side by side for this setup.
 
 == Linux Mint High DPI Support Limitations
 
 Starting in Mint 17 Qiana, HiDPI support was introduced into Linux Mint.
-In Mint 18.2 Sonya, the built in support was only limited to choosing between having the User Interface Scaling to be Double (Hi-DPI), normal, or auto (which would pick one of the two for you).
+In Mint 18.2 Sonya, the built in support was only limited to choosing between having the User Interface Scaling to be double (for Hi-DPI), normal, or auto (which would pick one of the two).
 
 image:/resources/images/scaling-two-monitors/double-dpi-mint.png[alt="double-dpi-mint", width=500]
 
@@ -42,9 +40,8 @@ There are two serious limitations for this case.
 
 == Setting the Scale with xrandr
 
-Luckily Linux comes with a very handy command line tool called `xrandr`.
-`xrandr` is the swiss army knife for display management.
-The first step though would be just figuring out the current display naming and settings, we can do that by just running `xrandr --listmonitors` without any arguments.
+Luckily Linux comes with a very handy command line tool called `xrandr`, it is the swiss army knife for display management.
+The first step is just figuring out the current display naming and settings, that's done by just running `xrandr --listmonitors` without any arguments.
 
 [source,bash]
 ----
@@ -54,14 +51,14 @@ Monitors: 2
  1: +DP-2 3840/600x2160/340+1920+0  DP-2
 ----
 
-So from this, we know that the name of the high refresh monitor is `DVI-D-0` because of the resolution, and the 4K monitor is `DP-2`.
+From this, we know that the name of the high refresh monitor is `DVI-D-0` because of the resolution, and the 4K monitor is `DP-2`.
 
 Using that, here are the xrandr commands I used to scale the displays.
 
 	xrandr --output DVI-D-0 --scale 2x2.001 --mode 1920x1080 --rate 144.00
 	xrandr --output DP-2 --scale 1.5x1.5
 
-Let's break them down,
+Let's break down the two commands.
 
 . `--output DVI-D-0` describes which display we are altering, in this case `DVI-D-0` is the high refresh monitor, we know that from the previous section.
 
@@ -72,45 +69,46 @@ The `2.001` is a weird workaround, without that the whole screen turned black fo
 Setting the mode is also necessary, the refresh rate changes don't apply without the mode being set also.
 
 . `--output DP-2 --scale 1.5x1.5` scales the 4K monitor so everything is 1.5x as small.
-This scales the monitor up by a factor of about 1.33, the double DPI scaling divided by the `xrandr` scale.
+This scales the monitor up by a factor of about 1.33, that's calculated by dividing the double DPI scaling by the `xrandr` scale.
 You'll want to tweak this number to what suites you.
 
 Here's what my desktop looked like originally.
-image:/resources/images/scaling-two-monitors/original-desktop.png[alt="original-desktop"]
+image:/resources/images/scaling-two-monitors/original-desktop.jpg[alt="original-desktop"]
 
-And what it looked like after the xrandr command and turning on the HiDPI User Interface scaling.
+This is waht it looked like after the xrandr command and turning on the HiDPI User Interface scaling.
 That setting can be found in System _Settings -> General -> Desktop Scaling_.
-image:/resources/images/scaling-two-monitors/high-dpi-after.png[alt="high-dpi-after"]
+image:/resources/images/scaling-two-monitors/xrandr-after.jpg[alt="xrandr-after"]
 
-It's hard to tell in the pictures, but what happened was that the scaling for the two monitors looked great, but the placement of the two monitors were overlapping.
+The result was that the scaling for the two monitors looked great, but the placement of the two monitors were overlapping.
 
 == Monitor Placement with NVIDIA X Server Settings
 
-NVIDIA's X Server Settings was a great help to see what's actually going on with the displays.
+The _NVIDIAs X Server Settings_ tool was a great help to see what's actually going on with the displays.
 
-image:/resources/images/scaling-two-monitors/nvidia-settings-before.png[alt="nvidia-settings-before", width=500]
+image:/resources/images/scaling-two-monitors/nvidia-settings-before.png[alt=" nvidia-settings-before", width=500]
 
-It is actually possible to get the positioning of the screens correct with `xrandr`, but it's a actually more complicated than it looks due to the the `--scale` option messing with the size of the framebuffer and conceived size of the monitors.
+It is actually possible to get the positioning of the screens correct with just `xrandr`, but it's actually more complicated than it looks due to the the `--scale` option messing with the size of the framebuffer and the conceived size of the monitors.
 In my opinion, it's much simpler to just drag the screens to where you want through _NVIDIA X Server Settings_.
 
 image:/resources/images/scaling-two-monitors/nvidia-settings-after.png[alt="nvidia-settings-after", width=500]
 
-Wwe're almost there, but there's two caveats.
+It's almost right, but there's two caveats.
 
-. _NVIDIA X Server Settings_ doesn't sync up with the desktop environment properly, so the background is way out of whack.
+. _NVIDIA X Server Settings_ doesn't sync up with the desktop environment properly, causing the desktop background to be way out of whack.
 . The new display placements are not persistent after a shutdown.
 
-To overcome both of those limitations, we just need to apply the settings in Linux Mint's _Displays_.
+To overcome both of those limitations, we just need to apply the settings in Linux Mint's _Displays_ setting.
 
-image:/resources/images/scaling-two-monitors/displays-apply.png[alt="displays-apply", width=500]
+image:/resources/images/scaling-two-monitors/displays-apply.jpg[alt="displays-apply", width=500]
 
 == Persistent xrandr
 
-So the last step, is making the `xrandr` changes persistent.
+The last step, is making the `xrandr` changes persistent.
 I did this using a startup application.
 I made a script at `~/.xsession` with the contents being  the xrandr commands I used.
 
 [source,bash]
+.~/.xsession
 ----
 #!/usr/bin/env bash
 
@@ -120,7 +118,10 @@ xrandr --output DP-2 --scale 1.5x1.5
 
 Changed it to executable permissions.
 
-	chmod +x ~/.xsession
+[source,bash]
+----
+chmod +x ~/.xsession
+----
 
 Then added it to the _Startup Applications_.
 
@@ -130,4 +131,4 @@ image:/resources/images/scaling-two-monitors/startup-applications.png[alt="start
 
 And with that, my system would boot up with custom scaled displays.
 I hope this article was helpful to you.
-if you have any questions, comments, or concerns, link:/contact[I would be happy to hear from you]!.
+if you have any questions, comments, or concerns, link:/contact[I would love to hear from you]!
