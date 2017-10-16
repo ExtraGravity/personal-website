@@ -1,7 +1,7 @@
 [float]
 = Scaling Two Monitors Differently on Linux Mint
 
-As a programmer, a 4K monitor provides alot more real estate to work with and is just very aesthetically pleasing.
+As a programmer, a 4K monitor provides a lot more real estate to work with and is just very aesthetically pleasing.
 As a gamer, a high refresh monitor looks and feels phenomenal.
 Being both, I decided to buy one of each monitor, but setting up both on Linux Mint proved to be a little finicky.
 
@@ -42,7 +42,7 @@ There are two serious limitations for this case.
 == Setting the Scale with xrandr
 
 Luckily Linux comes with a very handy command line tool called `xrandr`, it is the swiss army knife for display management.
-The first step is just figuring out the current display naming and settings, that's done by just running `xrandr --listmonitors` without any arguments.
+The first step is just figuring out the current display naming and settings, that's done by just running `xrandr --listmonitors`.
 
 [source,bash]
 ----
@@ -56,8 +56,11 @@ From this, we know that the name of the high refresh monitor is `DVI-D-0` becaus
 
 Using that, here are the xrandr commands I used to scale the displays.
 
-	xrandr --output DVI-D-0 --scale 2x2.001 --mode 1920x1080 --rate 144.00
-	xrandr --output DP-2 --scale 1.5x1.5
+[source,bash]
+----
+xrandr --output DVI-D-0 --scale 2x2.001 --mode 1920x1080 --rate 144.00
+xrandr --output DP-2 --scale 1.5x1.5
+----
 
 Let's break down the two commands.
 
@@ -69,14 +72,16 @@ The `2.001` is a weird workaround, without that the whole screen turned black fo
 . `--mode 1920x1080 --rate 144.00` is to set the refresh rate at 144Hz, it defaults to 60Hz without this section.
 Setting the mode is also necessary, the refresh rate changes don't apply without the mode being set also.
 
-. `--output DP-2 --scale 1.5x1.5` scales the 4K monitor so everything is 1.5x as small.
-This scales the monitor up by a factor of about 1.33, that's calculated by dividing the double DPI scaling by the `xrandr` scale.
-You'll want to tweak this number to what suites you.
+. `--output DP-2 --scale 1.5x1.5` scales the 4K monitor, the end result is that everything is scaled up by a factor of about 1.33.
+This is because the end result for scaling is a combination of the _User Interface Scaling_ as well as the screen scale.
+The _User Interface Scaling_ scales up by a factor of 2, and the `1.5x1.5` scales down by a factor of 1.5.
+The calculation is 2/1.5, making a total scale of 1.33.
+You'll want to tweak this number to what suits you.
 
 Here's what my desktop looked like originally.
 image:/resources/images/scaling-two-monitors/original-desktop.jpg[alt="original-desktop"]
 
-This is what it looked like after the xrandr command and turning on the HiDPI User Interface scaling.
+This is what it looked like after the `xrandr` command and turning on the HiDPI User Interface scaling.
 That setting can be found in System _Settings -> General -> Desktop Scaling_.
 image:/resources/images/scaling-two-monitors/xrandr-after.jpg[alt="xrandr-after"]
 
@@ -98,7 +103,12 @@ It's almost right, but there's two caveats.
 . _NVIDIA X Server Settings_ doesn't sync up with the desktop environment properly, causing the desktop background to be way out of whack.
 . The new display placements are not persistent after a shutdown.
 
-To overcome both of those limitations, we just need to apply the settings in Linux Mint's _Displays_ setting.
+image:/resources/images/scaling-two-monitors/bad-backgrounds.jpg[alt="bad-backgrounds", width=500]
+
+To overcome both of those limitations, all that's needed is to hit the _Apply_ button in Linux Mint's _Display_ settings, nothing else.
+This is because _NVIDIA X Server Settings_ doesn't properly interface with the display manager.
+Applying the settings fixes the desktop background, and saves the display placements.
+
 
 image:/resources/images/scaling-two-monitors/displays-apply.jpg[alt="displays-apply", width=500]
 
