@@ -107,7 +107,7 @@ image:/resources/images/scaling-two-monitors/bad-backgrounds.jpg[alt="bad-backgr
 
 To overcome both of those limitations, all that's needed is to hit the _Apply_ button in Linux Mint's _Display_ settings, nothing else.
 This is because _NVIDIA X Server Settings_ doesn't properly interface with the display manager.
-Applying the settings fixes the desktop background, and saves the display placements"
+Applying the settings fixes the desktop background, and saves the display placements.
 
 
 image:/resources/images/scaling-two-monitors/displays-apply.jpg[alt="displays-apply", width=500]
