@@ -47,21 +47,10 @@ The monitor I want to game on was connected to the NVIDIA GTX 1080 card, and the
 
 As a non-hardware prerequisite, I set up a mouse and keyboard to interact with the VM via https://symless.com/synergy/downloads[_Synergy_], this does have a small monetary cost but is well worth it.
 
-For audio, I opted for a more hardware oriented solution compared to a software solution, you can read the <<audio, audio section>> for more specifics.
-
-.Audio Hardware
-|===
-| Speakers | Logitech Z523
-| Audio Mixer | Penstar BS-318
-| USB Audio Card | TROND AC2 Aluminum USB Audio Adapter
-|===
-
 [[execution]]
 == Execution
 
-=== Environment Preperation for VM
-
-==== Enable Virtualization
+=== Enable Virtualization
 
 The first step was to enable virtualization in the BIOS.
 The setting to look for varies depending on the BIOS version, motherboard, and CPU.
@@ -79,7 +68,7 @@ I checked by looking for AMD-Vi entries in dmesg.
 [    1.075822] AMD-Vi: Lazy IO/TLB flushing enabled
 ----
 
-==== Enable Modules
+=== Enable Modules
 
 Add the following to `/etc/modules`.
 
@@ -96,7 +85,7 @@ kvm_amd
 The last line will be `kvm_intel` for intel CPUs.
 `pci-stub` allows the capture of the GPU and passing it to the VM.
 
-==== Determine GPU PCI IDs
+=== Determine GPU PCI IDs
 
 Next was getting the PCI IDs for both the and video card and audio component.
 I did this with `lspci -nn | grep -A1 VGA`.
@@ -116,7 +105,7 @@ So I can saw my AMD card and my NVIDIA card.
 I wanted to stub out the NVIDIA card because that's the one I plan to use for the VM.
 The important values there were `[10de:1b80]` and `[10de:10f0]`, for video and audio respectively.
 
-==== Kernel Boot Changes
+=== Kernel Boot Changes
 
 
 With this new information, the kernel must be loaded up differently.
@@ -171,7 +160,7 @@ vfio                   28672  2 vfio_iommu_type1,vfio_pci
 [    4.096253] VFIO - User Level meta-driver version: 0.3
 ----
 
-=== Setting up the VM
+=== Install VM Packages
 
 I installed the following packages for my VM.
 
@@ -181,12 +170,12 @@ QEMU is the actual virtual machine software.
 OVMF is a port of Intel's tianocore firmware to the QEMU virtual machine.
 Spice is a display the QEMU will use before the display via the GPU is setup.
 
-==== Get your ISO
+=== Get an ISO
 
 For my Windows VM, I used the Windows 10 Anniversary ISO.
 At the time of writing, this could be downloaded for free from the https://www.microsoft.com/en-ca/software-download/windows10ISO[Microsoft website].
 
-==== Creating the VM
+=== Creating the VM
 
 I used the GUI `virt-manager` to create the VM.
 This was installed in the previous step.
@@ -226,22 +215,19 @@ Through `virsh edit <vm-name>` I added the following `<kvm>` tag in to the `<fea
 Now when you turn on the VM, the gaming monitor should light up for the first time via the other graphics card.
 Then came the magical moment of turning on the VM and seeing the gaming monitor come alive.
 
-[[audio]]
-==== Audio
+== Future Work
 
-To get audio from the guest VM to the host, I opted for a more hardware oriented solution compared to a software solution.
-Some solutions I've saw before included
+So after all that I successfully ran a Windows VM in Linux that used a physical GPU.
+But there is more work to be done as it was more an experimental motion for myself and I haven't decided to use it as my everyday setup.
+The outstanding issues are joint audio, disk drive passthrough, benchmarking, and a KVM AMD bug.
 
-* Running audio through a Spice display.
-* Passing a virtual sound card and rerouting it to ALSA or Pulseaudio on the host.
-* Using the video card's sound card to power HDMI audio.
 
-==== Disk Drive
+https://forum.level1techs.com/t/ryzen-gpu-passthrough/116458
 
 == References
 
 None of what I did here was truly original, I followed many different guides online.
-Please take the time to look at these other fantastic guides as well.
+Please take the time to look at these fantastic guides as well.
 
 . https://ycnrg.org/vga-passthrough-with-ovmf-vfio/
 . https://davidyat.es/2016/09/08/gpu-passthrough
