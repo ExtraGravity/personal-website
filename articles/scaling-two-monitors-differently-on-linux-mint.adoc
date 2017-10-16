@@ -20,7 +20,7 @@ Here are all the relevant components for my particular setup.
 | 4K Monitor | LG 27MU67 (3840x2160 @ 60Hz)
 |===
 
-The distribution is important as well because different Linux distributions use different display managers.
+The distribution is important because different Linux distributions use different display managers.
 Also it seemed even among different versions of Linux Mint Cinnamon, there were varying solutions.
 The GPU is important only because it uses an NVIDIA driver, the _NVIDIA X Server Settings_ tool that comes with it is very handy.
 I've listed the CPU to note that the AMD Ryzen, unlike an Intel processor, doesn't have any integrated graphics.
