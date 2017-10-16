@@ -3,10 +3,11 @@
 
 As a programmer, a 4K monitor provides alot more real estate to work with and is just very aesthetically pleasing.
 As a gamer, a high refresh monitor looks and feels phenomenal.
-Being both, I decided to own one of each monitor, but setting up both on Linux Mint proved to be a little finicky.
+Being both, I decided to buy one of each monitor, but setting up both on Linux Mint proved to be a little finicky.
 
 This is because 4K monitors usually need to be scaled up otherwise everything is too small, but high refresh monitors don't need to be scaled since they only have resolutions up to 1080p (at the time of writing).
-Searching online only gave me partial solutions to scale both monitors differently for my particular setup, I would like to provide a complete solution for scaling two monitors differently on Linux Mint.
+Searching online only gave me partial solutions to scale both monitors differently for my particular setup.
+I would like to provide a complete solution for scaling two monitors differently on Linux Mint.
 
 == Setup
 
@@ -75,7 +76,7 @@ You'll want to tweak this number to what suites you.
 Here's what my desktop looked like originally.
 image:/resources/images/scaling-two-monitors/original-desktop.jpg[alt="original-desktop"]
 
-This is waht it looked like after the xrandr command and turning on the HiDPI User Interface scaling.
+This is what it looked like after the xrandr command and turning on the HiDPI User Interface scaling.
 That setting can be found in System _Settings -> General -> Desktop Scaling_.
 image:/resources/images/scaling-two-monitors/xrandr-after.jpg[alt="xrandr-after"]
 
