@@ -100,8 +100,8 @@ image:/resources/images/scaling-two-monitors/nvidia-settings-after.png[alt="nvid
 
 It's almost right, but there's two caveats.
 
-. _NVIDIA X Server Settings_ doesn't sync up with the desktop environment properly, causing the desktop background to be way out of whack.
 . The new display placements are not persistent after a shutdown.
+. _NVIDIA X Server Settings_ doesn't sync up with the desktop environment properly, causing the desktop background to be way out of whack.
 
 image:/resources/images/scaling-two-monitors/bad-backgrounds.jpg[alt="bad-backgrounds", width=500]
 
