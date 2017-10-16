@@ -14,7 +14,7 @@ Which was great, but with the caveat that whenever I wanted to game, I needed to
 
 This story is common for programmers who are also gamers.
 I would like to choronicle another chapter for the benefit for others.
-Setting up a Linux host with a Windows VM that has a GPU passed through for gaming.
+Setting up a Linux host with a Windows VM that has a GPU passed in for gaming.
 
 == Hardware Setup and Prerequisites
 
@@ -101,7 +101,7 @@ This was my output:
 27:00.1 Audio device [0403]: NVIDIA Corporation Device [10de:10f0] (rev a1)
 ----
 
-So I can saw my AMD card and my NVIDIA card.
+So I can see my AMD card and my NVIDIA card.
 I wanted to stub out the NVIDIA card because that's the one I plan to use for the VM.
 The important values there were `[10de:1b80]` and `[10de:10f0]`, for video and audio respectively.
 
@@ -132,7 +132,7 @@ GRUB_CMDLINE_LINUX_DEFAULT="quiet splash"
 GRUB_CMDLINE_LINUX="nouveau.modeset=0 nouveau.blacklist=1 amd_iommu=on pci-stub.ids=10de:1b80,10de:10f0"
 ----
 
-NOTE: I needed `nouveau.modeset=0` before setting up all this otherwise loading into Linux would crash.
+NOTE: I needed _nouveau.modeset=0_ before setting up all this otherwise loading into Linux would crash.
 
 Finally, run `sudo update-grub` to update grub with the new variables.
 
@@ -179,7 +179,6 @@ At the time of writing, this could be downloaded for free from the https://www.m
 
 I used the GUI `virt-manager` to create the VM.
 This was installed in the previous step.
-Here is some screenshots of my process.
 
 After installing windows, in _Boot Options_, I changed the boot device order to boot from _IDE Disk 1_ so that it would boot off the installed Windows on the virtual hard drive.
 
@@ -196,7 +195,7 @@ Add
 
 * The VM graphics card through the PCI Host Device option, I added both the video card and audio component.
 
-In addition to making the hardware changes, the KVM needed some configuration in the XML as well.
+In addition to making the hardware changes, the VM needed some configuration in the XML as well.
 This is because the NVIDIA driver for some NVIDIA cards (such as the 1080) fails if it detects a VM environment.
 So to trick the driver into thinking it's not a VM, it just takes adding a parameter to the XML.
 Through `virsh edit <vm-name>` I added the following `<kvm>` tag in to the `<features>` section.
@@ -218,15 +217,34 @@ Then came the magical moment of turning on the VM and seeing the gaming monitor 
 == Future Work
 
 So after all that I successfully ran a Windows VM in Linux that used a physical GPU.
-But there is more work to be done as it was more an experimental motion for myself and I haven't decided to use it as my everyday setup.
+But there is more work to be done as it was more of an experimental motion for myself since I have decided not to use it as my everyday setup.
 The outstanding issues are joint audio, disk drive passthrough, benchmarking, and a KVM AMD bug.
 
+For joint audio, there are a number of proposed solutions online.
+The most canonical solution, in the spirit of virtualization, would be to pass a virtual sound card from the host into the virtual machine.
+Then pass the virtual sound card's output to an audio handler in the host (PulseAudio or ALSA).
+The virtual sound card solution seemed to have varying levels of success.
+For myself, I want to take an easier solution by making use of the second audio-in slot on my speakers.
+I would buy a physical USB sound card to plug into my system and pass it to the Windows VM, USB passthrough is well supported so this shouldn't be difficult.
+Then I would connect the virtual sound card's output to my speaker's second audio in.
 
-https://forum.level1techs.com/t/ryzen-gpu-passthrough/116458
+Another idea I would like to explore later is installing Windows on a second physical drive, and booting off of it in both VM and baremetal fashions.
+Hard disk passthrough looks to be consistently done from other people online.
+It is hard to say whether a single Windows installation would deal well with booting in both a VM and baremetal environment.
+I think the biggest concern is that the hardware visible to the Windows installation would change often.
+
+There are some reports online of people getting higher benchmarks with GPU passthrough than on baremetal.
+There is lots of customization methods that can be done for better virtualization such as RAM allocation with Hugepages and CPU pinning.
+I would like to explore these myself and compare benchmarks in a virtualized environment verses a baremetal environment.
+
+Lastly, the KVM AMD bug in short is a bug in the Linux KVM module where nested page tables seriously hinders GPU performance, but without nested page tables CPU performance is seriously hindered.
+Before this is resolved, it is very difficult to get near baremetal performance in a Windows VM with an AMD Ryzen CPU.
+But because it seems as though AMD wants to excel in the virtualization aspect, I expect this to be resolved in 2017 or early 2018.
+You can read more about the link:https://forum.level1techs.com/t/ryzen-gpu-passthrough/116458[KVM AMD issue here].
 
 == References
 
-None of what I did here was truly original, I followed many different guides online.
+Very little of what I did here was truly original, I followed many different guides online.
 Please take the time to look at these fantastic guides as well.
 
 . https://ycnrg.org/vga-passthrough-with-ovmf-vfio/
