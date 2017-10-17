@@ -20,7 +20,7 @@ func check(err error, exit bool) {
 	if exit {
 		defer func() {
 			if r := recover(); r != nil {
-				fmt.Fprintf(os.Stderr, "%s", r)
+				fmt.Fprintf(os.Stderr, "%v", r)
 				os.Exit(1)
 			}
 		}()
@@ -28,7 +28,9 @@ func check(err error, exit bool) {
 			panic(err)
 		}
 	} else {
-		fmt.Fprintf(os.Stderr, "%s", err)
+		if err != nil {
+			fmt.Fprintf(os.Stderr, "%v", err)
+		}
 	}
 }
 
