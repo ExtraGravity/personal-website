@@ -19,7 +19,7 @@ elif [ "$1" == "run" ]; then
 	echo ""
 	echo "STARTING WEBSITE ON PORT $PORT"
 	docker run --rm -v $DIR:/go/src/github.com/enochtsang/personal-website \
-		-p $PORT:$PORT -p 25:25 $IMAGE_NAME ./run.sh $PORT
+		-p $PORT:$PORT $IMAGE_NAME ./run.sh $PORT
 else
 	echo "usage: docker_build [init | build | run]"
 fi
