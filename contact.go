@@ -51,7 +51,7 @@ func contactHandler(w http.ResponseWriter, r *http.Request) {
 
 func checkCaptcha(response string) (r recaptchaResponse) {
 	resp, err := http.PostForm("https://www.google.com/recaptcha/api/siteverify",
-		url.Values{"secret": {"6Lce7SYTAAAAAPRGE4pVdTrtAFb6sDSmWnLJzirM"}, "response": {response}})
+		url.Values{"secret": {loadCaptchaSecret()}, "response": {response}})
 	if err != nil {
 		log.Print("Post error: %s\n", err)
 	}
@@ -65,6 +65,15 @@ func checkCaptcha(response string) (r recaptchaResponse) {
 		log.Print("Read error: got invalid JSON: %s", err)
 	}
 	return
+}
+
+func loadCaptchaSecret() string {
+	captchaSecretFile := "captcha-secret.txt"
+    dat, err := ioutil.ReadFile(captchaSecretFile)
+    if err != nil {
+    	log.Print("Failed to load captcha secret from " + captchaSecretFile)
+    }
+    return strings.TrimSpace(string(dat))
 }
 
 func sendMail(name string, email string, msg string) {
