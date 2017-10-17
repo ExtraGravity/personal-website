@@ -398,12 +398,6 @@ header {
 
 }
 
-@media (max-width: 800px) {
-    .main-content {
-        /*margin-top: 0;*/
-    }
-}
-
 footer {
     border-top: 3px solid #777;
     flex: 0 0 3rem;
