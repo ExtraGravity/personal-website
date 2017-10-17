@@ -43,7 +43,7 @@ function contactSubmit() {
         }
     }
 
-    if(goodInput) {        
+    if(goodInput) {
         grecaptcha.execute();
     }
 }
@@ -65,12 +65,13 @@ function recaptchaCallback() {
         $(".contact-form input[name='email']"),
         $(".contact-form textarea[name='message']")
     ];
-    
+
     for(i = 0; i < inputs.length; ++i) {
         inputs[i].prop('disabled', true);
         inputs[i].css('background-color', '#EEE');
         inputs[i].css('color', '#888');
     }
+
     $.post('/api/contact', {
         name: $(".contact-form input[name='name']").val(),
         email: $(".contact-form input[name='email']").val(),

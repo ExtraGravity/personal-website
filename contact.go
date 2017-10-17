@@ -40,6 +40,7 @@ func contactHandler(w http.ResponseWriter, r *http.Request) {
 		log.Print("contact request: ", contactRequest)
 
 		if checkCaptcha(contactRequest["captcha"]).Success {
+			log.Print("contact POST request successful, sending mail...")
 			sendMail(contactRequest["name"],
 				contactRequest["email"],
 				contactRequest["message"])
@@ -50,30 +51,39 @@ func contactHandler(w http.ResponseWriter, r *http.Request) {
 }
 
 func checkCaptcha(response string) (r recaptchaResponse) {
-	resp, err := http.PostForm("https://www.google.com/recaptcha/api/siteverify",
-		url.Values{"secret": {loadCaptchaSecret()}, "response": {response}})
+	secret, err := loadCaptchaSecret()
 	if err != nil {
-		log.Print("Post error: %s\n", err)
+		log.Print("Failed to load captcha secret:", err)
+		return
+	}
+	resp, err := http.PostForm("https://www.google.com/recaptcha/api/siteverify",
+		url.Values{"secret": {secret}, "response": {response}})
+	if err != nil {
+		log.Print("Post error: ", err)
+		return
 	}
 	defer resp.Body.Close()
+
 	body, err := ioutil.ReadAll(resp.Body)
 	if err != nil {
-		log.Print("Read error: could not read body: %s", err)
+		log.Print("Read error: could not read body: ", err)
+		return
 	}
 	err = json.Unmarshal(body, &r)
 	if err != nil {
-		log.Print("Read error: got invalid JSON: %s", err)
+		log.Print("Read error: got invalid JSON: ", err)
+		return
 	}
 	return
 }
 
-func loadCaptchaSecret() string {
+func loadCaptchaSecret() (string, error) {
 	captchaSecretFile := "captcha-secret.txt"
     dat, err := ioutil.ReadFile(captchaSecretFile)
     if err != nil {
-    	log.Print("Failed to load captcha secret from " + captchaSecretFile)
+    	return "", err
     }
-    return strings.TrimSpace(string(dat))
+    return strings.TrimSpace(string(dat)), nil
 }
 
 func sendMail(name string, email string, msg string) {
