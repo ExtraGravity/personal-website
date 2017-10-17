@@ -119,6 +119,12 @@ func main() {
 	http.Handle("/resources/", cache(http.StripPrefix("/resources/", http.FileServer(http.Dir(absPath("resources"))))))
 	http.HandleFunc("/favicon.ico", faviconHandler)
 
-	err := http.ListenAndServe(":8000", nil)
+	port := "8000"
+
+	if len(os.Args) > 1 {
+		port = os.Args[1]
+	}
+
+	err := http.ListenAndServe(":"+port, nil)
 	check(err, true)
 }

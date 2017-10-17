@@ -11,7 +11,8 @@ if [ "$1" == "init" ]; then
 	docker build -t $IMAGE_NAME $DIR
 elif [ "$1" == "run" ]; then
 	docker run --rm -v $DIR:/go/src/github.com/enochtsang/personal-website \
-		-p 8000:8000 $IMAGE_NAME ./run.sh "${@:2}"
+		-p $2:$2 $IMAGE_NAME ./run.sh "${@:2}"
+
 elif [ "$1" == "articles" ]; then
 	docker run --rm -v $DIR:/go/src/github.com/enochtsang/personal-website \
 		$IMAGE_NAME ./build-articles.sh "${@:2}"

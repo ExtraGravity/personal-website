@@ -30,4 +30,4 @@ go build -o personal-website
 
 echo "================"
 echo "Starting Website"
-./personal-website 2>&1 | tee -a ./log/personal-website.log
+./personal-website "${@:1}" 2>&1 | tee -a ./log/personal-website.log
