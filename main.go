@@ -42,9 +42,13 @@ func genericPageHandler(w http.ResponseWriter, r *http.Request) {
 			absPath("templates/base.html"),
 			absPath("templates/home.html")))
 	} else {
+		page := absPath("templates/pages/" + r.URL.String() + ".html")
+		if _, err := os.Stat(page); os.IsNotExist(err) {
+			// page does not exist
+			page = "templates/pages/404.html"
+		}
 		t = template.Must(template.ParseFiles(
-			absPath("templates/base.html"),
-			absPath("templates/pages/"+r.URL.String()+".html")))
+			absPath("templates/base.html"), page))
 	}
 	err := t.ExecuteTemplate(w, "base", nil)
 	check(err, true)
