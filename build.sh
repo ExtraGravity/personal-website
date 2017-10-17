@@ -1,5 +1,13 @@
 #!/usr/bin/env bash
 
+DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+
+GREEN='\033[0;32m'
+NC='\033[0m'
+
+ADOC_SUFFIX=".adoc"
+HIGHLIGHTER=coderay
+
 echo "Minifying CSS"
 minify \
     resources/css/reset.css \
@@ -23,11 +31,26 @@ minify \
     --output resources/min.js
 
 echo "Building Articles"
-./build-articles.sh
+for ADOC_FILE in articles/*$ADOC_SUFFIX; do
+    echo \> $ADOC_FILE
+
+    NAME=${ADOC_FILE%$ADOC_SUFFIX}
+    TMPL_FILE=$DIR/templates/pages/$NAME.html
+
+    asciidoc -s -o $TMPL_FILE $ADOC_FILE
+    sed -i '1i{{define "content"}}' $TMPL_FILE
+    sed -i '2i<div class="article-content">' $TMPL_FILE
+    echo '</div>' >> $TMPL_FILE
+    echo '{{end}}' >> $TMPL_FILE
+done
 
 echo "Building Website"
 go build -o personal-website
 
-echo "================"
-echo "Starting Website"
-./personal-website "${@:1}" 2>&1 | tee -a ./log/personal-website.log
+if [ $? -eq 0 ]; then
+    printf "${GREEN}|*******| BUILD SUCCESSFUL |*******|${NC}\n"
+    exit 0
+else
+    printf "${RED}|*******| BUILD FAILED |*******|${NC}\n"
+    exit 1
+fi

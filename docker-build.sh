@@ -5,18 +5,22 @@ IMAGE_NAME="enoch/personal-website"
 DOCKER_HOME="/go/src/"
 ARG_NUM=2
 
-# DOCKER_INSTANCE="true" is used to indicate scripts that we are running inside docker
-
 if [ "$1" == "init" ]; then
 	docker build -t $IMAGE_NAME $DIR
+elif [ "$1" == "build" ]; then
+	docker run --rm -v $DIR:/go/src/github.com/enochtsang/personal-website \
+		$IMAGE_NAME ./build.sh "${@:2}"
 elif [ "$1" == "run" ]; then
+	./docker-build.sh build
+	PORT="8000"
+	if [ ! -z "$2" ]; then
+		PORT=$2
+	fi
+	echo ""
+	echo "STARTING WEBSITE ON PORT $PORT"
 	docker run --rm -v $DIR:/go/src/github.com/enochtsang/personal-website \
-		-p $2:$2 $IMAGE_NAME ./run.sh "${@:2}"
-
-elif [ "$1" == "articles" ]; then
-	docker run --rm -v $DIR:/go/src/github.com/enochtsang/personal-website \
-		$IMAGE_NAME ./build-articles.sh "${@:2}"
+		-p $PORT:$PORT $IMAGE_NAME ./personal-website $PORT 2>&1 | tee -a ./log/personal-website.log
 else
-	echo "usage: docker_build [init | run | articles]"
+	echo "usage: docker_build [init | build | run]"
 fi
 
