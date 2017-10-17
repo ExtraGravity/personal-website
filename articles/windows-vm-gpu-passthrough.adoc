@@ -13,7 +13,7 @@ So I moved onto dual booting Linux and Windows on my machine.
 Which was great, but with the caveat that whenever I wanted to game, I needed to restart my computer.
 
 This story is common for programmers who are also gamers.
-I would like to choronicle another chapter for the benefit for others.
+I would like to choronicle another chapter for the benefit of others.
 Setting up a Linux host with a Windows VM that has a GPU passed in for gaming.
 
 == Hardware Setup and Prerequisites
@@ -24,8 +24,8 @@ To do this, the following is necessary:
 * A motherboard that supports virtualization
 * 2 video cards
 
-For video cards, I would recommend different branded ones (for example one AMD one NVIDIA) as it simplifies blacklisting drivers.
-Also a CPU with integrated graphics would count as one, such as Intel CPUs (except the Xeons).
+For video cards, I would recommend ones of different brands (for example one AMD one NVIDIA) as it simplifies blacklisting drivers.
+Also a CPU with integrated graphics would count as a "video card", such as Intel CPUs (except the Xeons).
 This article does not cover the case of identical/similar video cards.
 
 Below is a table of the specific hardware I had for my PC.
@@ -43,7 +43,7 @@ Below is a table of the specific hardware I had for my PC.
 |===
 
 From this setup, I also had 2 monitors.
-The monitor I want to game on was connected to the NVIDIA GTX 1080 card, and the other monitor on the Radeon R6450.
+The monitor I wanted to game on was connected to the NVIDIA GTX 1080 card, and the other monitor was on the Radeon R6450.
 
 As a non-hardware prerequisite, I set up a mouse and keyboard to interact with the VM via https://symless.com/synergy/downloads[_Synergy_], this does have a small monetary cost but is well worth it.
 
@@ -70,8 +70,9 @@ I checked by looking for AMD-Vi entries in dmesg.
 
 === Enable Modules
 
-Add the following to `/etc/modules`.
+Next was adding the following to `/etc/modules`.
 
+[source, txt]
 ----
 pci_stub
 vfio
@@ -87,11 +88,12 @@ The last line will be `kvm_intel` for intel CPUs.
 
 === Determine GPU PCI IDs
 
-Next was getting the PCI IDs for both the and video card and audio component.
+Next was getting the PCI IDs for both the and video card and corresponding audio component.
 I did this with `lspci -nn | grep -A1 VGA`.
-Searching for `VGA` found the video cards, and `-A1` showed the line below as well, which is likely the audio components.
+Searching for `VGA` found the video cards, and `-A1` showed the line below as well, which likely shows the corresponding audio component.
 
 This was my output:
+
 [source, bash]
 ----
 ~ $ lspci -nn | grep -A1 VGA
@@ -102,7 +104,7 @@ This was my output:
 ----
 
 So I can see my AMD card and my NVIDIA card.
-I wanted to stub out the NVIDIA card because that's the one I plan to use for the VM.
+I wanted to stub out the NVIDIA card because that's the one I planned to use for the VM.
 The important values there were `[10de:1b80]` and `[10de:10f0]`, for video and audio respectively.
 
 === Kernel Boot Changes
@@ -114,14 +116,15 @@ I did this by editing the `/etc/default/grub` file and adding arguments to the `
 There are 3 things that must be done.
 
 . The video card being passed through must be blacklisted.
-To blacklist the other video card, I used `nouveau.blacklist=1`.
+To blacklist the video card, I used `nouveau.blacklist=1`.
 `nouveau` is for nvidia cards, `radeon` for AMD.
 . IOMMU groups must be enabled.
-To enable IOMMU support in the kernel at boot time add `amd_iommu=on` (`intel_iommu=on` for intel CPUs).
+To enable IOMMU support in the kernel at boot time add `amd_iommu=on`, or `intel_iommu=on` for Intel CPUs.
 . The video card being passed through must be stubbed out.
-To stub out the video card with `pci-stub`, add `pci-stub.ids=10de:1b80,10de:10f0` (with the correct IDs from the previous step).
+To stub out the video card with `pci-stub`, add `pci-stub.ids=10de:1b80,10de:10f0` (using the IDs from the previous step).
 
 This is what my `/etc/default/grub/` file ended up looking like.
+[source, txt]
 ----
 GRUB_DEFAULT=0
 GRUB_HIDDEN_TIMEOUT=0
@@ -134,12 +137,12 @@ GRUB_CMDLINE_LINUX="nouveau.modeset=0 nouveau.blacklist=1 amd_iommu=on pci-stub.
 
 NOTE: I needed _nouveau.modeset=0_ before setting up all this otherwise loading into Linux would crash.
 
-Finally, run `sudo update-grub` to update grub with the new variables.
+Then `sudo update-grub` will load the changes into grub with the new variables.
 
 === Reboot and Check
 
 After all these changes, a reboot was necessary to load up the new kernel changes.
-With all these changes, calling the following: `lsmod | grep vfio`, `dmesg | grep pci-stub`, `dmesg | grep VFIO`, should give output similar to the following.
+With all these changes, calling `lsmod | grep vfio`, `dmesg | grep pci-stub`, `dmesg | grep VFIO` should give output similar to the following.
 
 [source, bash]
 ----
@@ -164,7 +167,10 @@ vfio                   28672  2 vfio_iommu_type1,vfio_pci
 
 I installed the following packages for my VM.
 
-    sudo apt-get install qemu-kvm qemu-utils qemu-efi ovmf libvirt-bin libvirt-dev libvirt0 virt-manager gir1.2-spice-client-gtk-3.0
+[source, bash]
+----
+sudo apt-get install qemu-kvm qemu-utils qemu-efi ovmf libvirt-bin libvirt-dev libvirt0 virt-manager gir1.2-spice-client-gtk-3.0
+----
 
 QEMU is the actual virtual machine software.
 OVMF is a port of Intel's tianocore firmware to the QEMU virtual machine.
@@ -183,7 +189,7 @@ This was installed in the previous step.
 After installing windows, in _Boot Options_, I changed the boot device order to boot from _IDE Disk 1_ so that it would boot off the installed Windows on the virtual hard drive.
 
 From there I installed and set up https://symless.com/synergy/downloads[_Synergy_].
-I also needed to installthe http://www.nvidia.com/Download/index.aspx?lang=en-us[NVIDIA driver] before I see anything on the display connected to the VM card.
+I also needed to install the http://www.nvidia.com/Download/index.aspx?lang=en-us[NVIDIA driver] before I could see anything on the display connected to the VM card.
 Once _Synergy_ and the driver were setup, I turned off the VM and made the following hardware changes.
 
 Remove
@@ -196,7 +202,7 @@ Add
 * The VM graphics card through the PCI Host Device option, I added both the video card and audio component.
 
 In addition to making the hardware changes, the VM needed some configuration in the XML as well.
-This is because the NVIDIA driver for some NVIDIA cards (such as the 1080) fails if it detects a VM environment.
+This is because the NVIDIA driver for some cards (such as the 1080) fails if it detects a VM environment.
 So to trick the driver into thinking it's not a VM, it just takes adding a parameter to the XML.
 Through `virsh edit <vm-name>` I added the following `<kvm>` tag in to the `<features>` section.
 
@@ -212,25 +218,24 @@ Through `virsh edit <vm-name>` I added the following `<kvm>` tag in to the `<fea
 ----
 
 Now when you turn on the VM, the gaming monitor should light up for the first time via the other graphics card.
-Then came the magical moment of turning on the VM and seeing the gaming monitor come alive.
 
 == Future Work
 
-So after all that I successfully ran a Windows VM in Linux that used a physical GPU.
+So after all that, I successfully ran a Windows VM in Linux that used a physical GPU.
 But there is more work to be done as it was more of an experimental motion for myself since I have decided not to use it as my everyday setup.
 The outstanding issues are joint audio, disk drive passthrough, benchmarking, and a KVM AMD bug.
 
 For joint audio, there are a number of proposed solutions online.
 The most canonical solution, in the spirit of virtualization, would be to pass a virtual sound card from the host into the virtual machine.
 Then pass the virtual sound card's output to an audio handler in the host (PulseAudio or ALSA).
-The virtual sound card solution seemed to have varying levels of success.
+The virtual sound card solution seemed to have varying levels of success for others online.
 For myself, I want to take an easier solution by making use of the second audio-in slot on my speakers.
 I would buy a physical USB sound card to plug into my system and pass it to the Windows VM, USB passthrough is well supported so this shouldn't be difficult.
 Then I would connect the virtual sound card's output to my speaker's second audio in.
 
 Another idea I would like to explore later is installing Windows on a second physical drive, and booting off of it in both VM and baremetal fashions.
 Hard disk passthrough looks to be consistently done from other people online.
-It is hard to say whether a single Windows installation would deal well with booting in both a VM and baremetal environment.
+It is hard to say whether a single Windows installation would deal well with booting up in both a VM and baremetal environment.
 I think the biggest concern is that the hardware visible to the Windows installation would change often.
 
 There are some reports online of people getting higher benchmarks with GPU passthrough than on baremetal.
