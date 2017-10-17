@@ -1,14 +1,15 @@
 .about-content {
-	width: 90%;
-	min-width: 500px;
-	display: flex;
-	justify-content: center;
-	cursor: text;
+    width: 90%;
+    min-width: 500px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: text;
 }
 
 @media (max-width: 700px) {
     .about-content {
-    	flex-direction: column;
+        flex-direction: column;
     }
 
     .about-profile {
@@ -16,21 +17,22 @@
 }
 
 .about-description {
-	display: flex;
-	flex-direction: column;
-	justify-content: center;
-	margin-bottom: 2rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    margin-bottom: 2rem;
 }
 
 .about-content p {
-	margin: 11px;
-	font-size: 1.2em;
-	text-align: left;
+    margin: 11px;
+    font-size: 1.2em;
+    text-align: left;
 }
 
 .about-profile {
-	width: auto;
-	height: 40rem;
-    margin: auto;
+    width: auto;
+    height: 30rem;
+    margin: 4rem;
+    border: 3px solid #888;
     display: block;
 }
