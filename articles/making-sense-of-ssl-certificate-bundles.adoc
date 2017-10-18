@@ -3,17 +3,18 @@
 
 Recently at my workplace Calgary Scientific Inc., I was tasked with updating the SSL certificate on one of our company websites.
 I had setup self-signed certificates for testing environments before, but this was my first run in with an actual signed certificate, and getting that green lock beside the URL.
-As I was reading through guides online, one of the biggest issues I faced was that all the guides threw around words like “root certificate” or “CSR”, but I couldn’t identify what was what and I didn’t know where to put them.
+As I was reading through guides online, one of the biggest issues I faced was that all the guides threw around words like _root certificate_ or _CSR_, but I couldn’t identify what was what and I didn’t know where to put them.
 So here’s to giving back to the community a resource that would have greatly helped me.
 
-If you’re looking for a practical resource for setting up SSL I hope this post proves to be valuable for you, if you’re looking for how SSL works and why it is important you should look somewhere else.
+If you’re looking for a practical resource for setting up SSL I hope this post proves to be valuable for you.
+If you’re looking for how SSL works and why it is important you should look somewhere else.
 
 == Terminology
 
 === SSL vs TLS
 
 SSL and TLS talk about the same practice.
-In your Googling adventures, a “Setting up TLS” guide and a “Setting up SSL” guide can be seen as teaching the same thing.
+In your Googling adventures, a _Setting up TLS_ guide and a _Setting up SSL_ guide can be seen as teaching the same thing.
 TLS is just an updated version of SSL, you can think of TLS 1.0 as SSL 3.1.
 
 === Certificate Authority (CA)
@@ -60,7 +61,9 @@ After sending the CSR to a CA, they will give back to you a bunch of certificate
 
 This is the only file that is top secret.
 When you generate your CSR you will generate one of these as well, it will usually be a `.key` or `.pem` file.
-This gets put somewhere on your server and shouldn’t go anywhere else, don’t email it around and don’t send it to your CA. When you generate a CSR you will generate one of these as well. It will look something like below.
+This gets put somewhere on your server and shouldn’t go anywhere else.
+Don’t email it around and don’t send it to your CA.
+When you generate a CSR you will generate one of these as well, it will look something like below.
 
 [source,txt]
 .Example private key file
@@ -76,7 +79,8 @@ QusrAMoo+1qw+GZdSaayLt0njNve030EdQykRxO+21
 
 === Certificate
 
-These files usually end in .crt. The server, root, and intermediate certificates will be in this format (again I’ve omitted most of the hash).
+These files usually end in `.crt`.
+The server, root, and intermediate certificates will be in this format (again I’ve omitted most of the hash).
 
 [source,txt]
 .An example certificate
@@ -90,7 +94,7 @@ ghz/cB1StFlDhCW7maxjvx6Uc3eBSnHYEjxiSUp/297QJw==
 -----END CERTIFICATE-----
 ----
 
-When you open up certificates in a text editor, you just see a big hash, but you can inspect certificates for more information using the openssl command in Linux.
+When you open up certificates in a text editor, you just see a big hash, but you can inspect certificates for more information using the `openssl` command in Linux.
 
 [source,bash]
 .Inspecting a certificate with openssl
@@ -109,7 +113,7 @@ You can inspect a file by using the `openssl` command in Linux or by double clic
 
 === Root Certificate
 
-This is a special certificate that you receive that is self-signed by the CA.
+This is a special certificate that is self-signed by the CA.
 This is going to be at the top of your certificate chain if you need one.
 You can identify this by looking at the subject and issuer field when inspecting.
 A root certificate will have the exact same subject and issuer field.
@@ -122,7 +126,7 @@ If a certificate you have received is not a server or root certificate, it is pr
 
 This is also usually a `.crt` file, this file contains many certificates inside and might look something like this.
 
-[source,bash]
+[source,txt]
 .Example of a certificate chain file
 ----
 -----BEGIN CERTIFICATE-----
@@ -144,13 +148,14 @@ WQPJIrSPnNVeKtelttQKbfi3QBFGmh95DmK/D5fs4C8fF5Q=
 
 Sometimes, you have to create this yourself with all the certificates you’ve gotten.
 All you need to do is concatenate different certificate files (it’s as simple as it sounds), like the root and intermediate certificate.
-Also note that order matters, the root certificate should be at the very top as well as preserving any previous order when you received it from your CA.
+Also note that order matters, the root certificate should be at the very top, as well as preserving any previous order when you received it from your CA.
 
 == Example Procedure
 
 For an idea of how this all comes together, I’ll outline how I set up a certificate bundle onto a website hosted on Amazon Cloudfront.
 
-The first step for me was creating a CSR, the domain name will be squeakychickens.com. So the command would be:
+The first step for me was creating a CSR, the domain name will be _squeakychickens.com_.
+So the command would be:
 
 [source,txt]
 ----
@@ -164,7 +169,7 @@ Now we keep the `squeakychickens.key` file somewhere safe and the `squeakychicke
 In my case, I had to pass it off to my IT department to get signed, I also had to tell them the type of webserver I was using, the options were IIS, Apache, Exchange, Tomcat, Mac OS X, or Other.
 Amazon Cloudfront would be an "Other" answer.
 
-Afterwards, I was given 3 files as the certificate bundle from CA.
+Afterwards, I was given 3 files as the certificate bundle from the CA.
 
 * `b2ab06783cf5992f.crt`
 * `sf_bundle-g2-g1.crt`
@@ -193,7 +198,7 @@ I wrote up how to identify the server certificate above in the terminology secti
 
 * The `private-key` was the other file I generated when I created the csr, `squeakychickens.key`.
 
-* The `certificate-chain` is was a little more complicated.
+* The `certificate-chain` was was a little more complicated.
 This needed to be a combination of all the other certificates I received.
 I created a new file called `chain.crt` then copied the contents of the root certificate `sfroot-g2.crt` into it.
 Below that that, I copied the contents of the intermediate certificate `sf_bundle-g2-g1.crt`.
@@ -201,7 +206,7 @@ In my case this file was already a certificate chain (it had multiple certificat
 Note that the order of the certificates in `chain.crt` does matter!
 I wrote up how to identify the root and intermediate certificates above in the terminology section.
 
-* The path is just where to upload it on Amazon, for Cloudfront distributions the `/cloudfront/` path will work.
+* The path is just where to upload it on Amazon, for Cloudfront distributions the `/cloudfront/` path was fine.
 
 With that figured out, the command I used to successfully push up the SSL certificate was:
 
