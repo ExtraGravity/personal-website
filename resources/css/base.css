@@ -24,8 +24,8 @@ body {
 
 @media (orientation: portrait) {
     body {
+        background-color: #DFDFDF;
         background-image: url("/resources/images/geometric-mobile.jpg");
-        background-position-y: -5vh;
     }
 }
 
