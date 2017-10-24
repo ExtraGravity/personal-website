@@ -125,7 +125,7 @@ function changeContent(pageToReq, pushHistory) {
             console.log("Changing content to: " + pageToReq);
             $(".main-content").html(response);
             insertContent();
-            if(push) {
+            if(pushHistory) {
                 window.history.pushState(null, null, pageToReq);
             }
         });
