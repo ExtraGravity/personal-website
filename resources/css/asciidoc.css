@@ -4,12 +4,13 @@
 	min-width: 500px;
 
 	margin-bottom: 4rem;
-	
+
+	overflow: hidden;
 	text-align: left;
 	font-family: 'Lora', serif;
 }
 
-.article-content p, 
+.article-content p,
 .article-content li {
 	font-size: 1.1rem;
 	line-height: 1.8rem;
@@ -41,6 +42,10 @@
 	list-style-type: decimal;
 }
 
+.article-content a {
+	word-break: break-all;
+}
+
 .article-content img {
 	display: block;
 	margin: 1rem auto;
@@ -56,7 +61,7 @@
 .article-content h5,
 .article-content h6 {
 	margin-bottom: 2rem;
-    
+
 	text-align: left;
     font-family: 'Raleway', sans-serif;
 	text-transform: uppercase;
@@ -141,10 +146,10 @@
 .article-content pre {
 	margin: 9px 0px;
 	padding: 6px 10px;
-	
+
 	border: 2px solid #666;
 	box-shadow: 5px 5px 10px #888888;
-	
+
 	line-height: 1rem;
 }
 
@@ -173,7 +178,7 @@
 	color: black;
     font-size: 0.8rem;
     font-style: italic;
-    text-align: right; 
+    text-align: right;
 }
 
 .article-content .admonitionblock {
@@ -208,7 +213,7 @@
 .article-content th, td {
 	border: 2px solid #999;
 	padding: 9px;
-	text-align: center; 
+	text-align: center;
 }
 
 .article-content th {
@@ -218,7 +223,7 @@
 .quoteblock {
 	font-family: 'Lora', serif;
 	border-left: 2px solid #999;
-	margin-top: 0.5rem; 
+	margin-top: 0.5rem;
 	margin-bottom: 0.5rem;
 	margin-left: 0.8rem;
 	padding-left: 0.8rem;
