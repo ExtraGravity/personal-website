@@ -19,7 +19,7 @@ $(window).on("load", function() {
 });
 
 $(window).bind("popstate", function() {
-    changeContent(window.location.pathname.replace(/\//, ''), false);
+    changeContent(window.location.pathname, false);
 });
 
 
@@ -120,6 +120,11 @@ function handleNavClick(pageToReq) {
 
 function changeContent(pageToReq, pushHistory) {
     closeNavigation()
+    pageToReq = pageToReq.replace(/\//, '')
+    if (pageToReq === "") {
+        window.location.href = window.location.origin;
+        return;
+    }
     removeContent(function() {
         $.get("/api", { page: pageToReq }, function(response) {
             console.log("Changing content to: " + pageToReq);
