@@ -25,13 +25,10 @@ body {
 @media (orientation: portrait) {
     body {
         background-image: url("/resources/images/geometric-mobile.jpg");
+        background-position-y: -5vh;
     }
 }
 
-/*body > header:first-child {
- -webkit-flex: 0 0 auto;
-}
-*/
 h1 {
     font-size: 2em;
     text-align: center;
