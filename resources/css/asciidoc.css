@@ -43,7 +43,7 @@
 }
 
 .article-content a {
-	word-break: break-all;
+	word-wrap: break-word;
 }
 
 .article-content img {
