@@ -83,7 +83,7 @@ function setupNavbarEvents() {
             closeNavigation();
         }
     });
-    
+
     var pages = [
         "about",
         "portfolio",
@@ -110,7 +110,7 @@ function handleNavClick(pageToReq) {
         var navCloseDelay = 250;
         if(MOBILE) {
             navCloseDelay = 700;
-        }    
+        }
 
         setTimeout(function() {
             changeContent(pageToReq, true);
@@ -118,7 +118,7 @@ function handleNavClick(pageToReq) {
     };
 }
 
-function changeContent(pageToReq, push) {
+function changeContent(pageToReq, pushHistory) {
     closeNavigation()
     removeContent(function() {
         $.get("/api", { page: pageToReq }, function(response) {
@@ -126,10 +126,10 @@ function changeContent(pageToReq, push) {
             $(".main-content").html(response);
             insertContent();
             if(push) {
-                window.history.pushState(null, null, pageToReq);            
+                window.history.pushState(null, null, pageToReq);
             }
         });
-    });    
+    });
 }
 
 function removeContent(callback) {
@@ -168,7 +168,7 @@ function insertContent() {
         "-moz-transition":"filter 0.5s ease-out, opacity 0.5s ease-out",
         "-o-transition":"filter 0.5s ease-out, opacity 0.5s ease-out",
     });
-    
+
     $(".main-content").css({
         "opacity": "0",
         "opacity": "1",
