@@ -5,7 +5,7 @@ if( /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(naviga
 }
 
 $(window).on("load", function() {
-    $("header").css("background-image", "none")
+    $("header").css("background-image", "none");
     // Total 1100ms for final load in
     easeInHeader();
     $(".signature").delay(800).fadeIn(300);
@@ -19,7 +19,7 @@ $(window).on("load", function() {
 });
 
 $(window).bind("popstate", function() {
-    changeContent(window.location.pathname, false);
+    changeContent(window.location.pathname.replace(/\//, ''), false);
 });
 
 
