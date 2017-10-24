@@ -18,6 +18,11 @@ $(window).on("load", function() {
     setupSearch();
 });
 
+$(window).bind("popstate", function() {
+    changeContent(window.location.pathname, false);
+});
+
+
 function easeInHeader() {
     $( ".header-bg" ).css({
         "opacity":"1",
@@ -108,23 +113,21 @@ function handleNavClick(pageToReq) {
         }    
 
         setTimeout(function() {
-            changeContent(pageToReq);
+            changeContent(pageToReq, true);
         }, navCloseDelay);
     };
 }
 
-function changeContent(pageToReq) {
+function changeContent(pageToReq, push) {
     closeNavigation()
     removeContent(function() {
         $.get("/api", { page: pageToReq }, function(response) {
             console.log("Changing content to: " + pageToReq);
             $(".main-content").html(response);
-            if (pageToReq.substring(0, 10) != "/articles/") {
-                pageToReq = "/" + pageToReq;
-            }
             insertContent();
-            console.log(pageToReq);
-            window.history.pushState(null, null, pageToReq);
+            if(push) {
+                window.history.pushState(null, null, pageToReq);            
+            }
         });
     });    
 }

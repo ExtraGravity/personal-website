@@ -26,7 +26,7 @@ function setupSearch() {
                     console.log(currentPicked);
                     console.log(currentPicked.attr("link-val"));
                     var pageToReq = currentPicked.attr("link-val");
-                    changeContent(pageToReq);
+                    changeContent(pageToReq, true);
                     break;
                 case 38: // up
                     if (currentPicked.prev().length) { // ensure a prev
