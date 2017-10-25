@@ -1,60 +1,74 @@
 .articles-content {
-	display: flex;
-	flex-direction: column;
-	justify-content: center;
-	width: 90%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    width: 90%;
 }
 
 .articles-content h1 {
-	margin-bottom: 1rem;
+    margin-bottom: 1rem;
 }
 
 .articles-content hr {
-	width: 80%;
-	height: 2px;
-	border: none;
-	background: black;
-	margin: auto;
+    width: 80%;
+    height: 2px;
+    border: none;
+    background: black;
+    margin: auto;
 }
 
-.articles-list {
-	display: flex;
-	flex-wrap: wrap;
-	margin-top: 1rem;
-	margin-left: 1rem;
-	margin-right: 1rem;
+.articles-listing {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 1rem;
+    margin-left: 1rem;
+    margin-right: 1rem;
     justify-content: space-around;
 }
 
+.articles-section {
+    width: 80%;
+}
+
+.articles-section h2 {
+    font-style: italic;
+    text-align: left;
+}
+
+.articles-list {
+    width: 100%;
+    padding: 1rem;
+}
+
 .articles-list a {
-	width: 22%;
-	display: flex;
-	justify-content: center;
-	align-items: center;
-	padding: 2rem 1rem;
-	cursor: pointer;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    padding: 0.7rem 1.5rem;
+
+    cursor: pointer;
     font-family: 'Share Tech Mono', monospace;
-    text-transform: uppercase;
     color: black;
 }
 
 @media (max-width: 700px) {
-	.articles-list a {
-		width: 30%;
-	}
+    .articles-list a {
+        width: 30%;
+    }
 }
 
 .articles-list a:hover {
-	color: #DDD;
-	background: #444;
+    color: #DDD;
+    background: #444;
 }
 
 .articles-list a:focus {
-	color: #DDD;
-	background: #444;
+    color: #DDD;
+    background: #444;
 }
 
 .articles-list a:active {
-	color: #DDD;
-	background: #444;
+    color: #DDD;
+    background: #444;
 }

@@ -9,14 +9,7 @@ import (
 )
 
 type PagesList struct {
-	Articles []Article
-	Pages    []string
-}
-
-type Article struct {
-	Name  string
-	URL   string
-	Title string
+	Pages []string
 }
 
 func pageListHandler(w http.ResponseWriter, r *http.Request) {
@@ -47,11 +40,6 @@ func getPagesList() PagesList {
 		suffix := ".html"
 		if strings.HasSuffix(f.Name(), ".html") {
 			noSuffix := f.Name()[:len(f.Name())-len(suffix)]
-			pagesList.Articles = append(pagesList.Articles, Article{
-				Name:  noSuffix,
-				URL:   "/articles/" + noSuffix,
-				Title: generateTitle(noSuffix),
-			})
 			pagesList.Pages = append(pagesList.Pages, "/articles/"+noSuffix)
 		}
 	}

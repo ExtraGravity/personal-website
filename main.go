@@ -3,11 +3,24 @@ package main
 import (
 	"fmt"
 	"html/template"
+	"io/ioutil"
 	"net/http"
 	"os"
 	"path"
 	"path/filepath"
+
+	"gopkg.in/yaml.v2"
 )
+
+type ArticleSections struct {
+	Name    string
+	Sources []Article
+}
+
+type Article struct {
+	URL   string
+	Title string
+}
 
 func absPath(relativePath string) string {
 	dir, err := filepath.Abs(filepath.Dir(os.Args[0]))
@@ -64,8 +77,27 @@ func articlesPageHandler(w http.ResponseWriter, r *http.Request) {
 	t := template.Must(template.ParseFiles(
 		absPath("templates/base.html"),
 		absPath("templates/pages/articles.html")))
-	err := t.ExecuteTemplate(w, "base", getPagesList())
+	err := t.ExecuteTemplate(w, "base", getArticlesConfig())
 	check(err, true)
+}
+
+func getArticlesConfig() []ArticleSections {
+	articlesFile, err := ioutil.ReadFile(path.Join(filepath.Dir(os.Args[0]), "articles.yml"))
+	if err != nil {
+		check(err, false)
+		return []ArticleSections{}
+	}
+
+	var articlesConfig []ArticleSections
+	err = yaml.Unmarshal(articlesFile, &articlesConfig)
+	if err != nil {
+		check(err, false)
+		return []ArticleSections{}
+	}
+
+	fmt.Println("Articles Config ", articlesConfig)
+
+	return articlesConfig
 }
 
 func apiHandler(w http.ResponseWriter, r *http.Request) {
@@ -87,7 +119,7 @@ func apiHandler(w http.ResponseWriter, r *http.Request) {
 
 		t := template.Must(template.ParseFiles(absPath(pageTmpl)))
 		if page == "articles" {
-			err := t.ExecuteTemplate(w, "content", getPagesList())
+			err := t.ExecuteTemplate(w, "content", getArticlesConfig())
 			check(err, true)
 		} else {
 			err := t.ExecuteTemplate(w, "content", nil)

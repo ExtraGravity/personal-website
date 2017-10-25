@@ -2,9 +2,16 @@
 <div class="articles-content">
 	<h1>Articles</h1>
 	<hr>
-	<div class="articles-list">
-	{{range .Articles}}
-		<a url="{{.URL}}"><h3>{{.Title}}</h3></a>
+	<div class="articles-listing">
+	{{range .}}
+		<div class="articles-section">
+			<h2>{{.Name}}</h2>
+			<div class="articles-list">
+			{{range .Sources}}
+				<a url="{{.URL}}"><h3>{{.Title}}</h3></a>
+			{{end}}
+			</div>
+		</div>
 	{{end}}
 	</div>
 </div>

@@ -120,7 +120,7 @@ function handleNavClick(pageToReq) {
 
 function changeContent(pageToReq, pushHistory) {
     closeNavigation()
-    pageToReq = pageToReq.replace(/\//, '')
+    pageToReq = pageToReq.replace(/^\/|\/$/g, '')
     if (pageToReq === "") {
         window.location.href = window.location.origin;
         return;

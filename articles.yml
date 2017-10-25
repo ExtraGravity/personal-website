@@ -1,0 +1,17 @@
+---
+- name: "Programming"
+  sources:
+    - title: "SVG vs Canvas in Practice"
+      url: "articles/svg-vs-canvas"
+- name: "Systems"
+  sources:
+    - title: "Making Sense of SSL Certificate Bundles"
+      url: "articles/making-sense-of-ssl-certificate-bundles"
+    - title: "Scaling Two Monitors Differently on Linux Mint"
+      url: "articles/scaling-two-monitors-differently-on-linux-mint"
+    - title: "Windows VM on Linux with GPU Passthrough"
+      url: "articles/windows-vm-gpu-passthrough"
+- name: "Non-Technical"
+  sources:
+    - title: "An Approach to Reviewing Code"
+      url: "articles/an-approach-to-reviewing-code"
