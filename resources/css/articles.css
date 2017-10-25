@@ -41,6 +41,10 @@
     padding: 1rem;
 }
 
+.articles-list h3 {
+    text-align: left;
+}
+
 .articles-list a {
     display: flex;
     justify-content: flex-start;
@@ -50,12 +54,6 @@
     cursor: pointer;
     font-family: 'Share Tech Mono', monospace;
     color: black;
-}
-
-@media (max-width: 700px) {
-    .articles-list a {
-        width: 30%;
-    }
 }
 
 .articles-list a:hover {
