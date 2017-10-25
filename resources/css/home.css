@@ -14,3 +14,7 @@
 .home h3 {
 	margin: 1rem;
 }
+
+.home a:hover {
+	cursor: pointer;
+}
