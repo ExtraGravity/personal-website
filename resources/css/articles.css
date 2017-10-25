@@ -6,7 +6,18 @@
 }
 
 .articles-content h1 {
+    width: 80%;
+    margin: auto;
     margin-bottom: 1rem;
+    padding: 1rem 1.5rem;
+
+    text-align: left;
+    font-family: 'Raleway', sans-serif;
+    text-transform: uppercase;
+
+    box-shadow: 5px 5px 10px #888888;
+    color: white;
+    background: #444;
 }
 
 .articles-content hr {
@@ -37,7 +48,6 @@
 }
 
 .articles-list {
-    width: 100%;
     padding: 1rem;
 }
 
@@ -53,20 +63,15 @@
 
     cursor: pointer;
     font-family: 'Share Tech Mono', monospace;
-    color: black;
-}
-
-.articles-list a:hover {
     color: #DDD;
     background: #444;
+    margin-bottom: 2px;
+    border-left: 1rem solid #EE7600;
 }
 
-.articles-list a:focus {
-    color: #DDD;
-    background: #444;
-}
-
+.articles-list a:hover,
+.articles-list a:focus,
 .articles-list a:active {
-    color: #DDD;
-    background: #444;
+    border-left: 1rem solid #E6B400;
+    background: #555;
 }
