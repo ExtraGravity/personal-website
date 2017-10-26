@@ -40,15 +40,17 @@
 
 .articles-section {
     width: 80%;
+    margin-bottom: 1rem;
 }
 
 .articles-section h2 {
+    font-weight: bold;
     font-style: italic;
     text-align: left;
 }
 
 .articles-list {
-    padding: 1rem;
+    padding: 1rem 1.5rem;
 }
 
 .articles-list h3 {
@@ -63,7 +65,7 @@
 
     cursor: pointer;
     font-family: 'Share Tech Mono', monospace;
-    color: #DDD;
+    color: #EEE;
     background: #444;
     margin-bottom: 2px;
     border-left: 1rem solid #EE7600;
