@@ -8,6 +8,11 @@ NC='\033[0m'
 ADOC_SUFFIX=".adoc"
 HIGHLIGHTER=coderay
 
+SED=sed
+if [[ "$OSTYPE" == "darwin"* ]]; then
+    SED=gsed
+fi
+
 echo "Minifying CSS"
 minify \
     resources/css/reset.css \
@@ -38,8 +43,8 @@ for ADOC_FILE in articles/*$ADOC_SUFFIX; do
     TMPL_FILE=$DIR/templates/pages/$NAME.html
 
     asciidoc -s -o $TMPL_FILE $ADOC_FILE
-    sed -i '1i{{define "content"}}' $TMPL_FILE
-    sed -i '2i<div class="article-content">' $TMPL_FILE
+    $SED -i '1i{{define "content"}}' $TMPL_FILE
+    $SED -i '2i<div class="article-content">' $TMPL_FILE
     echo '</div>' >> $TMPL_FILE
     echo '{{end}}' >> $TMPL_FILE
 done
