@@ -19,7 +19,7 @@ body {
     justify-content: space-between;
     align-items: center;
 
-    font-family: 'Raleway', sans-serif;
+    font-family: 'Open Sans', sans-serif;
 }
 
 @media (orientation: portrait) {
