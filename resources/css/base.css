@@ -357,6 +357,9 @@ header {
 }
 
 .main-content-container {
+    -webkit-transform: translate3d(0, 0, 0);
+    -webkit-backface-visibility: hidden;
+    -webkit-perspective: 1000;
     width: 100%;
     display: flex;
     justify-content: center;
