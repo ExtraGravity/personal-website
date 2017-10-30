@@ -10,6 +10,17 @@
 	font-family: 'Open Sans', sans-serif;
 }
 
+.article-content .docdate {
+	display: block;
+	width: 100%;
+	text-align: right;
+
+	padding-right: 1rem;
+
+	font-style: italic;
+	font-size: 0.8rem;
+}
+
 .article-content p,
 .article-content li {
 	font-size: 1.1rem;

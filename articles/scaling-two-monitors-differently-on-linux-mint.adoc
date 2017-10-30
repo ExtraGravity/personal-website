@@ -1,6 +1,8 @@
 [float]
 = Scaling Two Monitors Differently on Linux Mint
 
+[docdate]#Written by Enoch Tsang on October 15th, 2017#
+
 As a programmer, a 4K monitor provides a lot more real estate to work with and is just very aesthetically pleasing.
 As a gamer, a high refresh monitor looks and feels phenomenal.
 Being both, I decided to buy one of each monitor, but setting up both on Linux Mint proved to be a little finicky.

@@ -1,6 +1,8 @@
 [float]
 = Windows VM with GPU Passthrough
 
+[docdate]#Written by Enoch Tsang on October 16th, 2017#
+
 It is becoming more and more viable to create a Windows VM in Linux that utilizes a GPU.
 The motivation to do this is for many programmers who are also gamers.
 To have Linux as a development environment, and Windows for gaming.

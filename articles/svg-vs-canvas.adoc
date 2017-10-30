@@ -1,6 +1,8 @@
 [float]
 = SVG vs Canvas in Practice
 
+[docdate]#Written by Enoch Tsang on April 25th, 2017#
+
 The pentagon animation in the navigation bar was originally created using the html `<canvas>` tag.
 Although using a canvas wasn't particularly difficult, there were a few pain points:
 
@@ -386,4 +388,3 @@ Also since SVG is defined in XML, it can be directly embedded in HTML, keeping s
 
 The use case for canvas is not dynamic icons in a web page, but rather complex pixel level problems.
 In the future I hope to employ SVG graphics in more of my work and have the experience of creating complicated exceptional graphics using SVG.
-

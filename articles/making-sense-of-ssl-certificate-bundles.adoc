@@ -1,6 +1,8 @@
 [float]
 = Making Sense of SSL Certificate Bundles
 
+[docdate]#Written by Enoch Tsang on October 21st, 2016#
+
 Recently at my workplace Calgary Scientific Inc., I was tasked with updating the SSL certificate on one of our company websites.
 I had setup self-signed certificates for testing environments before, but this was my first run in with an actual signed certificate, and getting that green lock beside the URL.
 As I was reading through guides online, one of the biggest issues I faced was that all the guides threw around words like _root certificate_ or _CSR_, but I couldn’t identify what was what and I didn’t know where to put them.

@@ -1,6 +1,8 @@
 [float]
 = An Approach for Reviewing Code
 
+[docdate]#Written by Enoch Tsang on August 4th, 2017#
+
 Code reviews are awesome, they are an absolute must have for any group of people developing software together.
 But from the perspective of the code reviewer, they are tricky to conduct in practice.
 There are a number of hurdles to conducting thorough code reviews:
