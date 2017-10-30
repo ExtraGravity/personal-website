@@ -15,3 +15,7 @@
   sources:
     - title: "An Approach to Reviewing Code"
       url: "articles/an-approach-to-reviewing-code"
+- name: "Other"
+  sources:
+      - title: "Pyramid Head Cosplay Walkthrough"
+        url: "articles/pyrmaid-head-cosplay"
