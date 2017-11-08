@@ -215,6 +215,13 @@
 	text-align: right;
 }
 
+
+.article-content .paragraph .title {
+	font-size: 0.8rem;
+	font-style: italic;
+	text-align: center;
+}
+
 .article-content .icon {
 	vertical-align: middle;
 	text-transform: uppercase;
