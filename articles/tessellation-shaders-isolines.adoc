@@ -538,7 +538,7 @@ Gets replaced with:
 	vec4 new_pos = 0.5f * (b0*p_1 + b1*p0 + b2*p1 + b3*p2);
 ----
 
-And voila, the points for a curve is calculated.
+And voila, the points for a curve are calculated.
 
 ==== Using the gl_TessCoord.y Value
 
@@ -554,7 +554,7 @@ We can use this value to slightly move each line so that they are in different l
 
 So here we shift the calculated x and y, forward and up respectively, based on the `gl_TessCoord.y` value.
 So for the first isoline, `v == 1`, the line will be forward and up by `0.08`.
-The second isoline, `v == 2`, the line will be forward and up by `0.08` and so on.
+The second isoline, `v == 2`, the line will be forward and up by `0.16` and so on.
 So each isoline gets placed in a slightly different location.
 The end result is what you see in the final result.
 
