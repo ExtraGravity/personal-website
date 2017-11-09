@@ -1,0 +1,595 @@
+[float]
+= Tessellation Shaders and Isolines
+
+[docdate]#Written by Enoch Tsang on November 8th, 2017#
+
+I had the chance to take a graphics class at the University of Calgary, CPSC 453.
+In this class we learned the mathematical basis for many graphics algorithms like dithering and splines for curve interpolation, the tests were based on this material.
+On the other hand, the assignments for the course were quite different, we were asked to do "basic" things in OpenGL.
+I quote basic because since OpenGL is so low level, even simple things are fairly difficult.
+
+In the second assignment, we were asked to draw Catmull-Rom splines on top of an image.
+Go to the <<catmull-rom-spline, Catmull-Rom Splines section>> if you need some background information on that.
+
+.Catmull-Rom Spline link:https://upload.wikimedia.org/wikipedia/commons/4/42/Catmull-Rom_Spline.png[source]
+image:/resources/images/tessellation-shaders-isolines/catmull-rom-spline.png[alt="catmull-rom-spline",width=500]
+
+Drawing a Catmull-Rom spline involves drawing curves, curves are best handled with tessallation shaders.
+When I was looking online, guides for Tessallation shaders weren't very easy to follow.
+This assignment also needed to be done with link:https://www.khronos.org/opengl/wiki/Tessellation_Evaluation_Shader#Abstract_patch_type[isolines, (as opposed to triangles or quads)], but the few guides that were online were mostly done with triangles!
+
+In this article, I would like to provide a guide on using tessallation shaders in OpenGL with the isolines patch type.
+*Although this article is focused mainly on isolines, I do not assume that you know anything about tessallation shaders.*
+
+== Reader Assumptions
+
+In this article, I will write on the assumption that the reader (you) have a basic knowledge of:
+
+* C++, just syntactically so you can follow the code snippets.
+* Vertex and Fragment Shaders in OpenGL.
+Not a deep knowledge isn't necessary, just the basics of their inputs and outputs.
+* _Vertex Buffer Objects_, _Vertex Array Objects_, and _Element Buffer Objects_ in OpenGL.
+I will touch shortly on their usage but I won't be extensive.
+* Basic algebra, to follow the Catmull-Rom Splines application, some algebraic knowledge will be required.
+
+If you don't know OpenGL at all, I would highly recommend the link:https://learnopengl.com/[learnopengl guides].
+In the midst of poor documentation and few beginner friendly guides online, _learnopengl_ stood out as the go to place for information.
+
+Unfortunately, _learnopengl_ was written for OpenGL 3.3, before tessallation was introduced to the standard, so tessellation shaders were not covered in the guides.
+
+== What is Tessallation
+
+OpenGL mandates only two kinds of shaders for rendering, the vertex shader and the fragment shader.
+
+. The vertex shader `main()` is run for every vertex and calculates per vertex attributes.
+This is a great place for transforming vertices to post-projection space.
+For example say you wanted to translate your entire vertex array a couple units up, it's more efficient to do this in the vertex shader where the GPU parallelizes all the calculations (what it's good at), compared to your C++ code where the CPU would handle it.
+
+. The fragment shader `main()` provides color and isn't supposed to do transformations per vertex.
+
+With just these two, if we wanted to draw a curve, we would need to pass generate every vertex in the curve in the CPU, very slow!
+
+Somewhere in between the vertex shader and the fragment shader, we need to generate more vertices than just the ones given to the vertex shader (the ones made in the C/C++ code).
+Tessallation shaders are great for this purpose.
+In a nutshell, tessallation is a step in the rendering pipeline to help us create more vertices to work with then we had in the vertex shader.
+
+=== Tessellation in the Rendering Pipeline
+
+Tessallation is right after the vertex shader in the Rendering Pipeline, and it comes in 3 parts:
+
+. Tessellation Control Shader (*TCS*)
+. Tessellation Primitive Generation (*TPG*)
+. Tessellation Evaluation Shader (*TES*)
+
+.Rendering Pipeline link:http://prideout.net/blog/p48/ShaderStages.png[source]
+image:/resources/images/tessellation-shaders-isolines/opengl-pipeline.png[alt="Rendering Pipeline",width=300]
+
+NOTE: Tessellation is totally optional in the rendering pipeline.
+To not include the tessallation stage, just don't include attach a TCS or TES in the shader program.
+
+The TCS and TES stages are programmable, the TPG stage is _fixed function_.
+On top of that, the TCS is also optional, it is fine to just include a TES with no TCS.
+What I mean by programmable is that a shader is written for them, _fixed function_ you can't directly alter how this works, you can just affect the outputs with the input.
+
+In broad terms to have a grasp at what happens in each stage we can say:
+
+. The TCS says how much to tessellate the vertices, and also modifies the control (original) vertices.
+
+. The TPG actually does the tessellation based off what was decided in the TCS, and determines how many new vertexes there will be.
+This stage doesn't determine where the points are!
+Just how many.
+
+. The TES is what actually determines where every point is in OpenGL space (-1 to 1).
+It iterates through all the points created by the TPG, and for each one decides where in OpenGL space it goes.
+
+[[catmull-rom-spline]]
+== Catmull-Rom Spline Background
+
+Before we continue, some knowledge on Catmull-Rom splines is required.
+In a nutshell, a Catmull-Rom spline is an algorithm to draw a smooth curve through many points.
+In math terms, that means at any point, the derivative (slope) immediately to the left and right of a point are equal.
+
+.Catmull-Rom Spline link:https://upload.wikimedia.org/wikipedia/commons/4/42/Catmull-Rom_Spline.png[source]
+image:/resources/images/tessellation-shaders-isolines/catmull-rom-spline.png[alt="catmull-rom-spline",width=500]
+
+A non-smooth curve for example would be something like below.
+
+image:/[alt=TODO]
+
+I won't go into detail on how to calculate a Catmull-Rom Spline, there's plenty of information online on that (ableit very technical and math heavy) and is not the point of this article.
+
+But what is important to know is that to calculate a Catmull-Rom spline between two points, you need _two more_ points, one before and one after.
+
+*In conclusion, with four points, you can draw a Catmull-Rom spline between the middle two points.*
+Another way of saying that is that with four points, `[p0, p1, p2, p3]`, you can derive the equation for any point that lies between `p1` and `p2`.
+
+== Tessellation Example
+
+For the purpose of this article, I've created a link:https://github.com/enochtsang/catmull_rom_spine_opengl[GitHub repository] showing a Catmull-Rom spline using tessallation shaders.
+All the source code is included to use and play around with it.
+
+The end result looks like this.
+
+image:/resources/image/catmull-rom-spline[alt=TODO]
+
+We'll go over each step.
+
+. Preparing the Vertices Before the Tessellation Control Shader
+. Writing the Tessellation Control Shader
+. Writing the Tessellation Evaluation Shader
+
+=== Preparing the Vertices Before the Tessellation Control Shader
+
+In the vertex shader, a vertex only knows about itself and can't calculate new information based on other vertices (it technically can but that's not what it's supposed to do).
+In comparison to tessellation shaders, they can calculate information based on other vertices, but not all of them, only the same vertices within the same _patch_.
+
+_Patches_ are an important concept in tessellation shaders, before passing the vertices to a tessellation shader you must tell the TCS how many vertices are in each patch.
+This is done with the command:
+
+	glPatchParameteri(GL_PATCH_VERTICES, 3);
+
+In this case, we tell the rendering pipeline that there are 3 vertices per patch, the patch size.
+You will want to call this right before the the draw command you use.
+You can see an example of its usage in `CatmullRomSpline.cpp` in the link:https://github.com/enochtsang/catmull_rom_spine_opengl/blob/master/src/CatmullRomSpline.cpp[Github] example.
+
+NOTE: There are a max number of vertices you can put per patch.
+You can get it using _glGetIntegerv(GL_MAX_PATCH_VERTICES, &maxPatchVertices);_.
+Often this number is 32.
+
+So if the vertex shader received the points `a`, `b`, `c`, `d`, `e`, `f`, and our specified patch size was 3.
+The Tessellation control shader would receive the patches `[a, b, c]` and `[d, e, f]`.
+
+Let's take a look at a Catmull-Rom spline now.
+Consider the following points and curves.
+
+image:/resources/example[alt=TODO]
+
+At the end of tessellation we want to have interpolated all the vertices to draw the curves, using the control points `a` to `f`.
+If we wanted to draw the first curve, we would need the first four points `a`, `b`, `c`, and `d`.
+Then the first curve would be drawn between points `b` and  `c`.
+The next curve would then be between points `c` and `d`, so we would need points `b`, `c`, `d`, and `e`, and so on.
+
+I hope this translates into what needs to be in patch.
+For this example, the patches that we would need to pass to the TCS would be in the form.
+
+----
+[a, b, c, f]
+[b, c, d, e]
+[c, d, e, f]
+----
+
+where each letter is one vertex and each set of `[]` is one patch.
+
+To do this, we pass the vertices sequentially into the vertex shader, so like `a, b, c, d, b, c, d, e, c, d, e, f`.
+Then we split them up into patches using `GL_PATCH_VERTICES`.
+
+NOTE: Passing the vertices sequentially in this fashion can be done a number of ways.
+I used an element buffer object along with a vertex buffer object in the full example on link:https://github.com/enochtsang/catmull_rom_spine_opengl[GitHub].
+
+=== Writing the Tessellation Control Shader
+
+Now we have our information in patch format that we need.
+Using this, we need to output the following information.
+
+. Outer tessellation levels in `gl_TessLevelOuter[2]` for the TPG.
+. Inner tessellation levels in `gl_TessLevelInner[4]` for the TPG.
+. The output "control" vertices in `gl_out` for the TES and TPG.
+
+==== Tessellation Levels
+
+There are 6 different tessellation level values that can be provided to the TPG, four outer tessallation levels and 2 inner tessallation levels.
+Different patch types use the tessallatoin levels differently, this particular guide is aimed towards isolines (more about this in the next section).
+With isolines, the only tessellation level values that are considered by the TPG are `gl_TessLevelOuter[0]` and `gl_TessLevelOuter[1]`.
+
+`gl_TessLevelOuter[0]` specifies how many isolines to create, this becomes the maximum value for `gl_TessCoord.y` in the TES.
+`gl_TessLevelOuter[1]` specifies how many times to split up a particular line, this becomes the maximum vaue for `gl_TessCoord.x` in the TES.
+
+It's not quite correct to say what this looks like, because only the evaluation shader actually decides where the vertices go in space, but here is an example to conceptualize what the two tessallation levels do.
+
+.Isolines Tessallation Levels Example link:https://www.khronos.org/opengl/wiki_opengl/images/Tessellation_isoline_4_3.png[source]
+image:/resources/images/tessellation-shaders-isolines/isoline_level_example.png[alt=Isolines-example]
+
+Take a moment to guess what the values of `gl_TessLevelOuter[0]` and `gl_TessLevelOuter[1]` are.
+
+The correct answer is 3 for `gl_TessLevelOuter[0]` and 4 for `gl_TessLevelOuter[1]`.
+In this case for drawing a Catmull-Rom spline, `gl_TessLevelOuter[1]` will determine how smooth the curve will look.
+`gl_TessLevelOuter[0]` doesn't really have too much effect on the end result, but I've used it in the example code to draw multiple lines for effect.
+
+==== Output Vertices
+
+The TCS receives a set number of vertices for a number of patches.
+The number of patches that the TCS outputs must be the same as the amount that it receives.
+But what can differ, is the number of vertices per patch.
+
+THe number of vertices per patch given to the TCS is defined in `GL_PATCH_VERTICES`.
+The TCS defines how many vertices per patch to output, this is defined in the TCS file with:
+
+	layout(vertices = 2) out;
+
+A patch is represented in the built in provided variable `gl_out`, the format is as follows:
+
+[source,glsl]
+----
+out gl_PerVertex
+{
+  vec4 gl_Position;
+  float gl_PointSize;
+  float gl_ClipDistance[];
+} gl_out[];
+----
+
+Notice that `gl_out` is an array, the size of the `gl_out` array is the same as the number in
+
+	layout(vertices = 2) out;
+
+Great so that means, you have complete freedom to define the vertices that go to the TPG and TES!
+Actually, note quite.
+There's a gotcha, you can only write to the vertex that the current invocation is for.
+
+==== Invocations
+
+`layout(vertices = 2) out;` not only defines the number of output vertices per patch, it also partially defines how many times the TCS `main()` is invoked.
+*The TCS `main()` is invoked once for every output vertex for every patch*.
+
+You can figure out which output vertex the current invocation is for in `main()` with the built in variable `gl_InvocationID`.
+The current patch that is being operated on can also be determined using `gl_PrimitiveID`.
+
+The OpenGL standard has mandated that you can only write to the `gl_out` index that is the same as the `gl_InvocationID`.
+You can still read from the other ones at any time though.
+
+What this means, is that the following code is dangerous:
+
+[source,glsl]
+----
+gl_out[0].gl_Position = gl_in[1].gl_Position;
+----
+
+Because `gl_out` is being written to for an index that isn't absolutely the same as `gl_InvocationID`.
+In fact, this shader code won't even compile for some platforms.
+
+[source,glsl]
+----
+if(gl_InvocationID == 0) {
+	gl_out[gl_InvocationID].gl_Position = gl_in[1].gl_Position;
+}
+----
+
+Above would be the correct way to write to the 0th index.
+
+==== TCS Example Explanation
+
+[source,glsl]
+.spline_tess_control.glsl
+----
+#version 400
+
+layout(vertices = 2) out;
+
+patch out vec4 p_1;
+patch out vec4 p2;
+
+void main()
+{
+	if(gl_InvocationID == 0) {
+		gl_TessLevelOuter[0] = float(4);
+		gl_TessLevelOuter[1] = float(64);
+
+		p_1 = gl_in[0].gl_Position;
+		p2 = gl_in[3].gl_Position;
+	}
+
+	if(gl_InvocationID == 0) {
+		gl_out[gl_InvocationID].gl_Position = gl_in[1].gl_Position;
+	}
+
+	if(gl_InvocationID == 1) {
+		gl_out[gl_InvocationID].gl_Position = gl_in[2].gl_Position;
+	}
+}
+----
+
+Let's walk through this line by line.
+
+[source,glsl]
+----
+#version 400
+----
+
+This defines the OpenGL version this shader is meant for, 4.0.0.
+
+
+[source,glsl]
+----
+layout(vertices = 2) out;
+----
+
+The curve is only drawn between two points, so our output patch should only have 2 vertices.
+
+[source,glsl]
+----
+patch out vec4 p_1;
+patch out vec4 p2;
+----
+
+If you're familiar with uniforms, this is similar.
+This allows information for the patch to be passed from the TCS to the TES.
+In this case, it's passing a `vec4` called `p_1` and `p2` to the TES.
+
+[source,glsl]
+----
+void main()
+----
+
+The `main()` function gets invoked for every vertex in every patch.
+
+[source,glsl]
+----
+	if(gl_InvocationID == 0) {
+----
+
+The stuff happening in this `if` block only needs to happen once per patch, so we do it just once when `gl_InvocationId == 0`.
+That last number could've been 1 and wouldn't have made a difference.
+But a warning, that if different invocations for the same patch write different values to the variables in this `if` block, bad things will happen.
+
+[source,glsl]
+----
+		gl_TessLevelOuter[0] = float(4);
+		gl_TessLevelOuter[1] = float(64);
+----
+
+Here we say the number of isolines is 4 and to split up each line into 64 segments.
+
+[source,glsl]
+----
+		p_1 = gl_in[0].gl_Position;
+		p2 = gl_in[3].gl_Position;
+----
+
+A Catmull-Rom Spline still needs four points to be calculated even if they're not the control points.
+So we pass in the first and last point through patch variables.
+`p_1` is supposed to mean _p negative one_.
+They're named `p_1` and `p2` because the two middle points will be `p0` and `p1` in the TES.
+So in the TES there will be points `p_1`, `p0`, `p1`, and `p2`.
+
+[source,glsl]
+----
+	if(gl_InvocationID == 0) {
+		gl_out[gl_InvocationID].gl_Position = gl_in[1].gl_Position;
+	}
+----
+
+The goal here is to set the first vertex of the out patch to be the second vertex of the in patch.
+It makes alot of sense to write `gl_out[0].gl_Position = gl_in[1].gl_Position`, but because a `gl_out` index can only be written to on the same invocation id, this `if` statement guarantees that.
+
+[source,glsl]
+----
+	if(gl_InvocationID == 1) {
+		gl_out[gl_InvocationID].gl_Position = gl_in[2].gl_Position;
+	}
+----
+
+This is similar to the last section, it sets the second vertex of the out patch to be the third vertex of the in patch.
+
+=== Writing the Tessellation Evaluation Shader
+
+Now at this stage, the TCS has told the TPG how much to tessellate each patch and the TPG has given tons of vertices to the TES.
+It's now the TES's job to determine the position for each of the vertices.
+
+==== Invocations
+
+For the TES, I'll start with when `main()` in the TES gets run.
+The TES `main()` will be run for interpolated vertex generated by the TPG.
+Remember the tessellation levels defined in the TCS?
+That tells us how many vertices got generated by the TPG and so how many vertices the TES operates on.
+The amount of vertices also varies depending on the patch type.
+
+	layout (isolines) in;
+
+This defines the patch type, in this case it is isolines.
+The other options include `triangles` and `quads`, but this article will only focus on `isolines`.
+
+So let's recap what we got here.
+
+. The number of isolines created is 4, from `gl_TessLevelOuter[0] = float(4);`.
+. The number of segments for a line is 64 from `gl_TessLevelOuter[1] = float(64);`.
+. Only those two tessellation levels matter because the patch type is `isolines`.
+
+So this means for each patch, the TES is invoked  4 * 64 times, 256 times, 256 vertices per patch!
+
+Each of these vertices need to be told their own location in the OpenGL space (-1 to 1).
+Where is that defined?
+
+==== Outputs
+
+Defining the position for each vertex is actually the same as in the vertex shader, with the output `gl_Position`.
+The difference is, the vertex doesn't have its OpenGL position passed to it already like it probably was in the vertex shader.
+It needs to be calculated from some related values.
+
+==== Inputs
+
+The built in values that we have to work with are `gl_TessCoord` and `gl_in`.
+
+For isolines, `gl_TessCoord` has two valid values, `x` and `y`.
+
+. `gl_TessCoord.x` tells us how far along the line the vertex is.
+. `gl_TessCoord.y` tells us which isoline the vertex is on.
+
+`gl_in` is per patch information that we got from the TCS.
+It's the same as `gl_out` that was defined in the TCS.
+Meaning it's an array of the control points.
+For this Catmull-Rom Spline example, it will be an array of two.
+
+==== Slope Example
+
+Before we dive into calculating values along a curve, let's do something simpler and easier to grasp.
+Interpolating a straight line between `p0` and `p1`.
+
+.A straight line TES
+[source,glsl]
+----
+#version 410 core
+
+layout (isolines) in;
+
+void main()
+{
+	vec4 p0 = gl_in[0].gl_Position;
+	vec4 p1 = gl_in[1].gl_Position;
+	float u = gl_TessCoord.x;
+
+	float slope = (p1.y - p0.y) / (p1.x - p0.x);
+	float x = ((p1.x - p0.x) * u) + p0.x;
+	float y = (u * slope * (p1.x - p0.x)) + p0.y;
+	gl_Position = vec4(x, y, 0.0f, 1.f);
+}
+----
+
+Let's take a closer look through this.
+
+[source,glsl]
+----
+	vec4 p0 = gl_in[0].gl_Position;
+	vec4 p1 = gl_in[1].gl_Position;
+----
+
+This section helps us use the data given from the TCS.
+Remember that the TCS gave the second and third point of our original patch data.
+So `gl_in[0]` here is actually the second point from our original patch data.
+
+[source,glsl]
+----
+	float u = gl_TessCoord.x;
+----
+
+Here `gl_TessCoord.x` tells us how far along in the line we are.
+In many link:https://www.mvps.org/directx/articles/catmull/[curve equations], it is the t value.
+For vertices very close to the first control point, i.e. `gl_in[0]`, the value will be close to 0.
+For vertices very close to the last control point, in our case `gl_in[1]`, the value will be close to 1.
+So now we have some math work to figure out the actual `gl_Position` from this information.
+
+[source,glsl]
+----
+	float slope = (p1.y - p0.y) / (p1.x - p0.x);
+----
+
+This line calculates the slope between `p0` and `p1`, a simple `rise / run` formula, we'll use this later.
+
+[source,glsl]
+----
+	float x = ((p1.x - p0.x) * u) + p0.x;
+----
+
+This calculates the `x` coordinate in OpenGL space.
+
+. First we get the `x` (horizontal) length of the line we're on using `p1.x - p0.x`.
+
+. Then we multiply that by how far along we are on the line, `(p1.x - p0.x) * u`.
+
+. Now we have how far we should be from the first point `p0.x` in OpenGL space.
+
+. We then add the `p0.x` value to find exactly where this point goes in OpenGL space.
+
+[source,glsl]
+----
+	float y = (u * slope * (p1.x - p0.x)) + p0.y;
+----
+
+This calculate the `y` coordinate in OpenGL space.
+
+. First we calculate the `y` value in respect to `u`, this is the smaller space where points close to `p0` are 0 and points close to `p1` are 1.
+We do this just by multiplying the slope by `u`, like the common line equation `y = mx`.
+
+. Next we convert that to world space similar to how we did for `u`.
+`u * slope * (p1.x-p0.x)`.
+
+. Lastly, similar to the calculating `x` again, we add `p0.y` to find exactly where the point goes in OpenGL space.
+
+Putting all that together, we now have the `x`, `y` coordinate in OpenGL space for this vertex.
+We put that in `gl_Position` and the vertex is done.
+I'm sure you noticed that `gl_TessCoord.y` was unused, by not using this we just say every isoline gets drawn the same way, and will just look like one line.
+
+The end result for four points looks like this.
+
+image:/resoures/exmplae[alt=TODO]
+
+==== Curves
+
+The slope example can now be done with a curve.
+I won't go over the details of how to calculate a Catmull-Rom Spline.
+But basically, we replace calculating the `gl_Position` with a slope, with the equation for a Catmull-Rom Spline.
+
+[source,glsl]
+.Slope Equation
+----
+	float slope = (p1.y - p0.y) / (p1.x - p0.x);
+	float x = ((p1.x - p0.x) * u) + p0.x;
+	float y = (u * slope * (p1.x - p0.x)) + p0.y;
+----
+
+Gets replaced with:
+
+[source,glsl]
+.Catmull-Rom Spline Equation
+----
+	float b0 = (-1.f * u) + (2.f * u * u) + (-1.f * u * u * u);
+	float b1 = (2.f) + (-5.f * u * u) + (3.f * u * u * u);
+	float b2 = (u) + (4.f * u * u) + (-3.f * u * u * u);
+	float b3 = (-1.f * u * u) + (u * u * u);
+	vec4 new_pos = 0.5f * (b0*p_1 + b1*p0 + b2*p1 + b3*p2);
+----
+
+And voila, the points for a curve is calculated.
+
+==== Using the gl_TessCoord.y Value
+
+You probably noticed, that so far the `gl_TessCoord.y` value hasn't been used yet.
+This value, again, determines which isoline we're on.
+We can use this value to slightly move each line so that they are in different locations.
+
+[source,glsl]
+----
+	float v = gl_TessCoord.y;
+	gl_Position = vec4(new_pos.x + v * 0.01, new_pos.y + v * 0.01, new_pos.z, new_pos.w);
+----
+
+So here we shift the calculated x and y, forward and up respectively, based on the `gl_TessCoord.y` value.
+So for the first isoline, `v == 1`, the line will be forward and up by `0.01`.
+The second isoline, `v == 2`, the line will be forward and up by `0.02` and so on.
+So each isoline gets placed in a slightly different location.
+The end result is what you see in the final result.
+
+image:/resources/example[alt=TODO]
+
+== Ignored Topics
+
+Because this topic was only focused on isolines, the other tessellations levels were not discussed.
+Those were not the only ignored relevant parameters.
+I don't plan to cover them all in this article because it is already quite long, but I will at the very least acknowledge that I did not discuss them.
+
+. Tessellation levels:
+.. `gl_TessLevelOuter[2]`
+.. `gl_TessLevelOuter[3]`
+.. `gl_TessLevelInner[0]`
+.. `gl_TessLevelInner[1]`
+
+. Patch types `triangles` and `quads`
+
+. Per vertex attributes
+.. `gl_PointSize`
+.. `gl_ClipDistance[]`
+
+. TES Spacing like `fractional_even_spacing` or `fractional_odd_spacing`
+
+. Primitive ordering (not relevant at all for isolines)
+
+. User-defined per vertex variables
+
+. OpenGL patch parameters `GL_PATCH_DEFAULT_OUTER_LEVEL` and `GL_PATCH_DEFAULT_INNER_LEVEL`
+
+Information on all these topics are all online.
+For further reading I would recommend https://www.khronos.org/opengl/wiki/Tessellation.
+
+== References
+
+. https://www.khronos.org/opengl/wiki/
+. http://prideout.net/blog/?p=48

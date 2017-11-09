@@ -3,6 +3,8 @@
   sources:
     - title: "SVG vs Canvas in Practice"
       url: "articles/svg-vs-canvas"
+    - title: "Tessellation Shaders and Isolines"
+      url: "artices/tessellation-shaders-isolines"
 - name: "Systems"
   sources:
     - title: "Making Sense of SSL Certificate Bundles"
@@ -15,7 +17,3 @@
   sources:
     - title: "An Approach to Reviewing Code"
       url: "articles/an-approach-to-reviewing-code"
-- name: "Other"
-  sources:
-      - title: "Pyramid Head Cosplay Walkthrough"
-        url: "articles/pyrmaid-head-cosplay"
