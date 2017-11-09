@@ -94,7 +94,7 @@ image:/resources/images/tessellation-shaders-isolines/catmull-rom-spline.png[alt
 
 A non-smooth curve for example would be something like below.
 
-image:/[alt=TODO]
+image:/resources/images/tessellation-shaders-isolines/non-smooth.png[alt=non-smooth.png,width=10]
 
 I won't go into detail on how to calculate a Catmull-Rom Spline, there's plenty of information online on that (ableit very technical and math heavy) and is not the point of this article.
 
@@ -110,7 +110,7 @@ All the source code is included to use and play around with it.
 
 The end result looks like this.
 
-image:/resources/image/catmull-rom-spline[alt=TODO]
+image:/resources/images/tessellation-shaders-isolines/catmull-rom-spline-demo.png[alt=catmull-rom-spline-demo,width=400]
 
 We'll go over each step.
 
@@ -142,7 +142,7 @@ The Tessellation control shader would receive the patches `[a, b, c]` and `[d, e
 Let's take a look at a Catmull-Rom spline now.
 Consider the following points and curves.
 
-image:/resources/example[alt=TODO]
+image:/resources/images/tessellation-shaders-isolines/marked-curve.png[alt=marked-curve]
 
 At the end of tessellation we want to have interpolated all the vertices to draw the curves, using the control points `a` to `f`.
 If we wanted to draw the first curve, we would need the first four points `a`, `b`, `c`, and `d`.
@@ -186,8 +186,8 @@ With isolines, the only tessellation level values that are considered by the TPG
 
 It's not quite correct to say what this looks like, because only the evaluation shader actually decides where the vertices go in space, but here is an example to conceptualize what the two tessallation levels do.
 
-.Isolines Tessallation Levels Example link:https://www.khronos.org/opengl/wiki_opengl/images/Tessellation_isoline_4_3.png[source]
-image:/resources/images/tessellation-shaders-isolines/isoline_level_example.png[alt=Isolines-example]
+.Isolines Tessellation Levels Example link:https://www.khronos.org/opengl/wiki_opengl/images/Tessellation_isoline_4_3.png[source]
+image:/resources/images/tessellation-shaders-isolines/isoline-level-example.jpg[alt=Isolines-example]
 
 Take a moment to guess what the values of `gl_TessLevelOuter[0]` and `gl_TessLevelOuter[1]` are.
 
@@ -510,7 +510,7 @@ I'm sure you noticed that `gl_TessCoord.y` was unused, by not using this we just
 
 The end result for four points looks like this.
 
-image:/resoures/exmplae[alt=TODO]
+image:/resources/images/tessellation-shaders-isolines/slope-tessellation.png[alt=slope-tessellation,width=500]
 
 ==== Curves
 
@@ -549,16 +549,16 @@ We can use this value to slightly move each line so that they are in different l
 [source,glsl]
 ----
 	float v = gl_TessCoord.y;
-	gl_Position = vec4(new_pos.x + v * 0.01, new_pos.y + v * 0.01, new_pos.z, new_pos.w);
+	gl_Position = vec4(new_pos.x + v * 0.08, new_pos.y + v * 0.08, new_pos.z, new_pos.w);
 ----
 
 So here we shift the calculated x and y, forward and up respectively, based on the `gl_TessCoord.y` value.
-So for the first isoline, `v == 1`, the line will be forward and up by `0.01`.
-The second isoline, `v == 2`, the line will be forward and up by `0.02` and so on.
+So for the first isoline, `v == 1`, the line will be forward and up by `0.08`.
+The second isoline, `v == 2`, the line will be forward and up by `0.08` and so on.
 So each isoline gets placed in a slightly different location.
 The end result is what you see in the final result.
 
-image:/resources/example[alt=TODO]
+image:/resources/images/tessellation-shaders-isolines/catmull-rom-spline-demo.png[alt=catmull-rom-spline-demo,width=400]
 
 == Ignored Topics
 
