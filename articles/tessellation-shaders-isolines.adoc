@@ -106,7 +106,7 @@ Another way of saying that is that with four points, `[p0, p1, p2, p3]`, you can
 == Tessellation Example
 
 For the purpose of this article, I've created a link:https://github.com/enochtsang/catmull_rom_spine_opengl[GitHub repository] showing a Catmull-Rom spline using tessallation shaders.
-All the source code is included to use and play around with it.
+All the source code is included to use and play around with.
 
 The end result looks like this.
 

@@ -166,6 +166,7 @@
 
 .article-content div .content {
 	margin-bottom: 0;
+	line-height: 1rem;
 }
 
 .article-content .listingblock {
