@@ -55,4 +55,9 @@
 		<lastmod>2017-10-13</lastmod>
 		<changefreq>yearly</changefreq>
 	</url>
+	<url>
+		<loc>https://echtsang.com/articles/tessellation-shaders-isolines</loc>
+		<lastmod>2017-11-08</lastmod>
+		<changefreq>yearly</changefreq>
+	</url>
 </urlset>
