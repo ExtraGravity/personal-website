@@ -5,7 +5,7 @@
 
 I had the chance to take a graphics class at the University of Calgary, CPSC 453.
 In this class we learned the mathematical basis for many graphics algorithms like dithering and splines for curve interpolation, the tests were based on this material.
-On the other hand, the assignments for the course were quite different, they invovled doing "basic" things in OpenGL.
+On the other hand, the assignments for the course were quite different, they involved doing "basic" things in OpenGL.
 I quote basic because since OpenGL is so low level, even simple things are fairly difficult.
 
 The second assignment involved drawing Catmull-Rom splines on top of an image.
@@ -14,9 +14,9 @@ I've provided some background information on  <<catmull-rom-spline, Catmull-Rom 
 .Catmull-Rom Spline link:https://upload.wikimedia.org/wikipedia/commons/4/42/Catmull-Rom_Spline.png[source]
 image:/resources/images/tessellation-shaders-isolines/catmull-rom-spline.png[alt="catmull-rom-spline",width=500]
 
-As you can see, drawing a spline invovles drawing a curve.
-The course suggested to use tessellation shader to draw curves (this is actually the ideal way to draw curves).
-But when I was looking online, guides for Tessallation shaders weren't very easy to follow.
+As you can see, drawing a spline involves drawing a curve.
+The course suggested to use tessellation shaders to draw curves (this is actually the ideal way to draw curves).
+But when I was looking online, guides for tessallation shaders weren't very easy to follow.
 On top of that, this assignment also needed to be done with link:https://www.khronos.org/opengl/wiki/Tessellation_Evaluation_Shader#Abstract_patch_type[isolines] (as opposed to triangles or quads), but the few guides that were online were mostly done with triangles!
 
 In this article, I would like to provide a guide on using tessallation shaders in OpenGL with the isolines patch type.
@@ -29,7 +29,7 @@ In this article, I will write on the assumption that you (the reader) have a bas
 * C++, just syntactically so you can follow the example code.
 * Vertex and Fragment Shaders in OpenGL.
 A deep knowledge isn't necessary, just the basics of their inputs and outputs.
-* Basic algebra, to follow the Catmull-Rom Splines application, some algebraic knowledge will be required.
+* Basic algebra, to follow some of the math, some algebraic knowledge will be required.
 
 If you don't know OpenGL at all, I would highly recommend the link:https://learnopengl.com/[learnopengl] guides.
 In the midst of poor documentation and few beginner friendly guides online, _learnopengl_ stood out as the go to resource.
@@ -170,8 +170,8 @@ I used an element buffer object along with a vertex buffer object in the full ex
 Now we have our information in the patch format that we need.
 Using this, the TCS needs to output the following information.
 
-* Outer tessellation levels in `gl_TessLevelOuter[2]`.
-* Inner tessellation levels in `gl_TessLevelInner[4]`.
+* Outer tessellation levels in `gl_TessLevelOuter[4]`.
+* Inner tessellation levels in `gl_TessLevelInner[2]`.
 * The output "control" vertices in `gl_out`.
 
 ==== Tessellation Levels
@@ -362,7 +362,7 @@ So in the TES there will be points `p_1`, `p0`, `p1`, and `p2`.
 
 
 The goal here is to set the first vertex of the out patch to be the second vertex of the in patch.
-It makes alot of sense to write `gl_out[0].gl_Position = gl_in[1].gl_Position`, but because a `gl_out` index can only be written to on the same invocation id, this `if` statement guarantees that.
+It makes a lot of sense to write `gl_out[0].gl_Position = gl_in[1].gl_Position`, but because a `gl_out` index can only be written to on the same invocation id, this `if` statement guarantees that.
 
 [source,glsl]
 ----
