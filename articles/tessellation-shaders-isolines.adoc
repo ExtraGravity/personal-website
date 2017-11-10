@@ -4,8 +4,10 @@
 [docdate]#Written by Enoch Tsang on November 8th, 2017 for OpenGL 4.1.#
 
 I had the chance to take a graphics class at the University of Calgary, CPSC 453.
-In this class we learned the mathematical basis for many graphics algorithms like dithering and splines for curve interpolation, the tests were based on this material.
-On the other hand, the assignments for the course were quite different, they involved doing "basic" things in OpenGL.
+In this class we learned the mathematical basis for many graphics algorithms like dithering and splines for curve interpolation.
+The tests were based on this material.
+On the other hand, the assignments for the course were quite different.
+They involved doing "basic" things in OpenGL.
 I quote basic because since OpenGL is so low level, even simple things are fairly difficult.
 
 The second assignment involved drawing Catmull-Rom splines on top of an image.
@@ -39,7 +41,7 @@ If they were covered, I wouldn't bother writing this article!
 
 == What is Tessallation
 
-OpenGL mandates only two kinds of shaders for rendering, the vertex shader and the fragment shader.
+OpenGL mandates only two kinds of shaders for rendering, the vertex shader and the fragment shader:
 
 * The vertex shader's `main()` is run for every vertex and calculates per vertex attributes.
 This is a great place for transforming vertices to post-projection space.
@@ -68,14 +70,15 @@ NOTE: Tessellation is totally optional in the rendering pipeline.
 To not include the tessallation stage, just don't attach a TCS or TES to the shader program.
 
 The TCS and TES stages are programmable and the TPG stage is a _fixed function_.
-What I mean by programmable is that a shader is written for them, _fixed function_ you can't directly alter how this works, you can just affect the outputs with the input.
+What I mean by programmable is that a shader is written for them.
+On the other hand, with a _fixed function_ you can't directly alter how this works, you can just affect the outputs with the input.
 It's also worth noting that the TCS is also optional, it is fine to just include a TES with no TCS.
 
 In broad terms to have a grasp at what happens in each stage we can say:
 
 . The TCS says how much to tessellate the vertices, and also (optionally) modifies the control (original) vertices.
 
-. The TPG actually does the tessellation based off what was chosen in the TCS, ultimately determining how many new vertexes there will be.
+. The TPG actually does the tessellation based off what was chosen in the TCS, ultimately determining how many new vertices there will be.
 This stage doesn't determine where the vertices go at all!
 Just how many.
 
@@ -168,7 +171,7 @@ I used an element buffer object along with a vertex buffer object in the full ex
 === Writing the Tessellation Control Shader
 
 Now we have our information in the patch format that we need.
-Using this, the TCS needs to output the following information.
+Using this, the TCS needs to output the following information:
 
 * Outer tessellation levels in `gl_TessLevelOuter[4]`.
 * Inner tessellation levels in `gl_TessLevelInner[2]`.
@@ -176,6 +179,7 @@ Using this, the TCS needs to output the following information.
 
 ==== Tessellation Levels
 
+In brief, tessellation levels define how much to tessellate an object; how much to split it up; how many new vertices to create.
 There are 6 different tessellation level values that can be provided to the TPG, four outer tessallation levels and 2 inner tessallation levels.
 Different patch types use the tessallation levels differently, this particular guide is aimed towards the isolines patch type (more about patch types in the next section).
 With isolines, the only tessellation levels considered by the TPG are `gl_TessLevelOuter[0]` and `gl_TessLevelOuter[1]`.
@@ -238,7 +242,7 @@ Let's talk about how often TCS is invoked.
 
 You can figure out which output vertex the current invocation is for in `main()` with the built in variable `gl_InvocationID`.
 The current patch that is being operated on can also be determined using `gl_PrimitiveID`. The OpenGL standard has mandated that only the `gl_out` index that is the same as the `gl_InvocationID` can be written to.
-You can still read from the other indexes at any time though.
+You can still read from the other indices at any time though.
 
 What this means, is that the following code is dangerous.
 
@@ -311,7 +315,7 @@ layout(vertices = 2) out;
 ----
 
 If you're familiar with uniforms, this is similar.
-This allows patch specific information  to be passed from the TCS to the TES.
+This allows patch specific information to be passed from the TCS to the TES.
 In this case, a `vec4` called `p_1` and `p2` will be made available for the same patch in the TES.
 
 [source,glsl]
@@ -400,7 +404,7 @@ The amount of vertices also varies depending on the patch type.
 This defines the patch type, in this case it is isolines.
 The other options include `triangles` and `quads`, but this article will only focus on `isolines`.
 
-So let's recap what we got here.
+So let's recap what we got here:
 
 * The number of isolines created is 4, from `gl_TessLevelOuter[0] = float(4);`.
 * The number of segments for a line is 64 from `gl_TessLevelOuter[1] = float(64);`.
@@ -421,7 +425,7 @@ It needs to be calculated from some other input values.
 
 The built in values that we can work with are `gl_TessCoord` and `gl_in`.
 
-For isolines, `gl_TessCoord` has two valid values, `x` and `y`.
+For isolines, `gl_TessCoord` has two valid values, `x` and `y`:
 
 * `gl_TessCoord.x` tells us how far along the line the vertex is.
 * `gl_TessCoord.y` tells us which isoline the vertex is on.
@@ -509,7 +513,7 @@ We do this just by multiplying the slope by `u`, like the common line equation `
 . Next we convert that to world space similar to how we did for `u`.
 `u * slope * (p1.x-p0.x)`.
 
-. Lastly, similar to the calculating `x` again, we add `p0.y` to find exactly where the point goes in OpenGL space.
+. Lastly, similar to calculating `x`, again we add `p0.y` to find exactly where the point goes in OpenGL space.
 
 [source,glsl]
 ----
@@ -578,9 +582,9 @@ image:/resources/images/tessellation-shaders-isolines/catmull-rom-spline-demo.pn
 
 Because this topic was only focused on isolines, the other tessellations levels were not discussed.
 Those were not the only ignored relevant parameters.
-I don't plan to cover them all in this article because it is already quite long, but I will at the very least acknowledge the topics that I have ignored.
+I don't plan to cover them all in this article because it is already quite long, but I will at the very least acknowledge the topics that I have ignored:
 
-* Tessellation levels:
+* Tessellation levels
 ** `gl_TessLevelOuter[2]`
 ** `gl_TessLevelOuter[3]`
 ** `gl_TessLevelInner[0]`
