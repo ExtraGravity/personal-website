@@ -179,6 +179,7 @@ Using this, the TCS needs to output the following information.
 There are 6 different tessellation level values that can be provided to the TPG, four outer tessallation levels and 2 inner tessallation levels.
 Different patch types use the tessallation levels differently, this particular guide is aimed towards the isolines patch type (more about patch types in the next section).
 With isolines, the only tessellation levels considered by the TPG are `gl_TessLevelOuter[0]` and `gl_TessLevelOuter[1]`.
+The last two outer tessallation levels and inner tessallatoin levels are unused by the isolines patch type.
 
 . `gl_TessLevelOuter[0]` specifies how many isolines to create, this becomes the maximum value for `gl_TessCoord.y` in the TES.
 . `gl_TessLevelOuter[1]` specifies how many times to split up a particular line, this how far apart `gl_TessCoord.x` is in different invocations.
