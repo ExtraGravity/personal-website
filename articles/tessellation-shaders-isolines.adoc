@@ -375,7 +375,7 @@ So in the TES there will be points `p_1`, `p0`, `p1`, and `p2`.
 
 
 The goal here is to set the first vertex of the out patch to be the second vertex of the in patch.
-It makes a lot of sense to write `gl_out[0].gl_Position = gl_in[1].gl_Position`, but because a `gl_out` index can only be written to on the same invocation id, this `if` statement guarantees that.
+It makes a lot of sense to write `gl_out[0].gl_Position = gl_in[1].gl_Position`, but because a `gl_out` index can only be written to on the same invocation id, this `if` statement is necessary.
 
 [source,glsl]
 ----
