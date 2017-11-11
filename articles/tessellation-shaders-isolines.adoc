@@ -244,8 +244,8 @@ Let's talk about how often the TCS is invoked.
 Let's slow down for a second and talk about what it means for a shader to be "invoked".
 One invocation means one call to a shader's `main()` function.
 In a GPU, at each stage, everything is parallelized by default.
-By comparison, in normal code, running a something multiple times usually means running it in a loop, so each call is sequential.
-This means when we write our shader, it's important to understand that every invocation to a shader is happening _at the same time_.
+By comparison, in normal code, running something multiple times usually means running it in a loop, so each call is sequential.
+So in a GPU, this means when we write our shader, it's important to understand that every invocation to a shader is happening _at the same time_.
 Hopefully saying "one invocation" makes a little more sense now.
 
 Going back to how many times the TCS is invoked, you can figure out which output vertex the current invocation is for in `main()` with the built in variable `gl_InvocationID`.
