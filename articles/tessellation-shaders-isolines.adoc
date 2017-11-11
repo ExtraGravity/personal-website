@@ -397,7 +397,8 @@ This is similar to the last section, it sets the second vertex of the out patch 
 
 === Writing the Tessellation Evaluation Shader
 
-Now at this stage, the TCS has told the TPG how much to tessellate each patch and the TPG done it's calculations has given tons of vertices to the TES.
+Now at this stage, the TCS has told the TPG how much to tessellate each patch.
+The TPG has done its calculations and gives tons of vertices to the TES.
 It's now the TES's job to determine the position for each of the vertices.
 
 ==== Invocations
