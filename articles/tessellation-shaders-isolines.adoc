@@ -209,7 +209,8 @@ The number of patches that the TCS outputs must be the same as the amount that i
 But what _can_ differ, is the number of vertices per patch.
 
 The number of vertices per patch given to the TCS is defined in `GL_PATCH_VERTICES`.
-The TCS defines how many vertices per patch to output, this is defined in the TCS file with:
+The TCS defines how many vertices per patch to output.
+This is defined in the TCS file with:
 
 	layout(vertices = 2) out;
 
@@ -233,15 +234,23 @@ Great so that means, there is complete freedom to define the vertices that go to
 Actually... not quite.
 
 There's a gotcha, you can only write to the vertex that the current invocation is for.
-Let's talk about how often TCS is invoked.
+Let's talk about how often the TCS is invoked.
 
 ==== Invocations
 
 `layout(vertices = 2) out;` not only defines the number of output vertices per patch, it also partially defines how many times the TCS `main()` is invoked.
-*For every output vertex for every patch, the TCS `main()` is invoked once*.
+*For every output vertex for every patch, the TCS is invoked once*.
 
-You can figure out which output vertex the current invocation is for in `main()` with the built in variable `gl_InvocationID`.
-The current patch that is being operated on can also be determined using `gl_PrimitiveID`. The OpenGL standard has mandated that only the `gl_out` index that is the same as the `gl_InvocationID` can be written to.
+Let's slow down for a second and talk about what it means for a shader to be "invoked".
+One invocation means one call to a shader's `main()` function.
+In a GPU, at each stage, everything is parallelized by default.
+By comparison, in normal code, running a something multiple times usually means running it in a loop, so each call is sequential.
+This means when we write our shader, it's important to understand that every invocation to a shader is happening _at the same time_.
+Hopefully saying "one invocation" makes a little more sense now.
+
+Going back to how many times the TCS is invoked, you can figure out which output vertex the current invocation is for in `main()` with the built in variable `gl_InvocationID`.
+The current patch that is being operated on can also be determined using `gl_PrimitiveID`.
+The OpenGL standard has mandated that only the `gl_out` index that is the same as the `gl_InvocationID` can be written to.
 You can still read from the other indices at any time though.
 
 What this means, is that the following code is dangerous.
