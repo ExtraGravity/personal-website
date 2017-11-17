@@ -11,7 +11,7 @@ They involved doing "basic" things in OpenGL.
 I quote basic because since OpenGL is so low level, even simple things are fairly difficult.
 
 The second assignment involved drawing Catmull-Rom splines on top of an image.
-I've provided some background information on  <<catmull-rom-spline, Catmull-Rom Splines>> in a different section.
+I've provided some background information on  <<catmull-rom-spline, Catmull-Rom Splines>> in a different section in this article.
 
 .Catmull-Rom Spline link:https://upload.wikimedia.org/wikipedia/commons/4/42/Catmull-Rom_Spline.png[source]
 image:/resources/images/tessellation-shaders-isolines/catmull-rom-spline.png[alt="catmull-rom-spline",width=500]
@@ -126,8 +126,8 @@ Drawing the whole spline can be split up into about 3 steps.
 In the vertex shader, a vertex only knows about itself and can't calculate any new information based on other vertices (it technically can with uniforms but that's not what it's supposed to do).
 In comparison to tessellation shaders, they can calculate information based on other vertices, but not all of them, only the same vertices within the same _patch_.
 
-_Patches_ are an important concept in tessellation shaders, before passing the vertices to a tessellation shader, the vertices must be split into patches and then the must be told TCS how many vertices are in each patch.
-Teling the TCS how many vertices in a patch done with the function call:
+_Patches_ are an important concept in tessellation shaders, before passing the vertices to a tessellation shader, the vertices must be split into patches and then the TCS must be told how many vertices are in each patch.
+Teling the TCS how many vertices are in a patch is done with the function call:
 
 	glPatchParameteri(GL_PATCH_VERTICES, 3);
 
@@ -179,11 +179,12 @@ Using this, the TCS needs to output the following information:
 
 ==== Tessellation Levels
 
-In brief, tessellation levels define how much to tessellate an object; how much to split it up; how many new vertices to create.
+In brief, tessellation levels define how much to tessellate an object.
+In other words this means how much to split it up, or how many new vertices to create.
 There are 6 different tessellation level values that can be provided to the TPG, four outer tessallation levels and 2 inner tessallation levels.
 Different patch types use the tessallation levels differently, this particular guide is aimed towards the isolines patch type (more about patch types in the next section).
 With isolines, the only tessellation levels considered by the TPG are `gl_TessLevelOuter[0]` and `gl_TessLevelOuter[1]`.
-The last two outer tessallation levels and inner tessallatoin levels are unused by the isolines patch type.
+The last two outer tessallation levels and inner tessallation levels are unused by the isolines patch type.
 
 . `gl_TessLevelOuter[0]` specifies how many isolines to create, this becomes the maximum value for `gl_TessCoord.y` in the TES.
 . `gl_TessLevelOuter[1]` specifies how many times to split up a particular line, this how far apart `gl_TessCoord.x` is in different invocations.
@@ -212,9 +213,10 @@ The number of vertices per patch given to the TCS is defined in `GL_PATCH_VERTIC
 The TCS defines how many vertices per patch to output.
 This is defined in the TCS file with:
 
-	layout(vertices = 2) out;
+	layout(vertices = n) out;
 
-A patch is represented in the built in provided variable `gl_out`, the format is as follows:
+In actual code, you wouldn't write `n` but pick an actual numerical value.
+A patch is represented in the built-in provided variable `gl_out`, the format is as follows:
 
 [source,glsl]
 ----
@@ -230,6 +232,7 @@ Notice that `gl_out` is an array, the size of the `gl_out` array is the same as 
 
 	layout(vertices = 2) out;
 
+In the case above, the size of `gl_out` would be two, meaning the output patch size is 2.
 Great so that means, there is complete freedom to define the vertices that go to the TPG and TES!
 Actually... not quite.
 
