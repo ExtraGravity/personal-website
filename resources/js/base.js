@@ -131,7 +131,7 @@ function changeContent(pageToReq, pushHistory) {
             $(".main-content").html(response);
             insertContent();
             if(pushHistory) {
-                window.history.pushState(null, null, pageToReq);
+                window.history.pushState(null, null, "/" + pageToReq);
             }
         });
     });
