@@ -89,7 +89,7 @@ func loadCaptchaSecret() (string, error) {
 func sendMail(name string, email string, msg string) {
 	context := &EmailData{
 		SenderEmail:    "contact@enochtsang.com",
-		RecipientEmail: "etsang1@hotmail.com",
+		RecipientEmail: "echtsang@gmail.com",
 		Name:           name,
 		ReturnEmail:    email,
 		Message:        msg,
