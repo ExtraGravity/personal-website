@@ -1,0 +1,124 @@
+[float]
+= 2D Drawings in Art 241
+
+In the software engineering program at the University of Calgary, we only get 6 options in my whole degree, and 2 of them they tell us exactly what they have to be.
+For 1 of my 2 options, I had the pleasure of taking ART 241 with link:http://reynoldson.art[Terry Reynoldson].
+In a degree with only logical and analytical thinking, it was a real shock to take a course where there was never a correct answer, or something wasn't always objectively better.
+But I got through it, and thoroughly enjoyed it
+I am really happy that my creative muscles got to be let loose before the end of my University life.
+The following are the art pieces I made in this course and a short blurb about my experiences with them.
+
+== Art Pieces
+
+=== Tied Back
+
+image:/resources/images/2d-drawings-in-art-241/tied-back.jpg[alt="tied-back"]
+
+This was the first piece assigned to us in Art 241.
+A still-life was placed in the middle and we used ink to draw the still-life.
+2 techniques were used, cross-hatching with a pen and applying an ink wash using a brush (done by mixing water and ink).
+I had trouble at first making a drawing where there was only a loosely defined goal, but pushing through it and just doing my best to replicate the still-life gave me a result I was pretty content with.
+The piece had some intrinsic meaning to me and I tried to convey them in the attitudes used.
+The human bodies were drawn with much looser lines and relied more on the ink wash.
+The coil represented an unmovable external force that holds the human attitude back, and so was drawn with much harsher solid lines.
+
+==== Materials Used
+
+* link:https://www.arches-papers.com/wp-content/uploads/2014/08/arches-filigrane-aquarelle1-720x540.jpg[140 lb. Hot-Pressed Arches BFK Reeves Paper]
+* link:https://images-na.ssl-images-amazon.com/images/I/61AzLTSqbsL._SX425_.jpg[Super Black India Ink]
+* link:https://i.imgur.com/7OEnTIe.jpg[Large, Pointed Bowl Nib and Nib Holder]
+* link:https://images.homedepot-static.com/productImages/a6c171bc-b06d-435a-ab94-fda117620dcd/svn/jen-paint-brushes-4251-64_1000.jpg[Rectangular Foam Brush]
+
+=== Pyramid Head
+
+image:/resources/images/2d-drawings-in-art-241/pyramid-head.jpg[alt="pyramid-head"]
+
+This project was to be done using Conté on grey paper.
+One of the leading goals was to let the grey of the paper shine through while accentuating areas using black and white Conté.
+We were supposed to bring a few still-life objects of our choice to draw, but I had a different idea.
+A couple of years prior to this course, I did my first serious cosplay of link:https://www.xboxtavern.com/wp-content/uploads/2018/06/PyramidHeadRB-780x439.jpg[Pyramid Head] from the Silent Hill series, so I decided to do a drawing of that.
+I had a friend take some high contrast black and white images for me and I modelled my drawing off that.
+
+==== Materials Used
+
+* link:http://art-design-glossary.musabi.ac.jp/wpwp/wp-content/uploads/2014/01/202_conte-crayons_01_1.jpg[Black and White Conté sticks]
+* link:https://media.jacksonsart.com/catalog/product/P/C/PCTTN431.JPG[Canson Mi-Tentes, "Steel Grey" paper]
+* link:https://keetonsonline.files.wordpress.com/2013/11/art-gum2.gif[Kneadable Gum Eraser]
+* link:https://images-na.ssl-images-amazon.com/images/I/512xr%2BQ260L._SX425_.jpg[Large Solid Stomp tortillion]
+
+=== Concerned
+
+image:/resources/images/2d-drawings-in-art-241/concerned.jpg[alt="concerned"]
+
+This project was to be done with the same materials as the first project, but this time, focusing more on the ink wash aspect.
+We were to use a mirror to draw a self-portrait with some sort of striking expression.
+The expression I chose for this was my concerned face, but I think people who don't know me very well would take it as a sad face.
+I think it was in this project that I started to really fall in love with ink as a medium.
+
+* link:https://www.arches-papers.com/wp-content/uploads/2014/08/arches-filigrane-aquarelle1-720x540.jpg[140 lb. Hot-Pressed Arches BFK Reeves Paper]
+* link:https://images-na.ssl-images-amazon.com/images/I/61AzLTSqbsL._SX425_.jpg[Super Black India Ink]
+* link:https://i.imgur.com/7OEnTIe.jpg[Large, Pointed Bowl Nib and Nib Holder]
+* link:https://images.homedepot-static.com/productImages/a6c171bc-b06d-435a-ab94-fda117620dcd/svn/jen-paint-brushes-4251-64_1000.jpg[Rectangular Foam Brush]
+
+=== Enemy 43
+
+image:/resources/images/2d-drawings-in-art-241/enemy-43.jpg[alt="enemy-43"]
+
+I probably struggled the most with this assignment because it was the first time we needed to draw something we didn't have a real life representation of.
+Many of my peers in this class revelled at the opportunity to draw whatever they wanted for the first time in this course.
+The goal was to draw an "Exquisite Corpse", something made up of realistic things but not realistic in itself.
+Originally, all of my ideas were something that "made sense", like a half robot half human with someone working on it, or someone's hand turning into writing based on a story.
+I managed to break out of that box though and chose to base it off an anglerfish with humanoid parts.
+The motivation was to make a potential enemy in a game I was working on at the time, Reload Rumble.
+The number 43 is totally arbritrary and it is just some enemy later on in the game.
+
+==== Materials Used
+
+* link:https://www.arches-papers.com/wp-content/uploads/2014/08/arches-filigrane-aquarelle1-720x540.jpg[140 lb. Hot-Pressed Arches BFK Reeves Paper]
+* link:https://images-na.ssl-images-amazon.com/images/I/61AzLTSqbsL._SX425_.jpg[Super Black India Ink]
+* link:https://i.imgur.com/7OEnTIe.jpg[Large, Pointed Bowl Nib and Nib Holder]
+* link:https://images.homedepot-static.com/productImages/a6c171bc-b06d-435a-ab94-fda117620dcd/svn/jen-paint-brushes-4251-64_1000.jpg[Rectangular Foam Brush]
+* link:https://images-na.ssl-images-amazon.com/images/I/41RHUEotndL.jpg[Masking Fluid]
+
+=== Privacy
+
+image:/resources/images/2d-drawings-in-art-241/privacy.jpg[alt="privacy"]
+
+The basis for this project was to be link:https://media.wmagazine.com/photos/594d6daa0870db45df5a5d9a/4:3/w_1536/GettyImages-501590118.jpg[Banksy] inspired.
+Meaning to have a spray-painted silhouette type feel and have some sort of message behind it.
+As a programmer, I think I often think about how futile it is to try to keep our privacy nowadays.
+It is so effortless for corporations or governments to track us and accumulate so much of our personal information.
+We can be tracked through: our phone's GPS location, recognizing our face via (security) cameras, our purchase history online, and even link:https://findbiometrics.com/researchers-gait-recognition-system-505286/[how we walk].
+Personally, this is my probably my favourite piece I made in this course due to the meaning behind it being applicable to not just myself, but also to others, unlike all the other pieces.
+
+* link:https://www.arches-papers.com/wp-content/uploads/2014/08/arches-filigrane-aquarelle1-720x540.jpg[140 lb. Hot-Pressed Arches BFK Reeves Paper]
+* link:https://images-na.ssl-images-amazon.com/images/I/61AzLTSqbsL._SX425_.jpg[Super Black India Ink]
+* link:https://i.imgur.com/7OEnTIe.jpg[Large, Pointed Bowl Nib and Nib Holder]
+* link:https://images.homedepot-static.com/productImages/a6c171bc-b06d-435a-ab94-fda117620dcd/svn/jen-paint-brushes-4251-64_1000.jpg[Rectangular Foam Brush]
+* link:https://images-na.ssl-images-amazon.com/images/I/41RHUEotndL.jpg[Masking Fluid]
+
+=== Knife Collection
+
+image:/resources/images/2d-drawings-in-art-241/knife-collection.jpg[alt="knife-collection"]
+
+Our final project was to create an automated drawing, where random elements dictate marks on a piece of paper instead of it being completely up to the artist.
+This was my favourite project in seeing what everyone else in the class came up with.
+One of my favourites was where one person held a marker on a piece of paper for the entire duration of a train ride and let people bumping into him and the train's movements, move the marker around, the end result being an link:https://i.imgur.com/VuUZ6Ep.jpg[organic turmoil of ink].
+What I chose to do was a representation of my sharp objects collection, consisting of various knives and axes.
+I made cutout cardboards of all of them and randomly dropped them onto a piece of paper.
+Every time I dropped all of them, I would use a different colour of spray paint and spray around the cutouts.
+The only time I would move the pieces after dropping them, was if they didn't land on the paper.
+I worked my way up from darker to lighter colours and used progressively less spray paint on each layer to let the other colours still permeate through.
+The end result was this beautiful kaleidoscopic collage of various colours in particular shapes.
+
+==== Materials Used
+
+* link:https://www.arches-papers.com/wp-content/uploads/2014/08/arches-filigrane-aquarelle1-720x540.jpg[110 lb. Hot-Pressed Arches BFK Reeves Paper]
+* link:https://5.imimg.com/data5/PL/LP/MY-1061796/corrugated-cardboard-sheets-500x500.jpg[Cardboard]
+* link:https://www.tradepaintdirect.co.uk/media/catalog/product/cache/1/image/9df78eab33525d08d6e5fb8d27136e95/p/a/painters_touch_5.png[Rust-oleum Painter's Touch Spray Paint (Pink, Yellow, Green, Blue, Red, Silver, Black)]
+
+== Conclusion
+
+This class was a breath of fresh air and wonderfully eye opening, being so different from all the other courses in my degree.
+I want to thank all my friends for having been so supportive of my art, it was dearly encouraging and gave me plenty of motivation whenever I moved on to the next piece.
+My instructor for this class, link:http://reynoldson.art[Terry Reynoldson], also deserves an enormous thank you for giving me such a great experience and helping me explore my artistic side.
