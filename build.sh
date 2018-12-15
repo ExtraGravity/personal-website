@@ -45,6 +45,7 @@ for ADOC_FILE in articles/*$ADOC_SUFFIX; do
     asciidoc -s -o $TMPL_FILE $ADOC_FILE
     $SED -i '1i{{define "content"}}' $TMPL_FILE
     $SED -i '2i<div class="article-content">' $TMPL_FILE
+    $SED -i 's/<a href="/<a target="_blank" href="/g' $TMPL_FILE
     echo '</div>' >> $TMPL_FILE
     echo '{{end}}' >> $TMPL_FILE
 done
