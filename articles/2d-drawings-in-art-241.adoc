@@ -3,9 +3,9 @@
 
 In the software engineering program at the University of Calgary we only get 6 options in my whole degree, and 2 of them they tell us exactly what they have to be.
 For 1 of my 2 options, I had the pleasure of taking ART 241 with link:http://reynoldson.art[Terry Reynoldson].
-In a degree with only logical and analytical thinking, it was a real shock to take a course where there was never a correct answer, or something wasn't always objectively better.
+In a degree with only logical and analytical thinking, it was a real shock to take a course where there was never a correct answer or something wasn't always objectively better.
 But I got through it, and thoroughly enjoyed it.
-I'm so glad that my creative muscles got to be let loose before the end of my University life.
+I'm so glad that my creative muscles got to be let loose before the end of my university life.
 The following are the art pieces I made in this course and a short blurb about my experiences with them.
 
 == Art Pieces
@@ -20,7 +20,7 @@ A still-life was placed in the middle and we used ink to draw the still-life.
 I had trouble at first making a drawing where there was only a loosely defined goal, but pushing through it and just doing my best to replicate the still-life gave me a result I was pretty content with.
 The piece had some intrinsic meaning to me and I tried to convey them in the attitudes used.
 The human bodies were drawn with much looser lines and relied more on the ink wash.
-The coil represented an unmovable external force that holds the human attitude back, and so was drawn with much harsher solid lines.
+The coil represented an unmovable external force that holds the human attitude back, and so it was drawn with much harsher solid lines.
 
 ==== Materials Used
 
@@ -69,10 +69,11 @@ image:/resources/images/2d-drawings-in-art-241/enemy-43.jpg[alt="enemy-43"]
 I probably struggled the most with this assignment because it was the first time we needed to draw something we didn't have a real life representation of.
 Many of my peers in this class revelled at the opportunity to draw whatever they wanted for the first time in this course.
 The goal was to draw an "Exquisite Corpse", something made up of realistic things but not realistic in itself.
-Originally, all of my ideas were something that "made sense", like a half robot half human with someone working on it, or someone's hand turning into writing based on a story.
-I managed to break out of that box though and chose to base it off an anglerfish with humanoid parts.
+Originally, all of my ideas were something that "made sense".
+For example a half robot half human with someone working on it, or someone's hand turning into writing based on a story.
+I managed to break out of that box and chose to base it off of an anglerfish with humanoid parts.
 The motivation was to make a potential enemy in a game I was working on at the time, Reload Rumble.
-The number 43 is totally arbritrary and it is just some enemy later on in the game.
+The number 43 is totally arbitrary and it is just some enemy later on in the game.
 
 ==== Materials Used
 
@@ -88,10 +89,10 @@ image:/resources/images/2d-drawings-in-art-241/privacy.jpg[alt="privacy"]
 
 The basis for this project was to be link:https://media.wmagazine.com/photos/594d6daa0870db45df5a5d9a/4:3/w_1536/GettyImages-501590118.jpg[Banksy] inspired.
 Meaning to have a spray-painted silhouette type feel and have some sort of message behind it.
-As a programmer, I think I often think about how futile it is to try to keep our privacy nowadays.
+As a programmer, I often think about how futile it is to try to keep our privacy nowadays.
 It is so effortless for corporations or governments to track us and accumulate so much of our personal information.
-We can be tracked through: our phone's GPS location, recognizing our face via (security) cameras, our purchase history online, and even link:https://findbiometrics.com/researchers-gait-recognition-system-505286/[how we walk].
-Personally, this is my probably my favourite piece I made in this course due to the meaning behind it being applicable to not just myself, but also to others, unlike all the other pieces.
+We can be tracked through: our phone's GPS location, recognizing our face via (security) cameras, our online purchase history, and even link:https://findbiometrics.com/researchers-gait-recognition-system-505286/[how we walk].
+Personally, this is my favourite piece I made in this course due to the meaning behind it being applicable to not just myself, but also to others, unlike all the other pieces.
 
 ==== Materials Used
 
@@ -105,13 +106,13 @@ Personally, this is my probably my favourite piece I made in this course due to 
 
 image:/resources/images/2d-drawings-in-art-241/knife-collection.jpg[alt="knife-collection"]
 
-Our final project was to create an automated drawing, where random elements dictate marks on a piece of paper instead of it being completely up to the artist.
+Our final project was to create an automated drawing, where random elements dictate marks on the paper instead of it being completely up to the artist.
 This was my favourite project in seeing what everyone else in the class came up with.
 One of my favourites was where one person held a marker on a piece of paper for the entire duration of a train ride and let people bumping into him and the train's movements, move the marker around, the end result being an link:https://i.imgur.com/VuUZ6Ep.jpg[organic turmoil of ink].
 What I chose to do was a representation of my sharp objects collection, consisting of various knives and axes.
-I made cutout cardboards of all of them and randomly dropped them onto a piece of paper.
+I made cardboard cutouts of all of them and randomly dropped them onto a piece of paper.
 Every time I dropped all of them, I would use a different colour of spray paint and spray around the cutouts.
-The only time I would move the pieces after dropping them, was if they didn't land on the paper.
+The only time I would move the pieces after dropping them, as if they didn't land on the paper.
 I worked my way up from darker to lighter colours and used progressively less spray paint on each layer to let the other colours still permeate through.
 The end result was this beautiful kaleidoscopic collage of various colours in particular shapes.
 
