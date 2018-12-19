@@ -151,7 +151,7 @@ Minus the comments, here is the static HTML code for the entirety of the navigat
 ----
 
 The CSS code to position the navigation links was just alot of guess and check work with absolute positioning.
-You can get an idea of what that looks like with some of the css code.
+You can get an idea of what that looks like with some of the CSS code.
 
 [source,css]
 .base.css
@@ -214,7 +214,7 @@ The `<line>` element is fairly self explanatory, it just draws a line from (`x1`
 
 ==== CSS
 
-Lastly, setting the width and color of the lines require unique css properties.
+Lastly, setting the width and color of the lines require unique CSS properties.
 
 [source,css]
 ----
@@ -256,7 +256,7 @@ newLine.setAttribute("x2", 260.0);
 newLine.setAttribute("y2", 272.5);
 ----
 
-And add the line to the svg element.
+And add the line to the `<svg>` element.
 
 [source,javascript]
 ----
