@@ -1,69 +1,14 @@
 .resume-content {
-	display: flex;
-	flex-direction: column;
-	align-items: center;
-	justify-content: center;
-	font-family: 'Open Sans', sans-serif;
-	margin-top: 3rem;
-	width: 80%;
-	min-width: 500px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 90%;
 }
 
-.resume-content:hover {
-	cursor: text;
-}
-
-.resume-content h1,
-.resume-content h2,
-.resume-content h3 {
-	margin: 5px;
-}
-
-.resume-content h1 {
-	text-transform: uppercase;
-}
-
-.resume-content hr {
-	border: 0;
-	background-image: linear-gradient(to right, transparent, #444, #444, #444, transparent);
-}
-
-.resume-content li {
-	margin: 11px;
-	text-align: center;
-	line-height: 1.2em;
-}
-
-.resume-section {
-	display: flex;
-	flex-wrap: wrap;
-	justify-content: space-between;
-	align-content: center;
-	margin-bottom: 2.5rem;
-	width: 100%;
-}
-
-.resume-section-hr {
-	width: 100%;
-	height: 2px;
-}
-
-.resume-subsection {
-	display: flex;
-	flex-direction: column;
-	width: 50%;
-}
-
-.resume-subsection ul {
-	margin-left: 1rem;
-	margin-right: 1rem;
-}
-
-.resume-technical > .resume-subsection {
-	width: 33%;
-}
-
-.resume-subsection-hr {
-	height: 1px;
-	width: 100%
+.resume-content iframe {
+    width: 100%;
+    height: 100%;
+    min-width: 500px;
+    min-height: 700px;
 }
