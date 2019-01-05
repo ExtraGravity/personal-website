@@ -1,0 +1,104 @@
+[float]
+= How to Play - _Killer_
+
+image:/resources/images/how-to-play-killer/killer-banner.png[alt="killer-banner"]
+
+_Killer_ is a fast-paced game of deduction for medium sized groups.
+One person is chosen to be the *killer*, one person the *doctor*, and everyone else a *townfolk*.
+While the *killer* attempts to kill the entire town, the *doctor* revives people and the *townfolks* try to single out the *killer*.
+The game takes about 5 minutes to explain and each round lasts about a minute.
+
+Requirements:
+
+* A deck of cards (doesn't need to be complete)
+* 7-14 people
+* A space where everyone can sit in a circle and hold hands
+
+== How to Play
+
+=== Setup
+
+. Have everyone sit in a circle in a proximity where they can hold hands.
+The hands must be able to be held in a non-visible place, such as under a table or behind a player's back.
+
+. From the deck, pull out the the Jack of Diamonds, Ace of Hearts, and a black number card for every person remaining.
+So for example with 9 players, 7 black number cards are needed; with 12 players, 10 are needed.
+
+.Card Setup for 9 People
+image:/resources/images/how-to-play-killer/cards.jpg[alt="killer-cards-setup",width=500]
+
+=== Round Start
+
+. Shuffle the cards and deal one card face-down to each player, the card represents the player's identity.
+
+* The Jack of Diamonds is the *killer*
+* The Ace of Hearts is the *doctor*
+* All the black number cards are *townfolk*
+
+. Get each player to look at their card and memorize their identity.
+After memorizing their identity, they keep the card face-down in front of them.
+
+. Everyone should now hold hands and put their held hands in a non-visible location.
+Easy non-visible locations include under a table or behind their backs.
+
+. At this point, the game can begin.
+To start the game, one person announces:
+[quote]
+    The night has begun, killer you may begin killing...
+
+=== Gameplay
+
+==== Squeezing
+
+During gameplay, every player will "pass on" squeezes.
+If a player feels some number of squeezes, they should squeeze their other hand that _many times minus one_ to pass on the squeezes.
+
+For example, if a player feels 4 squeezes on their right hand, they should squeeze their left hand 3 times.
+If a player feels 2 squeezes on their left hand, they should squeeze their right hand once.
+
+If a player feels a single squeeze, they should flip over their card.
+If their card is face-up, that means they are dead and cannot say anything.
+
+==== Accusing
+
+If any of the townfolk have a hunch about who the *killer* is, they can accuse them by saying:
+[quote]
+    I accuse <name of the accussed>!
+
+In order for any action to be taken on the accusation, someone else must say:
+[quote]
+    I agree with <name of the accuser>!
+
+At which point, the accused will either say "yes" or "no".
+If that person _is_ the *killer*, the game is over and the *townfolk* have won.
+If that person _is not_ the *killer*, both the accusers die and flip over their cards.
+
+Only townfolk who are alive can accuse people.
+
+==== The *Killer* and the *Doctor*
+
+To kill or revive people, the *killer* and the *doctor* start squeezes.
+They must count the number of seats away their target is seated and squeeze that many times in that direction.
+
+For example, if Mary, Jane, Tom, and Peter were all sitting in that order.
+If Mary was the *killer* and wanted to kill Peter, she should squeeze 3 times in the direction of Peter.
+Jane would squeeze twice, Tom would squeeze once, and Peter would feel just one squeeze and then flip over his card indicating his death.
+
+The *doctor* works the same way except their goal is to revive people who have died.
+The *doctor* can die as well.
+
+==== Winning
+
+The killer wins by killing everyone in the town.
+Everyone else wins if the killer has been successfully accussed.
+
+== FAQ
+
+* _Can the *doctor* kill the Killer?_
++
+No, if the *killer* receives one squeeze, they should ignore it.
+
+* _Can the *doctor* be revived?_
++
+No, if the *doctor* is killed, the townfolk must quickly catch the *killer*!
+
