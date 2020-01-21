@@ -1,0 +1,193 @@
+[float]
+= Setting Windows Build Numbers with CMake
+
+[docdate]#Written by Enoch Tsang on January 2\3st, 2020#
+
+I was tasked at work with upgrading how we set the version numbers for our product.
+There were two places that this needed to be set.
+The first was in the source code, this was so that the application itself could list its version.
+The second was in the windows resource (RC) files.
+
+This article was written using CMake 3.13.
+
+== Reading Version Numbers from a File
+
+In our specific case, we had multiple executables that needed to have the same versioning.
+Our old format was to do a read and replace in the header and RC files in every exectuable.
+This became quite an easter egg hunt when changing the version numbers and was hard to maintain.
+
+The solution was to have a single easily parsed file that contained the version numbers at the root of the project.
+We then parsed the file at compile time with CMake and set the build numbers using compiler flags.
+The advantage of keeping the version file instead of just using flags is that the version numbers would be version controlled.
+
+The format of the file was simple; just the variable name followed by a space, then the value.
+
+.Version.txt
+[source, txt]
+----
+MAJOR_VERSION 5
+MINOR_VERSION 11
+MAINTENANCE_VERSION 0
+BUILD_NUMBER 1243
+----
+
+This could be easily parsed in CMake using regular expressions.
+
+[source, txt]
+----
+file(READ "${version_file_path}" versionInfoFileContents)
+string(REGEX MATCH "MAJOR_VERSION ([0-9]*)" _ "${versionInfoFileContents}")
+set(major_version "${CMAKE_MATCH_1}")
+----
+
+After using `string(REGEX MATCH...`, the `CMAKE_MATCH_n` variables provided by CMake will contain any specified https://regexone.com/lesson/capturing_groups[capture groups].
+
+== Setting Version Numbers in Source Files
+
+The way we kept build numbers in the source was by keeping a `Version.h` file.
+This file had macros which ended up being the version numbers visible in the final application.
+To edit these, we would read the file and rewrite it with the new version numbers.
+
+.Version.h
+[source, cpp]
+----
+#pragma once
+
+#define MAJOR_VERSION 0
+#define MINOR_VERSION 0
+#define MAINTENANCE_VERSION 0
+#define BUILD_NUMBER 0
+----
+
+To better way to do it would be to set it as a build parameter.
+The advantage of this is that multiple executables which require the same version numbers can be read from a single place.
+Compared to keeping tracking of many `Version.h` files across different applications.
+
+Different compilers provide different ways of setting macros in the source.
+This can be done by using `target_compile_definitions()` in CMake.
+
+[source, txt]
+----
+target_compile_definitions(
+    "${PROJECT_NAME}"
+    PUBLIC
+    "MAJOR_VERSION=${major_version}"
+----
+
+But source code should be compilable as is, without needing special instructions such as specific flags.
+So the version header file was changed to conditionally define the version numbers.
+
+.Version.h
+[source, cpp]
+----
+#pragma once
+
+#ifndef MAJOR_VERSION
+    #define MAJOR_VERSION 0
+#endif
+#ifndef MINOR_VERSION
+    #define MINOR_VERSION 0
+#endif
+#ifndef MAINTENANCE_VERSION
+    #define MAINTENANCE_VERSION 0
+#endif
+#ifndef BUILD_NUMBER
+    #define BUILD_NUMBER 0
+#endif
+----
+
+== Setting Version Numbers in Windows Resource Files
+
+CMake provides a handy (but poorly https://cmake.org/cmake/help/v3.12/envvar/RCFLAGS.html[documented]) variable for setting RC compilation flags.
+The list of flags that are usable are defined by the https://docs.microsoft.com/en-us/windows/win32/menurc/using-rc-the-rc-command-line-[RC] command in windows.
+The one of interest here is the `/d` flag.
+
+Previously, the version numbers would be defined in the RC file like so:
+
+.app.rc
+[source, txt]
+----
+FILEVERSION 3,5,2,234
+PRODUCTVERSION 3,5,2,234
+...
+VALUE "ProductVersion", "3, 5, 2, 234"
+VALUE "FileVersion", "3, 5, 2, 234"
+----
+
+Switching out those hard-coded values for definable macros:
+
+.app.rc
+[source, txt]
+----
+FILEVERSION MAJOR_VERSION, MINOR_VERSION, MAINTENANCE_VERSION, BUILD_NUMBER
+PRODUCTVERSION MAJOR_VERSION, MINOR_VERSION, MAINTENANCE_VERSION, BUILD_NUMBER
+...
+VALUE "ProductVersion", STRINGIZE(VERSION_STRING)
+VALUE "FileVersion", STRINGIZE(VERSION_STRING)
+----
+
+As you can see, the `STRINGIZE` macro has been introduced.
+This is because macros can't necessarily be strings but need a bit of help.
+The `STRINGIZE` macro is defined as follows:
+
+[source, cpp]
+----
+#define _STRINGIZE(n) #n
+#define STRINGIZE(n) _STRINGIZE(n)
+----
+
+This required a new variable which we defined as `VERSION_STRING`, this was defined in CMake as a contatenation of the other variables.
+
+Once the RC file was using macros, `CMAKE_RC_FLAGS` could be set.
+
+[source, txt]
+----
+set(CMAKE_RC_FLAGS
+    "${CMAKE_RC_FLAGS} \
+    /dMAJOR_VERSION=${major_version} \
+    /dMINOR_VERSION=${minor_version} \
+    /dMAINTENANCE_VERSION=${maintenance_version} \
+    /dBUILD_NUMBER=${build_number} \
+    /dVERSION_STRING=${major_version},${minor_version},${maintenance_version},${build_number}")
+----
+
+Note: Even though windows environments are generally not case sensitive, do not use `/D` like with MSVC, `/D` will not work.
+
+== Conclusion
+
+In the end, the version numbers in source and in the windows resource files for multiple applications are now defined from a single location.
+CMake parses `Version.txt` and sets the values programatically for each file.
+The end result looked something like below.
+
+.CMakeLists.txt
+[source, txt]
+----
+file(READ "${version_file_path}" versionInfoFileContents)
+string(REGEX MATCH "MAJOR_VERSION ([0-9]*)" _ "${versionInfoFileContents}")
+set(major_version "${CMAKE_MATCH_1}")
+string(REGEX MATCH "MINOR_VERSION ([0-9]*)" _ "${versionInfoFileContents}")
+set(minor_version "${CMAKE_MATCH_1}")
+string(REGEX MATCH "MAINTENANCE_VERSION ([0-9]*)" _ "${versionInfoFileContents}")
+set(maintenance_version "${CMAKE_MATCH_1}")
+string(REGEX MATCH "BUILD_NUMBER ([0-9]*)" _ "${versionInfoFileContents}")
+set(build_number "${CMAKE_MATCH_1}")
+
+target_compile_definitions(
+    "${PROJECT_NAME}"
+    PUBLIC
+    "MAJOR_VERSION=${major_version}"
+    "MINOR_VERSION=${minor_version}"
+    "MAINTENANCE_VERSION=${maintenance_version}"
+    "BUILD_NUMBER=${build_number}")
+
+if(WIN32)
+    set(CMAKE_RC_FLAGS
+        "${CMAKE_RC_FLAGS} \
+        /dMAJOR_VERSION=${major_version} \
+        /dMINOR_VERSION=${minor_version} \
+        /dMAINTENANCE_VERSION=${maintenance_version} \
+        /dBUILD_NUMBER=${build_number} \
+        /dVERSION_STRING=${major_version},${minor_version},${maintenance_version},${build_number}")
+    endif()
+endif()
+----

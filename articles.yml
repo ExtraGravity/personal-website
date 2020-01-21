@@ -13,6 +13,8 @@
       url: "articles/scaling-two-monitors-differently-on-linux-mint"
     - title: "Windows VM on Linux with GPU Passthrough"
       url: "articles/windows-vm-gpu-passthrough"
+    - title: "Setting Windows Build Numbers with CMake"
+      url: "articles/setting-windows-build-numbers-with-cmake"
 - name: "Non-Technical"
   sources:
     - title: "An Approach to Reviewing Code"
