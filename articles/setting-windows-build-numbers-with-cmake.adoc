@@ -1,7 +1,7 @@
 [float]
 = Setting Windows Build Numbers with CMake
 
-[docdate]#Written by Enoch Tsang on January 2\3st, 2020#
+[docdate]#Last Edited by Enoch Tsang on January 23rd, 2020#
 
 I was tasked at work with upgrading how we set the version numbers for our product.
 There were two places that this needed to be set.
