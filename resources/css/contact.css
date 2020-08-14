@@ -43,6 +43,11 @@
 	resize: vertical;
 }
 
+.recaptcha-badge {
+	display: flex;
+	justify-content: flex-end;
+}
+
 .contact-submit-div {
 	display: flex;
 	justify-content: space-between;
@@ -78,10 +83,17 @@
 	text-align: right;
 }
 
-
 .contact-form input[name="LeaveBlank"] {
 	position: relative;
 	top: -10000%;
 	left: -10000%;
 	z-index: -10000;
+}
+
+.grecaptcha-badge {
+
+/*    visibility: hidden;
+    margin: 0 auto;
+    display: table;
+    width: 0 !important;*/
 }
