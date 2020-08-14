@@ -46,6 +46,7 @@
 .recaptcha-badge {
 	display: flex;
 	justify-content: flex-end;
+	margin-right: 8px;
 }
 
 .contact-submit-div {
