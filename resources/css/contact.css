@@ -43,12 +43,6 @@
 	resize: vertical;
 }
 
-.recaptcha-badge {
-	display: flex;
-	justify-content: flex-end;
-	margin-right: 8px;
-}
-
 .contact-submit-div {
 	display: flex;
 	justify-content: space-between;
@@ -89,12 +83,4 @@
 	top: -10000%;
 	left: -10000%;
 	z-index: -10000;
-}
-
-.grecaptcha-badge {
-
-/*    visibility: hidden;
-    margin: 0 auto;
-    display: table;
-    width: 0 !important;*/
 }
