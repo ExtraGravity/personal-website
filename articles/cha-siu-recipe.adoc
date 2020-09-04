@@ -3,6 +3,9 @@
 
 [docdate]#Written by Enoch Tsang on August 15th, 2020#
 
+Cha Siu (commonly spelt char siu) is a Chinese dish from the Canton region.
+Normally it is roasted and marinated for a long period of time, but this recipe gets the same classic taste in an everyday kitchen.
+
 == Ingredients
 
 * Pork Shoulder (叉燒肉) - 2lbs
@@ -11,7 +14,14 @@
 * White Pepper Powder (白胡椒粉) - 2 tsp
 * Honey (蜜糖) - As needed (but won't be much)
 
-image:/resources/images/cha-siu-recipe/cha-siu-ingredients.png[alt="cha-siu-ingredients",width=500]
+image:/resources/images/cha-siu-recipe/cha-siu-ingredients.jpg[alt="cha-siu-ingredients",width=500]
+
+=== Notes
+
+Most of these ingredients will only be found in an Asian grocery store (such as T&T).
+These specific brands were found in Calgary, Alberta, Canada.
+For the meat, in an Asian grocery store it will likely be labelled in Chinese specifically as 叉燒肉.
+Other cuts of meat can be used, but the fattier the better.
 
 == Tools Needed
 
@@ -42,23 +52,30 @@ Don't use all of it because at least 2/3 of it will be used for day 2.
 === Day 2
 
 . Preheat the oven to 350 °C.
+
 . Take the saran wrap off the meat and put the meat on a tin foil wrapped baking pan.
 +
 Cook the meat for 25 minutes on the middle rack.
+
 . Take out the pan, turnover the meat and apply the mixture from day 1 to the top and sides of the meat.
 +
 Cook the meat for 20 minutes.
+
 . Set the oven to broil, low broil if the setting is available.
 Do not move the meat to the upper rack, keep the meat on the middle rack.
 +
 Broil the meat for 5 minutes.
+
 . Take out the pan and drizzle honey over the meat, using the basting brush to cover the meat.
 +
 Broil the meat for 5 minutes.
+
 . Take out the pan and turn over the meat. Apply a layer of sauce and honey to the meat.
 +
 Broil the meat for 5 minutes.
+
 . Take the meat out and let cool for 5 minutes.
+
 . Cut the meat into slices and serve.
 
-image:/resources/images/cha-siu-recipe/finished-cha-siu.png[alt="finished-cha-siu",width=500]
+image:/resources/images/cha-siu-recipe/finished-cha-siu.jpg[alt="finished-cha-siu",width=500]
