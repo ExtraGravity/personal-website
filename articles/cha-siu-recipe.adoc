@@ -1,0 +1,64 @@
+[float]
+= Cha Siu (叉燒) Recipe
+
+[docdate]#Written by Enoch Tsang on August 15th, 2020#
+
+== Ingredients
+
+* Pork Shoulder (叉燒肉) - 2lbs
+* Cha Siu Sauce (叉燒醬) - 1/2 Cup
+* Chinese Cooking Wine (低度厨用花彫酒) - 1 Tbsp
+* White Pepper Powder (白胡椒粉) - 2 tsp
+* Honey (蜜糖) - As needed (but won't be much)
+
+image:/resources/images/cha-siu-recipe/cha-siu-ingredients.png[alt="cha-siu-ingredients",width=500]
+
+== Tools Needed
+
+* Basting Brush
+* Oven with Broil Setting
+* Saran Wrap
+* Sharp Knife
+* Small Bowl
+* Fridge
+* Tin Foil
+* Baking Pan
+
+== Directions
+
+There is a marination step, which is day 1, and day 2 which is actually cooking it.
+
+=== Day 1
+
+. Cut the meat in half length-wise as shown in the ingredients image.
+This is so that the finished pieces will be bite sized.
+. In a bowl, mix all the cha siu sauce, chinese cooking wine, and white pepper powder together.
+. Using a basting brush, paint the mixture over both pieces of meat, completely covering them on all sides.
+Don't use all of it because at least 2/3 of it will be used for day 2.
+. Wrap the meat in saran wrap.
+. Leave the sauced meat in the fridge to mariante for at least 12 hours.
+. Cover the bowl with saran wrap and also leave it in fridge, it will be used for day 2.
+
+=== Day 2
+
+. Preheat the oven to 350 °C.
+. Take the saran wrap off the meat and put the meat on a tin foil wrapped baking pan.
++
+Cook the meat for 25 minutes on the middle rack.
+. Take out the pan, turnover the meat and apply the mixture from day 1 to the top and sides of the meat.
++
+Cook the meat for 20 minutes.
+. Set the oven to broil, low broil if the setting is available.
+Do not move the meat to the upper rack, keep the meat on the middle rack.
++
+Broil the meat for 5 minutes.
+. Take out the pan and drizzle honey over the meat, using the basting brush to cover the meat.
++
+Broil the meat for 5 minutes.
+. Take out the pan and turn over the meat. Apply a layer of sauce and honey to the meat.
++
+Broil the meat for 5 minutes.
+. Take the meat out and let cool for 5 minutes.
+. Cut the meat into slices and serve.
+
+image:/resources/images/cha-siu-recipe/finished-cha-siu.png[alt="finished-cha-siu",width=500]

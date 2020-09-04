@@ -21,3 +21,7 @@
       url: "articles/an-approach-to-reviewing-code"
     - title: "2D Drawings in Art 241"
       url: "articles/2d-drawings-in-art-241"
+- name: "Recipes"
+  sources:
+    - title: "Cha Siu (叉燒) Recipe"
+      url: "articles/cha-siu-recipe"
