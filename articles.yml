@@ -5,6 +5,8 @@
       url: "articles/svg-vs-canvas"
     - title: "Tessellation Shaders and Isolines"
       url: "articles/tessellation-shaders-isolines"
+    - title: "More than 8 People Muck"
+      url: "articles/more-than-8-people-muck"
 - name: "Systems"
   sources:
     - title: "Making Sense of SSL Certificate Bundles"

@@ -1,0 +1,200 @@
+[float]
+= More than 8 People Muck
+
+[docdate]#Written by Enoch Tsang on December 31th, 2021#
+
+image:/resources/images/more-than-8-people-muck/muck-banner.jpg[alt="muck"]
+
+Over the Christmas holidays, my friends and I decided to try link:https://store.steampowered.com/app/1625450/Muck/[Muck].
+We had 11 people who wanted to play, but to our dismay, the game was capped at 8 people.
+After 8 people were in the lobby, no more people could join.
+We read online that 8 players was a soft limit and that it could have more players.
+The only solution we found online to do this was to use the link:https://github.com/iiVeil/ChunkyLobbies[ChunkyLobbies] mod.
+Unfortunately, it didn't work and we couldn't find a way to fix it.
+
+While I was googling, I stumbled upon an article on link:https://steamlists.com/muck-how-to-create-mod-in-muck-tutorial/[how to mod muck].
+It was a very good guide and I'd recommend reading it as well.
+Much of what I've written here is there as well, but I wanted to document my journey as well as provide a working (at the time of writing) solution.
+
+If you only care about trying the mod, you can jump down to <<applying-the-mod, Applying the Mod>>.
+
+== Disassembling Muck
+
+To disassemble Muck, I used link:https://github.com/dnSpy/dnSpy[dnSpy].
+dnSpy is a debugger and .NET assembly editor.
+It was my first time using a disassembler and it was way easier than I expected!
+I thought I would be looking at tons of assembly or something like that, but that was not my experience at all.
+After opening `/Muck/Muck_Data/Managed/Assembly-CSharp.dll` (I knew this from the guide I linked above) from the game files, this is what I saw.
+
+.Muck's `Assembly-CSharp.dll` Disassembled in dnSpy
+image:/resources/images/more-than-8-people-muck/dnspy.jpg[alt=dnSpy]
+
+As you can see in the image above, it's almost like looking at regular code.
+You got your classes on the left, and the code for the class (almost) as usual on the right.
+You can even jump to definitions like in a regular IDE.
+And other than in the comments, no assembly in sight.
+
+Luckily Muck was built in Unity (which I have had experience with), so I could tell how the code in general worked.
+I assume disassembling any Unity game would work the same way as I've described here.
+I won't go into how Unity works to explain this, but if you (my dear reader) do know, then I can tell you that each class in `Assembly-CSharp.dll` maps to each script written in Unity.
+If you know Unity, then you might also be able to deduce that this means a fair amount of the work for the game, the work saved in the scenes, is not easily accessible in dnSpy.
+This does become a problem later.
+
+== Making Changes
+
+Making changes in dnSpy are also a cinch.
+In the image of dnSpy above, that view is read-only, so you can't make any changes there.
+To make changes, a specific section of code must be selected for editing and compiled before editing a different section.
+This is because any changes made are compiled immediately and written to the DLL.
+What I mean by specific sections of code are either things like methods or classes.
+
+image:/resources/images/more-than-8-people-muck/editing-in-dnspy.jpg[alt=edit-options-in-dnSpy]
+
+It is nice to look at an entire class when editing, but if you choose to edit a whole class, the entire class will have to be recompiled as opposed to say just a single method.
+This sounds like it wouldn't be much of an issue but I did actually end up facing an issue due to this.
+
+== Looking for the Magic Number
+
+When I was thinking of making this change, I hypothesized that there must be somewhere in the code that arbitrarily restricts the lobby to only allowing 8 people.
+This was because people online said there was no hard cap of 8 people.
+Also while I was playing I also noticed there wasn't anything that looked like it wouldn't work with more than 8 people.
+An example of something like that would be 8 houses in the beginning, one for each spawning player.
+
+I spent about an hour and a half combing through the various classes and their innards before I found exactly what I was looking for.
+
+image:/resources/images/more-than-8-people-muck/magic-number-8.jpg[alt=magic-number-8]
+
+After finding this, I hit _Edit Class (C#)..._ in the context menu, changed the number, and hit compile.
+To my surprise, I immediately hit some compilation issues.
+
+image:/resources/images/more-than-8-people-muck/compilation-issues.jpg[alt=compilation-issues]
+
+This was pretty odd considering all I changed was a number.
+With some experimentation, I found that even without the change I would get the compilation error. (More on this later!)
+
+The first two errors were pretty easy to fix, I just had to add a qualifier to `Object.DontDestroyOnLoad()`, resulting in `UnityEngine.Object.DontDestroyOnLoad()`.
+To my surprise, this error would still exist after I made the change.
+With some thought, this makes sense because the compiled code should be equal, and so the decompiled code would still result in the same thing.
+I would consider this a bug in `dnSpy`, that it creates decompiled code that doesn't compile, but I'm no expert in disassemblers so perhaps there is a good reason for this behaviour that I don't know.
+
+The third and fourth errors were much more difficult to fix.
+
+image:/resources/images/more-than-8-people-muck/await-error.jpg[alt=await-error]
+
+I wasn't an expert on awaits, but from my google-fu, it seemed like this error would appear when using an older .NET version, so I wouldn't be able to solve it with any syntactic sugar (non-functional changes) like with the first two errors.
+So next I tried changing the behaviour to something similar, like adding a short sleep, or just removing the awaits...
+Unfortunately, all of them resulted in the game freezing.
+
+I was stuck for a while until I realized I could just edit the method instead of the entire class.
+So I just compiled the `CreateLobby()` method instead of the entire class, with the new magic number.
+Thus removing the need to compile the problematic sections of code.
+
+=== Some Fun Stuff
+
+While I was combing through the disassembly I found a few interesting things.
+
+.A class named hahahayes
+image:/resources/images/more-than-8-people-muck/hahahyes.jpg[alt=hahahyes-class]
+
+.An unused Gun script
+image:/resources/images/more-than-8-people-muck/gun.jpg[alt=gun-script]
+
+.My immaturity showing
+image:/resources/images/more-than-8-people-muck/PPController.jpg[alt=gun-script]
+
+== Other (Necessary) Changes
+
+Since I could only test these changes with over 8 people, I made some changes to prevent possible issues.
+
+=== Lobby Visuals
+
+In Muck, the lobby is actually hard-capped at 8 people.
+
+image:/resources/images/more-than-8-people-muck/muck-lobby.jpg[alt=muck-lobby]
+
+What it appears like in-game, is that a character is spawned for every person that joins.
+In reality, after inspecting the code, the players are already created before joining the lobby and just turned on or off when players join.
+
+image:/resources/images/more-than-8-people-muck/lobby-visuals-code.jpg[alt=lobby-visuals-code]
+
+If `GetNextId()` is called when all `lobbyPlayers` have been activated, then `GetNextId()` will return `-1` and `SpawnLobbyPlayer()` would crash on line 90.
+Using the cautious assumption that only 8 lobby players are pre created, this means that the game would crash when a 9th player joins the lobby.
+
+To fix this, if `GetNextId()` on line 87 returned `-1` (when there's are more than 8 players), then I would just exit the function.
+This means that when a 9th player (or later) joins, they will be registered in the backend steam lobby, but there will be no visual difference in the Muck lobby.
+
+I was also suspicious of the loading screen after the lobby, but luckily the loading screen creates loading screens on the fly for each player, no matter how many players there are.
+
+=== A Suspicious Max Players
+
+In the `NetworkController` class I noticed a suspicious member variable named `maxPlayers`.
+
+image:/resources/images/more-than-8-people-muck/network-controller-code.jpg[alt=network-controller-code]
+
+At the time of writing, I'm still not sure exactly what this affects, but I increased the number by the same amount I increased the lobby size in `SteamManager` to be safe.
+
+=== Spawn Positions
+
+I noticed in the `GameManager` class, players were spawned from the `spawnPositions` array once the game started.
+
+image:/resources/images/more-than-8-people-muck/game-manager-code-pre-change.jpg[alt=game-manager-code-pre-change]
+
+The danger here is that if more players were spawned than there were spawn positions, then the game would crash.
+I wasn't sure how `spawnPositions` was set and so I didn't know the size of the array, so to be safe I decided to come up with a different way of spawning everyone.
+
+I first tried spawning everyone at the same location, `spawnPosition[0]`.
+This resulted in odd collisions, (hilariously) launching all players very high into the air at the start of the game.
+
+So what I ended up doing was spawning all players at the same location, but changing their `y` spawn location.
+The result was everyone spawning above and below each other.
+The effect was quite cute so when I had people play with my mod, I told them to look above and below them when the game started.
+
+.My changes to GameManager
+image:/resources/images/more-than-8-people-muck/game-manager-code-post-change.jpg[alt=game-manager-code-pre-change]
+
+[[enoch-says]]
+=== Enoch Says!
+
+I also wanted an easy way to determine if the modification was actually applied or not, for myself and for the people I was distributing it to.
+I opted for changing the error message when joining trying to join the lobby with a non-number lobby id.
+
+image:/resources/images/more-than-8-people-muck/join-lobby-btn-code.jpg[alt=join-lobby-btn-code]
+
+[[applying-the-mod]]
+== Applying the Mod
+
+After compiling the changes, a final save needs to be done using _File_ > _Save All..._.
+
+image:/resources/images/more-than-8-people-muck/save-all.jpg[alt=save-all]
+
+This finally writes the changes to the `Assembly-CSharp.dll` file.
+This directly changed the game file for me, so that's all I needed to do to get the changes.
+To give it to other people, all that's needed is to find their copy of `Assembly-CSharp.dll` and replace it with the modified version.
+This file can be easily located by going through steam's _Browse Local Files_ button, the DLL is then located at `/Muck/Muck_Data/Managed/Assembly-CSharp.dll`.
+
+image:/resources/images/more-than-8-people-muck/browse-local-files.jpg[alt=browse-local-files]
+
+To check that the mod was applied correctly, all that's needed is to hit the _Join Lobby_ button and the special message I wrote about in <<enoch-says, Enoch Says!>> should appear.
+
+image:/resources/images/more-than-8-people-muck/enoch-says-screenshot.jpg[alt=enoch-says-screenshot]
+
+Here is a download to my edited link:https://enochtsang.com/resources/Assembly-CSharp.dll[Assembly-CSharp.dll] file that enables running Muck with more than 8 people.
+Only the host needs to have the mod applied.
+
+This mod will almost definitely not work with future versions of Muck and I do not plan to update it.
+The Muck version this was built against is 1.3, the steam build ID was 7077400
+
+== Conclusion
+
+This was my first time doing a disassembly and it was a lot easier than I thought.
+It only took me about 3 hours to do everything I described here.
+I did have the big advantages of having prior experience with Unity though.
+
+. Before scanning through the code, I already understood in general how the code was organized and linked.
+. Because the game was written in Unity, much of the code put into the game is in the Unity's DLL files.
+This means that the user code is neatly separate out, greatly reducing the amount of code that needed to be read.
+
+The end result was successful, albeit a little janky
+The first janky part being that you can't actually see more than 8 people in the lobby, even though there are more than 8 people in the lobby in the backend.
+The second is that the players no longer spawn normally, but they all spawn at the same location, falling on top of each other.
+But, the result is usable and I'm happy with what I've learned.
