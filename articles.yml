@@ -21,6 +21,8 @@
       url: "articles/an-approach-to-reviewing-code"
     - title: "2D Drawings in Art 241"
       url: "articles/2d-drawings-in-art-241"
+    - title: "Intern Coding Test"
+      url: "articles/intern-coding-test"
 - name: "Recipes"
   sources:
     - title: "Cha Siu (叉燒) Recipe"

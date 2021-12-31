@@ -1,0 +1,91 @@
+[float]
+= Intern Coding Test
+
+[docdate]#Written by Enoch Tsang on December 3rd, 2021#
+
+At link:https://www.circlecvi.com/[Circle Cardiovascular Imaging Inc.] I had the pleasure of taking part in the interview process for hiring interns early on in my career.
+This was extraordinarily enlightening for myself, to know what kind of things mattered and didn't matter in interviews.
+At Circle, the general interview process consisted of 3 phases.
+
+	. Technical and behavioural interview with 2-3 people (1hr)
+	. Coding test followed by a half hour review (1-3hrs)
+	. Final screening with the CTO or someone similar (1hr)
+
+I was tasked to create a link:https://github.com/enochtsang/CircleInternCodingTest2021[coding test] for the second phase.
+I won't comment on how justified such a long interview process is, but I will talk about I feel like I effecively used those 1-3 hours.
+
+== Test Summary
+
+Before I started on this test, I was given the coding test given out last year as a template.
+That test asked the candidates to write a program that blahhhhh
+
+As part of my interview process in joining Circle, I was also given a fairly length coding test.
+Recalling that, there were some issues that I definitely wanted to do differently.
+
+* The test took a variable amount of time, I wasn't sure when I'd be done
+* I spent a lot of time bootstrapping the code before writing anything interesting
+* Interviewers wouldn't see my ability to read code
+
+To fix these issues, I wrote a simple game and asked the candidates to make as many modifications to it as they could within 2 hours.
+The game was a turn-based terminal game, where the player has to find a key and escape a maze.
+The map was a 4x4 grid, the player spawns in the most NW box, and the key is located in the most SE box.
+Each turn the player picks one direction and moves to that box, if they can of course, they will be told they cannot if they are already on the edge of the map.
+The player must move to the room with the key in it, in which they'll automatically pick up the key, then go through the exit door, which is spawned randomly on an edge of the map.
+
+With permission from Circle, here is a link to the coding test: https://github.com/enochtsang/CircleInternCodingTest2021.
+
+=== Compilation
+
+Since the game was a turn-based terminal game, This meant there was no graphics, no game loop, and no third party libraries.
+We gave them just the source and header files in one directory and on instructions to compile.
+This gave them the freedom to use whatever tool they want to compile.
+The caveat is that they do need to know their favourite tool enough to set up a project with existing files.
+This also reduces the chance of us giving them something that won't compile.
+
+=== Possible Modifications
+
+Here are the list of possible modifications
+
+==== Easy
+    . Show a graphical representation of the current room
+    . Tell the player how many moves they used at the end of the game
+    . Randomize map size
+    . Randomize player spawn location
+    . Randomize key spawn location
+==== Medium
+    . Randomly set some doors to walls
+    . Require multiple keys to open the door
+    . Add an option for the player to view their inventory
+    . Add the option at the end to play again or to exit
+    . Handle invalid input gracefully
+==== Hard
+    . Write some tests for LevelLayout (framework not required)
+    . Allow the player to view a map of already explored areas
+    . Create a hunger system where the player must look for food to keep exploring
+    . Add hazards to rooms that deteriorate the player's health
+    . Change map generation to not just be a 2D square
+
+=== Required Change
+
+== Results
+
+=== Advantage
+
+I was really happy with how the coding test turned out in practice.
+Aside from fixing all the issues I listed above, it also had other advantages that I didn't xpect
+
+* Set time frame
+* They didn't need to bootstrap code and could get coding faster
+* Had to exercise reading code
+* Tests time management
+* Closer to day to day work of editing rather than writing
+* More of a chance to show OOP skills
+* Good chance to show documentation skills
+* Candidates had fun
+
+=== Common pitfalls and things we looked for
+
+not naming the move correctly
+
+== Avg performance / results
+
