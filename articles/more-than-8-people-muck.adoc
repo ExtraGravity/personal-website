@@ -194,7 +194,7 @@ I did have the big advantages of having prior experience with Unity though.
 . Because the game was written in Unity, much of the code put into the game is in the Unity's DLL files.
 This means that the user code is neatly separate out, greatly reducing the amount of code that needed to be read.
 
-The end result was successful, albeit a little janky
+The end result was successful, albeit a little janky.
 The first janky part being that you can't actually see more than 8 people in the lobby, even though there are more than 8 people in the lobby in the backend.
 The second is that the players no longer spawn normally, but they all spawn at the same location, falling on top of each other.
 But, the result is usable and I'm happy with what I've learned.

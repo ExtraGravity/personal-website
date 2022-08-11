@@ -1,0 +1,219 @@
+[float]
+= My Amazon Interview Experience
+
+[docdate]#Written by Enoch Tsang on August 10th, 2022#
+
+Around May 2022, I was starting to look for opportunities outside of my then company.
+I had never tried to get into a big tech company before and thought I'd give it a shot.
+Of the FAANG companies, I also applied to Google (with a referral), Facebook, and Apple.
+Google sent me rejections after over a month.
+Facebook never responded, although they did have a hiring freeze.
+The only opening I got a response for from Apple was one in China that asked me to relocate (which I was unwilling to do so).
+
+But here I will chronicle my journey from applying to Amazon all the way to the offer.
+
+== Application
+
+After I ignored many messages from Amazon Recruiters, I finally responded to one on May 30th 2022.
+He connected me with his recruiting partner and on June 13th she asked me to apply to an official job posting.
+
+Here is the resume I used:
+
+image:/resources/images/my-amazon-interview-experience/amazon-resume-2022.jpg[alt=dnSpy]
+
+So it goes to show that you don't always need a single-page resume to get into big tech.
+
+
+== Online Assessment
+
+After submitting my application on June 15th I received my email from Amazon for the next step in the process.
+I was given a week after getting the acceptance email from Amazon to complete an online assessment.
+The online assessment consisted of two coding assessment questions (Leetcode style), a work simulation, and a work style assessment.
+I finished the online assessment on June 22nd.
+
+=== Preperation
+
+I had begun practicing on link:https://leetcode.com/[Leetcode] about the same time I responded to the recruiter.
+Before doing the online assessment, I had done \~10 easy questions, and \~10 medium ones, about one or two questions a day.
+It was pretty hard at first, but I saw significant improvement, taking about half an hour to an hour to do the medium questions before doing my online assessment.
+I also paid for the premium version for the duration of this process, which I think was worth it.
+
+=== Coding Assessment
+
+For the coding assessment, I was given an online IDE which I could pick from many different languages.
+I was then given two questions to solve in 1 hour, I could switch between the two whenever I wanted.
+Each question also had several test cases and I could submit my solution to see how many test cases I passed.
+It would only provide the inputs and outputs for a few of the test cases though, so much of the edge case handling is up to the writer to ponder.
+
+I wish I could remember the questions for this article, but unfortunately, they will be lost to the winds of time.
+
+In the acceptance email, I got a link to the assessment as well as a demo one.
+I thought I'd be able to try the demo as many times as I could, so I opened it up right away and tried it out a bit closing it.
+I wanted to do an actual practice run later, but to my dismay, it was then closed.
+
+I didn't ace the coding assessment.
+For the first question, I did pass all the test cases after about 30 minutes.
+For the second question, I only passed all the logical cases but I didn't write an optimal solution so I didn't pass the runtime cases.
+I thought for this reason I wouldn't get past this round, but apparently, it's enough.
+
+=== Work Simulation
+
+The work simulation was a series of multiple choice questions.
+The question would come as a mock email from a coworker, and I was given some choices on how to respond to them.
+The questions were not behavioural but mostly about work style and technical skills.
+
+As an example, on one end of the spectrum, I was asked how I would begin prototyping a new product.
+The choices were similar to: gathering requirements, start building the prototype, or start drawing high-level design diagrams.
+
+On the other end of the spectrum, I was asked to choose the best database, choosing between the likes of PostgreSQL, CockroachDB, or MongoDB.
+
+There were definitely some technical questions I wasn't very knowledgeable of, like database selection. There was no time limit for this step, but it took me about 20 minutes.
+
+=== Work Style Assessment
+
+In this one, I was given statements such as, _"I sometimes feel uncomfortable in new situations"_ and I was then asked to select how much I agreed to the statement in a multiple choice manner ranging from "Strongly Agree" to "Strongly Disagree".
+
+These were obviously to assess how much my personality matched link:https://www.amazon.jobs/en/principles[Amazon's Leadership Principles].
+I could've studied them to answer them to get the job, but I answered mostly truthfully.
+
+There was no time limit for this step, it also took me about 20 minutes.
+
+== Phone Screening
+
+I got feedback on my online assessment quickly.
+On June 24th, I got an email congratulating me and wanting to schedule me for a phone screening.
+It wasn't actually going to be via phone but through Amazon Chime, their custom video calling software, similar to Skype.
+
+It originally got scheduled for July 6th, but due to a conflict, I rescheduled it for July 13th.
+The rescheduling process was relatively painless and smooth.
+
+=== Question Two
+
+The phone screening was a whiteboard coding session consisting of two questions over 60 minutes.
+I would connect via Amazon Chime and we'd join a live coding session where we both connected to an online IDE, but it was more or less just a collaborative notepad.
+
+The first question was a Leetcode style question, this question I do remember.
+I was asked to determine if two binary trees were equal.
+I solved it, but originally with an incorrect approach of a BFS approach.
+My interviewer quickly corrected me to using a recursive DFS approach, which panicked me at first since I always shied away from recursive solutions.
+But I did end up solving it in about half an hour, they were pretty uninterested in if my syntax was correct.
+I was not asked for the complexity.
+
+=== Question Two
+
+The second question was an object-oriented design type of question.
+I was asked to design the parking meter for a parking garage.
+I think the key design issue was on whether to have a configurable class or an interface, in this case, for setting a pricing model.
+Overall I was pretty unsure of myself and I think the interviewer had to continuously reaffirm that I was moving in the right direction.
+
+=== Phone Screening After Thoughts
+
+I think as a developer, I am particularly strong in object-oriented design which I think shown in this interview.
+There were definitely mistakes though, mistakes that the interviewer had to correct, so this was by no means a perfect interview.
+
+== The Loop / "On-Site" Interview
+
+I also got feedback on my phone interview quickly.
+Just the following day on July 14th, I had been told I was being moved to the final rounds.
+After researching online, I came to know that this interview was known as The Loop.
+
+The Loop consisted of four interviews, for me I asked to schedule them all in one day, they were from 1 pm to 6 pm with a break between 2 pm and 3 pm.
+
+Each interview started with 2 behavioural questions based on Amazon's leadership principles, these took about 20-30 minutes each.
+They were then followed by one technical question.
+In the overviews below, I will only go over the technical portion.
+
+=== Preparation
+
+In preparation, I did a few more medium Leetcode questions, about 5 more.
+I also spent time preparing for the behavioural questions.
+To do that, I compiled 10 stories in the link:https://www.amazon.jobs/en/landing_pages/in-person-interview[STAR format].
+Then I got a friend who had passed the Amazon interview to mock interview me.
+I had him ask me a question for each leadership principle to make sure I had an answer for them.
+He said my answers seemed fine, so I ended my prep for the behavioural aspect there.
+
+=== Interview One
+
+The technical question in the first interview was an object-oriented design question.
+I was to design a card game and the major object-oriented work was in writing an interface to check for poker hands.
+We finished early and took the time to implement one of the classes, which I did, but stumbled through a bit more than I think was necessary, it was pretty easy but I had a very silly bug.
+Overall, I was pretty happy with how this one went.
+
+=== Interview Two
+
+I felt like I did the worst in this interview.
+This was a Leetcode style question: Given an m x n map of letters, and a vector of strings, determine which strings can be found in the map via adjacent letters.
+For half an hour, it seemed a little difficult in my opinion.
+
+I came up with the conceptual solution fairly quickly but I was struggling a bit through the implementation because I kept looking at the time and getting tripped up.
+I got to the final step of just writing the recursive function and I just couldn't do it, my mind was a mess.
+In the last 5 minutes, he said that we can stop and I can ask him questions.
+Or, in his words, we can go to "a super high-pressure scenario" and I can try to finish the problem.
+I felt really close, and I think when he said that it gave me a moment to reset.
+I finished it in the last 5 minutes and gave him a complexity (that I think was wrong) with no time to spare.
+
+=== Interview Three
+
+This interview had the high-level system design question.
+The scenario was that Amazon was investing in cinemas and that I was to design the backend for it.
+If you hadn't noticed, I didn't study at all for this one.
+I was stumbling through it and the interviewer had to keep guiding me on what to design next.
+At this point, I didn't have any industry experience in this area, but I felt like I generally knew what I was talking about but just didn't know where to go.
+
+I wasn't sure what to make of this one, at the end he said "You did good!" before quickly leaving, but they're not supposed to give feedback so I took that with a grain of salt.
+But viewing some mock system design interviews afterwards, it was clear I did not do what was generally expected.
+
+=== Interview Four
+
+I totally crushed this last one.
+This question was two parts and I finished them both quickly.
+The first part was Leetcode style and I was asked to implement something like the fill function in MS paint.
+This ended up being a recursive adjacent grid search like the first question, so I did it very quickly, he also asked for the complexity which I think I answered correctly.
+The second part was an object-oriented design question on how I would implement the undo feature.
+I had done something very similar at a previous company so I was able to a very thorough explanation of good and bad ways to do it, to which he was satisfied.
+We finished quite early and I was given a lot of time to ask him questions.
+
+=== The Loop After Thoughts
+
+I felt like there were a a few places I could've been knocked, so I was very nervous about the results right after the final interview.
+The areas I felt nervous about:
+
+* In all my coding/Leetcode assessments, I made some significant mistakes, or was slow.
+* I didn't study the leadership principles very hard, I was just answering the questions and hoping my stories displayed the leadership principles.
+I could've been more confident if I felt like I was always answering to a specific leadership principle.
+* I didn't know how the system design interview went.
+
+So I was nervous about basically every aspect, except in object-oriented design.
+But in the end, only one of those ended up being an actual issue.
+
+== The Offer
+
+Amazon promises to provide feedback within 5 business days.
+I got an email from my recruiter 2 business after my final interview.
+Unfortunately, I read online that one of their KPIs is to provide verbal feedback.
+So the email had no and was no indication of how I did, it was just asking me to schedule a call to discuss that.
+I had the call the day after and was met with bitter-sweet news.
+The team liked me, and that I did well in every aspect, except the system design, which made sense; I didn't study for that one at all.
+But it meant that the interview I thought I did the worst on, the second one, actually went fine.
+
+So they wanted to give me an offer but downlevel me to an SDE I role, the original role I was interviewing for was an SDE II role.
+This was quite a failure on my part because I think if I studied the system design interview, I could've passed that as well.
+After looking at mock system design interviews online, it was definitely something I could've done well.
+
+Now the team I interviewed with wasn't hiring SDE Is, so my recruiter scheduled calls for me with hiring managers with other teams.
+I didn't have to do any additional interviews, just talk with the hiring managers.
+
+== Conclusion
+
+The interview is very studyable, so I think any decent developer who puts their mind to it could probably pass the interview with enough studying.
+Although the amount of studying required would vary heavily depending on the skill of the developer and how closely their personality already matched Amazon's leadership principles.
+But one also does not have to perfectly ace every interview, in almost every step I had some significant mistakes.
+
+As far as their communication goes, it exceeded my expectations.
+I got all my feedback within 2 business days and I was never lost as to what was happening next.
+They also provided me with many resources on how to study for the interviews in each email.
+
+Online, there were a lot of horror stories about the Amazon interview process, especially older ones.
+So I think Amazon has put a lot of effort into improving it, and it shows.
+Contrary to the stereotype for big tech interviews, it wasn't just smashing out a bunch of leetcode, but I felt like it varied in many ways which were applicable to the job.
+For me, the process was very smooth, logical, and enjoyable, 10/10.
