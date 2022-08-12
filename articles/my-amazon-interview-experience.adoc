@@ -8,9 +8,9 @@ I had never tried to get into a big tech company before and thought I'd give it 
 Of the FAANG companies, I also applied to Google (with a referral), Facebook, and Apple.
 Google sent me rejections after over a month.
 Facebook never responded, although they did have a hiring freeze.
-The only opening I got a response for from Apple was one in China that asked me to relocate (which I was unwilling to do so).
+I only got a response from Apple, but it turned out the opening was in China and they needed me to relocate (which I was unwilling to do so).
 
-But here I will chronicle my journey from applying to Amazon all the way to the offer.
+But here I will chronicle my journey with Amazon, from applying, all the way to the offer.
 
 == Application
 
@@ -19,7 +19,7 @@ He connected me with his recruiting partner and on June 13th she asked me to app
 
 Here is the resume I used:
 
-image:/resources/images/my-amazon-interview-experience/amazon-resume-2022.jpg[alt=dnSpy]
+image:/resources/images/my-amazon-interview-experience/amazon-resume-2022.png[alt=amazon-resume]
 
 So it goes to show that you don't always need a single-page resume to get into big tech.
 
@@ -31,21 +31,19 @@ I was given a week after getting the acceptance email from Amazon to complete an
 The online assessment consisted of two coding assessment questions (Leetcode style), a work simulation, and a work style assessment.
 I finished the online assessment on June 22nd.
 
-=== Preperation
+=== Preparation
 
 I had begun practicing on link:https://leetcode.com/[Leetcode] about the same time I responded to the recruiter.
-Before doing the online assessment, I had done \~10 easy questions, and \~10 medium ones, about one or two questions a day.
+Before doing the online assessment, I had done about 10 easy questions, and  about 10 medium ones; roughly one or two questions a day.
 It was pretty hard at first, but I saw significant improvement, taking about half an hour to an hour to do the medium questions before doing my online assessment.
 I also paid for the premium version for the duration of this process, which I think was worth it.
 
 === Coding Assessment
 
-For the coding assessment, I was given an online IDE which I could pick from many different languages.
+For the coding assessment, I was given an online IDE, on which I could pick from many different languages.
 I was then given two questions to solve in 1 hour, I could switch between the two whenever I wanted.
 Each question also had several test cases and I could submit my solution to see how many test cases I passed.
 It would only provide the inputs and outputs for a few of the test cases though, so much of the edge case handling is up to the writer to ponder.
-
-I wish I could remember the questions for this article, but unfortunately, they will be lost to the winds of time.
 
 In the acceptance email, I got a link to the assessment as well as a demo one.
 I thought I'd be able to try the demo as many times as I could, so I opened it up right away and tried it out a bit closing it.
@@ -54,6 +52,7 @@ I wanted to do an actual practice run later, but to my dismay, it was then close
 I didn't ace the coding assessment.
 For the first question, I did pass all the test cases after about 30 minutes.
 For the second question, I only passed all the logical cases but I didn't write an optimal solution so I didn't pass the runtime cases.
+The optimal solution required dynamic programming and I didn't have time to do the caching.
 I thought for this reason I wouldn't get past this round, but apparently, it's enough.
 
 === Work Simulation
@@ -67,7 +66,7 @@ The choices were similar to: gathering requirements, start building the prototyp
 
 On the other end of the spectrum, I was asked to choose the best database, choosing between the likes of PostgreSQL, CockroachDB, or MongoDB.
 
-There were definitely some technical questions I wasn't very knowledgeable of, like database selection. There was no time limit for this step, but it took me about 20 minutes.
+There were definitely some technical questions I wasn't very knowledgeable of, like database selection. There was no time limit for this step, it took me about 20 minutes.
 
 === Work Style Assessment
 
@@ -92,8 +91,8 @@ The rescheduling process was relatively painless and smooth.
 The phone screening was a whiteboard coding session consisting of two questions over 60 minutes.
 I would connect via Amazon Chime and we'd join a live coding session where we both connected to an online IDE, but it was more or less just a collaborative notepad.
 
-The first question was a Leetcode style question, this question I do remember.
-I was asked to determine if two binary trees were equal.
+The first question was a Leetcode style question.
+It was a relatively easy level Leetcode question using binary trees.
 I solved it, but originally with an incorrect approach of a BFS approach.
 My interviewer quickly corrected me to using a recursive DFS approach, which panicked me at first since I always shied away from recursive solutions.
 But I did end up solving it in about half an hour, they were pretty uninterested in if my syntax was correct.
@@ -135,14 +134,13 @@ He said my answers seemed fine, so I ended my prep for the behavioural aspect th
 === Interview One
 
 The technical question in the first interview was an object-oriented design question.
-I was to design a card game and the major object-oriented work was in writing an interface to check for poker hands.
 We finished early and took the time to implement one of the classes, which I did, but stumbled through a bit more than I think was necessary, it was pretty easy but I had a very silly bug.
 Overall, I was pretty happy with how this one went.
 
 === Interview Two
 
 I felt like I did the worst in this interview.
-This was a Leetcode style question: Given an m x n map of letters, and a vector of strings, determine which strings can be found in the map via adjacent letters.
+This was a Leetcode style question that had two steps, first to precache a number of entries, then use that to do a recursive search in a graph for a list of entries.
 For half an hour, it seemed a little difficult in my opinion.
 
 I came up with the conceptual solution fairly quickly but I was struggling a bit through the implementation because I kept looking at the time and getting tripped up.
@@ -155,7 +153,6 @@ I finished it in the last 5 minutes and gave him a complexity (that I think was 
 === Interview Three
 
 This interview had the high-level system design question.
-The scenario was that Amazon was investing in cinemas and that I was to design the backend for it.
 If you hadn't noticed, I didn't study at all for this one.
 I was stumbling through it and the interviewer had to keep guiding me on what to design next.
 At this point, I didn't have any industry experience in this area, but I felt like I generally knew what I was talking about but just didn't know where to go.
@@ -167,10 +164,10 @@ But viewing some mock system design interviews afterwards, it was clear I did no
 
 I totally crushed this last one.
 This question was two parts and I finished them both quickly.
-The first part was Leetcode style and I was asked to implement something like the fill function in MS paint.
-This ended up being a recursive adjacent grid search like the first question, so I did it very quickly, he also asked for the complexity which I think I answered correctly.
-The second part was an object-oriented design question on how I would implement the undo feature.
-I had done something very similar at a previous company so I was able to a very thorough explanation of good and bad ways to do it, to which he was satisfied.
+The first part was a Leetcode style problem that was again a recursive search through a graph.
+This was similar to the first question, so I did it very quickly, he also asked for the complexity which I think I answered correctly.
+The second part was an object-oriented design question on how I would implement it in a larger system.
+I had done something very similar at a previous company so I was able to give a very thorough explanation of good and bad ways to do it, to which he was satisfied.
 We finished quite early and I was given a lot of time to ask him questions.
 
 === The Loop After Thoughts
@@ -200,12 +197,12 @@ So they wanted to give me an offer but downlevel me to an SDE I role, the origin
 This was quite a failure on my part because I think if I studied the system design interview, I could've passed that as well.
 After looking at mock system design interviews online, it was definitely something I could've done well.
 
-Now the team I interviewed with wasn't hiring SDE Is, so my recruiter scheduled calls for me with hiring managers with other teams.
+Now the team I interviewed with wasn't hiring SDE Is, so my recruiter scheduled calls for me with hiring managers from other teams.
 I didn't have to do any additional interviews, just talk with the hiring managers.
 
 == Conclusion
 
-The interview is very studyable, so I think any decent developer who puts their mind to it could probably pass the interview with enough studying.
+The interview is very studyable, so I think any developer who puts their mind to it could probably pass the interview with enough studying.
 Although the amount of studying required would vary heavily depending on the skill of the developer and how closely their personality already matched Amazon's leadership principles.
 But one also does not have to perfectly ace every interview, in almost every step I had some significant mistakes.
 
@@ -215,5 +212,6 @@ They also provided me with many resources on how to study for the interviews in 
 
 Online, there were a lot of horror stories about the Amazon interview process, especially older ones.
 So I think Amazon has put a lot of effort into improving it, and it shows.
-Contrary to the stereotype for big tech interviews, it wasn't just smashing out a bunch of leetcode, but I felt like it varied in many ways which were applicable to the job.
+Contrary to the big tech interview stereotype, it wasn't just smashing out a bunch of leetcode.
+I felt like the assessment methods varied in many ways, most of which were applicable to the job.
 For me, the process was very smooth, logical, and enjoyable, 10/10.
