@@ -15,7 +15,7 @@ But here I will chronicle my journey with Amazon, from applying, all the way to 
 == Application
 
 After I ignored many messages from Amazon Recruiters, I finally responded to one on May 30th 2022.
-He connected me with his recruiting partner and on June 13th she asked me to apply to an official job posting.
+He connected me with his recruiting partner and a couple weeks later she asked me to apply to an official job posting.
 
 Here is the resume I used:
 
@@ -26,7 +26,7 @@ So it goes to show that you don't always need a single-page resume to get into b
 
 == Online Assessment
 
-After submitting my application on June 15th I received my email from Amazon for the next step in the process.
+After submitting my application on soon after, I received my email from Amazon for the next step in the process.
 I was given a week after getting the acceptance email from Amazon to complete an online assessment.
 The online assessment consisted of two coding assessment questions (Leetcode style), a work simulation, and a work style assessment.
 I finished the online assessment on June 22nd.
@@ -80,10 +80,10 @@ There was no time limit for this step, it also took me about 20 minutes.
 == Phone Screening
 
 I got feedback on my online assessment quickly.
-On June 24th, I got an email congratulating me and wanting to schedule me for a phone screening.
+A couple days later, I got an email congratulating me and wanting to schedule me for a phone screening.
 It wasn't actually going to be via phone but through Amazon Chime, their custom video calling software, similar to Skype.
 
-It originally got scheduled for July 6th, but due to a conflict, I rescheduled it for July 13th.
+It originally got scheduled for early July, but due to a conflict, I rescheduled it for mid July.
 The rescheduling process was relatively painless and smooth.
 
 === Question Two
@@ -113,10 +113,11 @@ There were definitely mistakes though, mistakes that the interviewer had to corr
 == The Loop / "On-Site" Interview
 
 I also got feedback on my phone interview quickly.
-Just the following day on July 14th, I had been told I was being moved to the final rounds.
+Just the following day, I had been told I was being moved to the final rounds.
 After researching online, I came to know that this interview was known as The Loop.
 
-The Loop consisted of four interviews, for me I asked to schedule them all in one day, they were from 1 pm to 6 pm with a break between 2 pm and 3 pm.
+The Loop consisted of four interviews, for me I asked to schedule them all in one day.
+Which they scheduled me to have it a few weeks after my last bit of feedback.
 
 Each interview started with 2 behavioural questions based on Amazon's leadership principles, these took about 20-30 minutes each.
 They were then followed by one technical question.
@@ -199,6 +200,7 @@ After looking at mock system design interviews online, it was definitely somethi
 
 Now the team I interviewed with wasn't hiring SDE Is, so my recruiter scheduled calls for me with hiring managers from other teams.
 I didn't have to do any additional interviews, just talk with the hiring managers.
+This whole conversation took almost a month but I got a finalized offer letter on August 30th with a start date of Sept 26th.
 
 == Conclusion
 

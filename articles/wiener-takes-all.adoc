@@ -1,0 +1,20 @@
+[float]
+= Wiener Take All
+
+[docdate]#Written by Enoch Tsang on August 30th, 2022#
+
+image:/resources/images/wiener-takes-all/wiener-takes-all-screenshot.png[alt=amazon-resume]
+
+Wiener Takes All is a fast-paced, action-packed, wacky game of reverse tag where everyone is a hotdog bun and is trying to get the wiener.
+I made Wiener Takes All with a small team of other undergraduate students in a course called Games Programming.
+This project fulfilled my desire to create a full game without the use of a framework.
+In this game, we got to design many of the interesting components of a game, including the rendering and data architecture.
+
+The two most complicated sections were the rendering and physics engines, done using OpenGL and link:https://developer.nvidia.com/physx-sdk[PhysX] respectively.
+The physics proved very difficult to tweak but I think the result we ended up with gave a good fun balance.
+We also used a data-oriented design architecture.
+While I was skeptical at first, a data-oriented design proved to be very nice to use when coupled with an intuitive event system.
+This project gave me a strong appreciation for game engines and has better prepared me to use them effectively.
+I also gained hands-on experience in using matrices and other math for rendering concepts.
+Now I've moved onto creating larger games using actual a full game engine such as Unity, but I feel much better equipped in having this project under my belt.
+A packaged windows binary is available for link:https://github.com/WienerTakesAll/WienerTakesAll/releases/download/1.1.1/WienerTakesAll-1.1.1.zip[download] as a release on GitHub.
