@@ -115,10 +115,11 @@
 .reviews-content .anime-table {
     width: 95%;
     margin: auto;
-    background: #666;
-    border-collapse: collapse;
-    color: white;
     margin-top: 2rem;
+
+    background: #666;
+    color: white;
+    box-shadow: 5px 5px 10px #888888;
 }
 
 .reviews-content .anime-table td,
