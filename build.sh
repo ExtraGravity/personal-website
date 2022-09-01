@@ -22,7 +22,7 @@ minify \
     resources/css/resume.css \
     resources/css/about.css \
     resources/css/contact.css \
-    resources/css/portfolio.css \
+    resources/css/reviews.css \
     resources/css/articles.css \
     --output resources/min.css
 

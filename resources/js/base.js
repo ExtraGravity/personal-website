@@ -86,7 +86,7 @@ function setupNavbarEvents() {
 
     var pages = [
         "about",
-        "portfolio",
+        "reviews",
         "contact",
         "articles",
         "resume"

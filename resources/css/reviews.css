@@ -1,0 +1,156 @@
+.reviews-content {
+    margin: 1rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    width: 70%;
+    min-width: 500px;
+    flex-shrink: 1;
+    flex-grow: 0;
+}
+
+.reviews-content h1 {
+    padding: 1rem 1.5rem;
+
+    font-family: 'Open Sans', sans-serif;
+    text-transform: uppercase;
+    box-shadow: 5px 5px 10px #888888;
+    color: white;
+    background: #444;
+}
+
+.reviews-content img {
+    object-fit: cover;
+    border-top: 3px solid #888;
+    width: 100%;
+    height: auto;
+}
+
+.reviews-content p {
+    line-height: 20px;
+}
+
+.reviews-content .system-list {
+    margin: 10px;
+    margin-left: 20px;
+    line-height: 20px;
+}
+
+.reviews-content .system-list li {
+    margin-top: 12px;
+    margin-bottom: 12px;
+}
+
+.reviews-content th {
+    width: 100%;
+    margin-bottom: 2rem;
+    text-transform: uppercase;
+    font-family: 'Open Sans', sans-serif;
+}
+
+.reviews-content .system-label {
+    font-weight: bold;
+}
+
+.reviews-content .food-table-div {
+    margin: auto;
+    margin-top: 2rem;
+    box-shadow: 5px 5px 10px #888888;
+    width: 95%;
+    background-color: #555;
+    color: #EEE;
+}
+
+.reviews-content .food-table-div table {
+    table-layout: fixed; /*even columns*/
+    border: 0px;
+    width: 100%;
+    margin: auto;
+}
+
+.reviews-content .food-table-header {
+    width: 95%;
+    margin: auto;
+    padding-top: 10px;
+    padding-bottom: 10px;
+
+    text-align: center;
+    font-size: 1.4rem;
+    font-family: 'Open Sans', sans-serif;
+    text-transform: uppercase;
+
+    color: white;
+    background: #444;
+}
+
+.reviews-content .food-category-header {
+    padding-top: 7px;
+    padding-bottom: 7px;
+
+    font-size: 1.2rem;
+
+    margin-top: 5px;
+}
+
+.reviews-content .food-table-div ul {
+    margin-top: 1em;
+    margin-bottom: 1em;
+}
+
+.reviews-content .food-table-div li {
+    margin: 7px;
+}
+
+.reviews-content .food-table-div td {
+    border: 0px solid black;
+    padding: 0px;
+    margin: 10px;
+    background-color: #666;
+}
+
+.reviews-content .anime-title {
+    margin-top: 3rem;
+}
+
+.reviews-content .anime-table {
+    width: 95%;
+    margin: auto;
+    background: #666;
+    border-collapse: collapse;
+    color: white;
+}
+
+.reviews-content .anime-table td,
+.reviews-content .anime-table th {
+    width: 15%;
+}
+
+.reviews-content .anime-table td:first-child,
+.reviews-content .anime-table th:first-child {
+    width: 55%;
+    text-align: left;
+}
+
+.reviews-content .anime-table th {
+    margin: auto;
+    padding: 12px;
+
+    text-align: center;
+    font-size: 1.2rem;
+    font-family: 'Open Sans', sans-serif;
+    text-transform: uppercase;
+
+    color: white;
+    background: #444;
+}
+
+.reviews-content .anime-table td {
+    border: 0px;
+    color: white;
+    padding-left: 15px;
+    vertical-align: middle;
+}
+
+.reviews-content .anime-table tr:nth-child(even) {
+    background-color: #777;
+}

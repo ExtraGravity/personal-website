@@ -20,7 +20,7 @@ $('document').ready(function(){
         ]
     );
 
-    handleNavLinkHover($(".portfolio a"), "portfolio-lines", topLeftPt,
+    handleNavLinkHover($(".reviews a"), "reviews-lines", topLeftPt,
         [
             botLeftPt,
             centerPt,
