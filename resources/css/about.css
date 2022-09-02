@@ -43,3 +43,7 @@
     border: 3px solid #888;
     display: block;
 }
+
+.about-content a:hover {
+    cursor: pointer;
+}
