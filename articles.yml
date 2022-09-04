@@ -27,6 +27,8 @@
       url: "articles/2d-drawings-in-art-241"
     - title: "My Amazon Interview Experience"
       url: "articles/my-amazon-interview-experience"
+- name: "Food Reviews"
+  url: "articles/paradise-shawarma-review"
 - name: "Recipes"
   sources:
     - title: "Cha Siu (叉燒) Recipe"
