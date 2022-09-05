@@ -1,12 +1,9 @@
 .reviews-content {
-    margin: 1rem;
     display: flex;
     flex-direction: column;
     justify-content: center;
-    width: 70%;
     min-width: 500px;
-    flex-shrink: 1;
-    flex-grow: 0;
+    width: 70%;
 }
 
 .reviews-content h1 {
@@ -24,6 +21,10 @@
     border-top: 3px solid #888;
     width: 100%;
     height: auto;
+}
+
+.reviews-content b {
+    font-weight: bold;
 }
 
 .reviews-content p {
@@ -116,60 +117,134 @@
     margin-top: 3rem;
 }
 
+
+.spoiler-warning {
+    margin-top: 2rem;
+
+    font-size: 1.5rem;
+    text-align: center;
+    font-family: 'Share Tech Mono', monospace;
+}
+
 .reviews-content .anime-table {
     width: 95%;
     margin: auto;
-    margin-top: 2rem;
+    margin-top: 1rem;
 
     background: #666;
     color: white;
     box-shadow: 5px 5px 10px #888888;
 }
 
-.reviews-content .anime-table td,
-.reviews-content .anime-table th {
-    width: 15%;
-}
-
-.reviews-content .anime-table td:first-child,
-.reviews-content .anime-table th:first-child {
-    width: 55%;
-    text-align: left;
-}
-
-.reviews-content .anime-table th {
-    margin: auto;
-    padding: 17px;
-    padding-left: 20px;
-
-    text-align: center;
-    font-size: 1.1rem;
-    font-family: 'Open Sans', sans-serif;
-    text-transform: uppercase;
-
-    color: white;
+.reviews-content .anime-table-header-row {
     background: #444;
 }
 
-.reviews-content .anime-table td {
-    border: 0px;
-    color: white;
-    padding: 14px;
-    vertical-align: middle;
+.reviews-content .anime-table-header-row,
+.reviews-content .anime-review-info {
+    display: flex;
 }
 
-.reviews-content .anime-table td:first-child {
-    padding-left: 22px;
+.reviews-content .anime-table-header-row p,
+.reviews-content .anime-review-info p {
+    text-align: center;
+    width: 95px;
 }
 
-.reviews-content .anime-table tr {
+.reviews-content .anime-table-header-row p:first-child,
+.reviews-content .anime-review-info p:first-child {
+    flex-grow: 1;
+    text-align: left;
+    justify-content: left;
+}
+
+.reviews-content .anime-table-row {
     background-attachment: fixed;
 }
 
-.reviews-content .anime-table tr:nth-child(odd) {
+.reviews-content .anime-table-row:nth-child(odd) {
     background-image: linear-gradient(to right, #555 , #666);
 }
 
-.reviews-content .anime-table tr:nth-child(even) {
+.reviews-content .anime-table-row:nth-child(even) {
     background-image: linear-gradient(to right, #666 , #777);
+}
+
+.reviews-content .anime-table-header-row p {
+    margin: 17px 14px;
+
+    text-align: center;
+    font-size: 1rem;
+    font-family: 'Open Sans', sans-serif;
+    text-transform: uppercase;
+    vertical-align: center;
+
+    color: white;
+}
+
+.reviews-content .anime-table svg {
+    height: 0.6rem;
+    width: auto;
+    margin: auto;
+    margin-left: 0px;
+    margin-right: 10px;
+
+    transition: all 0.25s linear;
+}
+
+.reviews-content .anime-table svg {
+    height: 0.8rem;
+    width: auto;
+    margin: auto;
+    margin-left: 0px;
+    margin-right: 10px;
+
+    transition: all 0.25s linear;
+}
+
+.reviews-content .anime-table path {
+    stroke-width: 10;
+    stroke: #FFF;
+    fill: #FFF;
+    stroke-linecap: round;
+}
+
+.reviews-content .rotate-down {
+    transform: rotate(90deg);
+}
+
+.reviews-content .clickable-row {
+    cursor: pointer;
+}
+
+.reviews-content .anime-review-info p {
+    display: flex;
+    align-content: center;
+    justify-content: center;
+    align-items: center;
+    margin: 14px;
+
+    border: 0px;
+    color: white;
+    font-size: 0.9rem;
+}
+
+.reviews-content .anime-review-info p:first-child {
+    display: flex;
+    margin-left: 18px;
+}
+
+.reviews-content .anime-review-blurb {
+    display: none;
+    color: #333;
+    width: 100%;
+    height: 100%;
+}
+
+.reviews-content .anime-review-blurb p {
+    padding: 20px;
+    margin-left: 4px;
+    margin-right: 4px;
+    background-color: white;
+    cursor: text;
 }
