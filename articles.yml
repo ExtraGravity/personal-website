@@ -28,7 +28,9 @@
     - title: "My Amazon Interview Experience"
       url: "articles/my-amazon-interview-experience"
 - name: "Food Reviews"
-  url: "articles/paradise-shawarma-review"
+  sources:
+    - title: "Paradise Shawarma Review"
+      url: "articles/paradise-shawarma-review"
 - name: "Recipes"
   sources:
     - title: "Cha Siu (叉燒) Recipe"
