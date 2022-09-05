@@ -30,6 +30,10 @@
     line-height: 20px;
 }
 
+.reviews-content a:hover {
+    cursor: pointer;
+}
+
 .reviews-content .system-list {
     margin: 10px;
     margin-left: 20px;
