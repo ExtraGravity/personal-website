@@ -50,12 +50,12 @@ func check(err error, exit bool) {
 func genericPageHandler(w http.ResponseWriter, r *http.Request) {
 	fmt.Println("URL was ", r.URL)
 	var t *template.Template
-	if r.URL.String() == "/" {
+	if r.URL.Path == "/" {
 		t = template.Must(template.ParseFiles(
 			absPath("templates/base.html"),
 			absPath("templates/home.html")))
 	} else {
-		page := absPath("templates/pages/" + r.URL.String() + ".html")
+		page := absPath("templates/pages/" + r.URL.Path + ".html")
 		if _, err := os.Stat(page); os.IsNotExist(err) {
 			// page does not exist
 			page = "templates/pages/404.html"
