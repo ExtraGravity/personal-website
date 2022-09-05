@@ -182,19 +182,11 @@
     color: white;
 }
 
-.reviews-content .anime-table svg {
+.reviews-content .arrow {
     height: 0.6rem;
-    width: auto;
-    margin: auto;
-    margin-left: 0px;
-    margin-right: 10px;
-
-    transition: all 0.25s linear;
-}
-
-.reviews-content .anime-table svg {
-    height: 0.8rem;
-    width: auto;
+    min-height: 0.6rem;
+    width: 0.6rem;
+    min-width: 0.6rem;
     margin: auto;
     margin-left: 0px;
     margin-right: 10px;
