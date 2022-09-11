@@ -37,3 +37,5 @@ icon.jpg
 templates/pages/articles
 captcha-secret.txt
 .bash_history
+
+.DS_Store
