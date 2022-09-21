@@ -8,9 +8,9 @@ $("document").ready(function(){
                 delay = 400;
             }
             var pageToReq = $(this).attr("url");
-            
+
             setTimeout(function() {
-                changeContent(pageToReq, true);
+                changeContent(pageToReq, true, true);
             }, delay);
         })
     })

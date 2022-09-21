@@ -19,7 +19,7 @@ $(window).on("load", function() {
 });
 
 $(window).bind("popstate", function() {
-    changeContent(window.location.pathname, false);
+    changeContent(window.location.pathname, false, false);
 });
 
 
@@ -113,12 +113,12 @@ function handleNavClick(pageToReq) {
         }
 
         setTimeout(function() {
-            changeContent(pageToReq, true);
+            changeContent(pageToReq, true, false);
         }, navCloseDelay);
     };
 }
 
-function changeContent(pageToReq, pushHistory) {
+function changeContent(pageToReq, pushHistory, scrollToTop) {
     closeNavigation()
     pageToReq = pageToReq.replace(/^\/|\/$/g, '')
     if (pageToReq === "") {
@@ -134,10 +134,10 @@ function changeContent(pageToReq, pushHistory) {
                 window.history.pushState(null, null, "/" + pageToReq);
             }
         });
-    });
+    }, scrollToTop);
 }
 
-function removeContent(callback) {
+function removeContent(callback, scrollToTop) {
     $( ".main-content-wrapper" ).css({
         "opacity": "0.4",
         "-webkit-filter": "blur(5px)",
@@ -157,6 +157,11 @@ function removeContent(callback) {
         "-moz-transition":"filter 0.5s ease-out, opacity 0.5s ease-out",
         "-o-transition":"filter 0.5s ease-out, opacity 0.5s ease-out",
     });
+    if (scrollToTop) {
+       $([document.documentElement, document.body]).animate({
+            scrollTop: $(".main-content-wrapper").offset().top
+        }, 500);
+    }
     setTimeout(callback, 1000);
 }
 

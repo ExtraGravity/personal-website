@@ -26,7 +26,7 @@ function setupSearch() {
                     console.log(currentPicked);
                     console.log(currentPicked.attr("link-val"));
                     var pageToReq = currentPicked.attr("link-val");
-                    changeContent(pageToReq, true);
+                    changeContent(pageToReq, true, false);
                     break;
                 case 38: // up
                     if (currentPicked.prev().length) { // ensure a prev
@@ -79,7 +79,7 @@ function handleSearchInput() {
 
     $(".search-results .search-result").first().addClass("picked-result");
     $(".search-result").on("click", function(){
-        changeContent($(this).attr("link-val"));
+        changeContent($(this).attr("link-val"), true, false);
     });
 }
 
