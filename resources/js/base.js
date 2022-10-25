@@ -62,8 +62,8 @@ function setupNavbarEvents() {
 
     $(".nav-bar input").click(function(){
         if (!$(".navigation-icon").is(":visible")) {
-            $(".navigation-background").slideDown(300);
-            $(".navigation-icon").css("display", "flex").hide().delay(300).fadeIn(400);
+            $(".navigation-background").slideDown(150);
+            $(".navigation-icon").css("display", "flex").hide().delay(150).fadeIn(200);
         }
     });
 
