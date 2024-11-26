@@ -1,5 +1,6 @@
 [float]
 = Making Sense of SSL Certificate Bundles
+:source-highlighter: pygments
 
 [docdate]#Written by Enoch Tsang on October 21st, 2016#
 
