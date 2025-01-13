@@ -113,7 +113,8 @@
     background: #6A6A6A;
 }
 
-.reviews-content .anime-title {
+.reviews-content .anime-title,
+.reviews-content .food-title {
     margin-top: 3rem;
 }
 
@@ -126,7 +127,7 @@
     font-family: 'Share Tech Mono', monospace;
 }
 
-.reviews-content .anime-table {
+.reviews-content .anime-games-table {
     width: 95%;
     margin: auto;
     margin-top: 1rem;
@@ -136,41 +137,41 @@
     box-shadow: 5px 5px 10px #888888;
 }
 
-.reviews-content .anime-table-header-row {
+.reviews-content .anime-games-table-header-row {
     background: #444;
 }
 
-.reviews-content .anime-table-header-row,
-.reviews-content .anime-review-info {
+.reviews-content .anime-games-table-header-row,
+.reviews-content .anime-games-review-info {
     display: flex;
 }
 
-.reviews-content .anime-table-header-row p,
-.reviews-content .anime-review-info p {
+.reviews-content .anime-games-table-header-row p,
+.reviews-content .anime-games-review-info p {
     text-align: center;
     width: 95px;
 }
 
-.reviews-content .anime-table-header-row p:first-child,
-.reviews-content .anime-review-info p:first-child {
+.reviews-content .anime-games-table-header-row p:first-child,
+.reviews-content .anime-games-review-info p:first-child {
     flex-grow: 1;
     text-align: left;
     justify-content: left;
 }
 
-.reviews-content .anime-table-row {
+.reviews-content .anime-games-table-row {
     background-attachment: fixed;
 }
 
-.reviews-content .anime-table-row:nth-child(odd) {
+.reviews-content .anime-games-table-row:nth-child(odd) {
     background-image: linear-gradient(to right, #555 , #666);
 }
 
-.reviews-content .anime-table-row:nth-child(even) {
+.reviews-content .anime-games-table-row:nth-child(even) {
     background-image: linear-gradient(to right, #666 , #777);
 }
 
-.reviews-content .anime-table-header-row p {
+.reviews-content .anime-games-table-header-row p {
     margin: 17px 14px;
 
     text-align: center;
@@ -194,7 +195,7 @@
     transition: all 0.25s linear;
 }
 
-.reviews-content .anime-table path {
+.reviews-content .anime-games-table path {
     stroke-width: 10;
     stroke: #FFF;
     fill: #FFF;
@@ -209,7 +210,7 @@
     cursor: pointer;
 }
 
-.reviews-content .anime-review-info p {
+.reviews-content .anime-games-review-info p {
     display: flex;
     align-content: center;
     justify-content: center;
@@ -221,19 +222,19 @@
     font-size: 0.9rem;
 }
 
-.reviews-content .anime-review-info p:first-child {
+.reviews-content .anime-games-review-info p:first-child {
     display: flex;
     margin-left: 18px;
 }
 
-.reviews-content .anime-review-blurb {
+.reviews-content .anime-games-review-blurb {
     display: none;
     color: #333;
     width: 100%;
     height: 100%;
 }
 
-.reviews-content .anime-review-blurb p {
+.reviews-content .anime-games-review-blurb p {
     padding: 20px;
     margin-left: 4px;
     margin-right: 4px;

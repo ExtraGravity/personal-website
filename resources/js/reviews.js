@@ -5,7 +5,7 @@ $("document").ready(function(){
     })
 
     $(".clickable-row").on("click", function() {
-    	$(this).find(".anime-review-blurb").slideToggle();
+    	$(this).find(".anime-games-review-blurb").slideToggle();
     	$(this).find('svg').toggleClass('rotate-down');
     });
 });
