@@ -152,6 +152,10 @@
     width: 95px;
 }
 
+.reviews-content .games-only p {
+    width: 65px;
+}
+
 .reviews-content .anime-games-table-header-row p:first-child,
 .reviews-content .anime-games-review-info p:first-child {
     flex-grow: 1;
