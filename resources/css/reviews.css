@@ -164,14 +164,16 @@
 }
 
 .reviews-content .anime-games-table-row {
-    background-attachment: fixed;
+    background-attachment: scroll;
 }
 
-.reviews-content .anime-games-table-row:nth-child(odd) {
+.reviews-content .anime-games-table-row.row-odd {
+    background-color: #555;
     background-image: linear-gradient(to right, #555 , #666);
 }
 
-.reviews-content .anime-games-table-row:nth-child(even) {
+.reviews-content .anime-games-table-row.row-even {
+    background-color: #666;
     background-image: linear-gradient(to right, #666 , #777);
 }
 
