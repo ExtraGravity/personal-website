@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>P3 Nav — Proof of Concept</title>
+    <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Bebas+Neue&display=swap" rel="stylesheet">
+    <style>
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+        :root { --bg:#070b18; --accent:#2af5ff; --text:#ddeeff; }
+
+        body {
+            background: var(--bg);
+            height: 100vh; overflow: hidden;
+            display: flex; align-items: center; justify-content: center;
+            font-family: 'Bebas Neue', monospace;
+            user-select: none;
+        }
+
+        .bg-grid {
+            position:fixed; inset:0;
+            background-image:
+                linear-gradient(rgba(42,245,255,0.03) 1px,transparent 1px),
+                linear-gradient(90deg,rgba(42,245,255,0.03) 1px,transparent 1px);
+            background-size:52px 52px; pointer-events:none;
+        }
+        .bg-vignette {
+            position:fixed; inset:0;
+            background:radial-gradient(ellipse at center,transparent 20%,rgba(2,4,14,0.92) 100%);
+            pointer-events:none;
+        }
+        .scanlines {
+            position:fixed; inset:0;
+            background:repeating-linear-gradient(0deg,transparent,transparent 3px,rgba(0,0,0,0.1) 3px,rgba(0,0,0,0.1) 4px);
+            pointer-events:none; z-index:80;
+        }
+
+        .corner{position:fixed;width:44px;height:44px;opacity:.45;}
+        .corner::before,.corner::after{content:'';position:absolute;background:var(--accent);box-shadow:0 0 6px rgba(42,245,255,.6);}
+        .corner-tl{top:16px;left:16px;} .corner-tl::before{top:0;left:0;width:2px;height:100%;} .corner-tl::after{top:0;left:0;width:100%;height:2px;}
+        .corner-tr{top:16px;right:16px;} .corner-tr::before{top:0;right:0;width:2px;height:100%;} .corner-tr::after{top:0;right:0;width:100%;height:2px;}
+        .corner-bl{bottom:16px;left:16px;} .corner-bl::before{bottom:0;left:0;width:2px;height:100%;} .corner-bl::after{bottom:0;left:0;width:100%;height:2px;}
+        .corner-br{bottom:16px;right:16px;} .corner-br::before{bottom:0;right:0;width:2px;height:100%;} .corner-br::after{bottom:0;right:0;width:100%;height:2px;}
+
+        .hud{position:fixed;font-family:'Share Tech Mono',monospace;font-size:.58rem;letter-spacing:.32em;color:rgba(42,245,255,.3);text-transform:uppercase;white-space:nowrap;}
+        .hud-top{top:18px;left:50%;transform:translateX(-50%);}
+        .hud-bottom{bottom:18px;left:50%;transform:translateX(-50%);}
+        .blink{animation:blink 1.6s step-start infinite;}
+        @keyframes blink{50%{opacity:0;}}
+
+        /* ── Nav ─────────────────────────────────────────────── */
+        .nav-list {
+            position: relative;
+            z-index: 10;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .nav-item {
+            position: relative;
+            display: flex;
+            align-items: baseline;
+            gap: 1.2rem;
+            padding: 0.1rem 2rem 0.1rem 0.6rem;
+            cursor: pointer;
+            text-decoration: none;
+            color: var(--text);
+            overflow: hidden; /* clip the highlight inside */
+        }
+
+        /* ── Highlight sweep ──────────────────────────────────── */
+        /* The main fill — sweeps left to right via scaleX */
+        .nav-item::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            /* Parallelogram: slightly skewed for sci-fi feel */
+            clip-path: polygon(6px 0, 100% 0, calc(100% - 6px) 100%, 0 100%);
+            background: linear-gradient(90deg,
+                rgba(42,245,255,0.06) 0%,
+                rgba(42,245,255,0.11) 60%,
+                rgba(42,245,255,0.22) 88%,
+                rgba(42,245,255,0.70) 97%,   /* bright leading edge */
+                rgba(42,245,255,0.15) 100%
+            );
+            transform: scaleX(0);
+            transform-origin: left center;
+            transition: transform 0.28s cubic-bezier(0.4, 0, 0.2, 1),
+                        opacity  0.18s ease;
+            z-index: 0;
+        }
+
+        .nav-item.hovered::after {
+            transform: scaleX(1);
+        }
+
+        /* Top + bottom hairline borders that appear with the highlight */
+        .nav-item::before {
+            content: '';
+            position: absolute;
+            left: 0; right: 0; top: 0;
+            height: 1px;
+            background: linear-gradient(90deg,
+                transparent,
+                rgba(42,245,255,0.6) 40%,
+                rgba(42,245,255,0.9) 100%
+            );
+            transform: scaleX(0);
+            transform-origin: left center;
+            transition: transform 0.28s cubic-bezier(0.4, 0, 0.2, 1);
+            z-index: 1;
+        }
+        .nav-item.hovered::before { transform: scaleX(1); }
+
+        /* Bottom border via box-shadow on the item */
+        .nav-item .nav-border-bot {
+            position: absolute;
+            left: 0; right: 0; bottom: 0;
+            height: 1px;
+            background: linear-gradient(90deg,
+                transparent,
+                rgba(42,245,255,0.4) 40%,
+                rgba(42,245,255,0.7) 100%
+            );
+            transform: scaleX(0);
+            transform-origin: left center;
+            transition: transform 0.28s cubic-bezier(0.4, 0, 0.2, 1);
+            z-index: 1;
+        }
+        .nav-item.hovered .nav-border-bot { transform: scaleX(1); }
+
+        /* Dim non-hovered */
+        .nav-list.has-hover .nav-item:not(.hovered) .nav-main,
+        .nav-list.has-hover .nav-item:not(.hovered) .nav-num {
+            opacity: 0.25;
+            transition: opacity 0.2s;
+        }
+
+        .nav-num {
+            font-family: 'Share Tech Mono', monospace;
+            font-size: 0.7rem;
+            letter-spacing: 0.1em;
+            color: rgba(42,245,255,0.4);
+            min-width: 2ch;
+            position: relative; top: -0.1em;
+            z-index: 2;
+            transition: color 0.2s, opacity 0.2s;
+        }
+        .nav-item.hovered .nav-num { color: var(--accent); }
+
+        .nav-main {
+            font-family: 'Bebas Neue', monospace;
+            font-size: clamp(3.5rem, 7vw, 5.5rem);
+            letter-spacing: 0.12em;
+            line-height: 1.05;
+            color: var(--text);
+            position: relative;
+            z-index: 2;
+            transition: color 0.2s, opacity 0.2s,
+                        text-shadow 0.2s;
+        }
+        .nav-item.hovered .nav-main {
+            color: #fff;
+            text-shadow: 0 0 18px rgba(42,245,255,0.45);
+        }
+
+        /* ── Click glitch ─────────────────────────────────────── */
+        .flash{position:fixed;inset:0;background:var(--accent);opacity:0;pointer-events:none;z-index:200;}
+        @keyframes sceneGlitch{
+            0%  {transform:translate(0,0)      skewX(0);     filter:brightness(1);}
+            12% {transform:translate(-5px,0)   skewX(-1deg); filter:brightness(1.6) hue-rotate(15deg);}
+            25% {transform:translate(5px,0)    skewX(1deg);  filter:brightness(.8);}
+            40% {transform:translate(-3px,2px) skewX(-.5deg);filter:brightness(2) hue-rotate(-20deg);}
+            55% {transform:translate(4px,-1px) skewX(1.5deg);filter:brightness(.7);}
+            70% {transform:translate(-6px,0)   skewX(-2deg); filter:brightness(1.8) hue-rotate(30deg);}
+            85% {transform:translate(3px,0)    skewX(.5deg); filter:brightness(1);}
+            100%{transform:translate(0,0)      skewX(0);     filter:brightness(1);}
+        }
+        .scene-glitch{animation:sceneGlitch .45s steps(1) 1 forwards;}
+    </style>
+</head>
+<body>
+<div class="bg-grid"></div>
+<div class="bg-vignette"></div>
+<div class="scanlines"></div>
+<div class="corner corner-tl"></div><div class="corner corner-tr"></div>
+<div class="corner corner-bl"></div><div class="corner corner-br"></div>
+<div class="hud hud-top">ENOCH TSANG</div>
+<div class="hud hud-bottom"><span class="blink">▶</span>&nbsp; SELECT</div>
+<div class="flash" id="flash"></div>
+<nav class="nav-list" id="navList"></nav>
+
+<script>
+const NAV = [
+    { label:'ABOUT',    href:'/about'    },
+    { label:'ARTICLES', href:'/articles' },
+    { label:'RESUME',   href:'/resume'   },
+    { label:'CONTACT',  href:'/contact'  },
+    { label:'REVIEWS',  href:'/reviews'  },
+];
+
+const list = document.getElementById('navList');
+
+NAV.forEach((item, idx) => {
+    const el = document.createElement('a');
+    el.className = 'nav-item';
+    el.href = item.href;
+
+    const num = document.createElement('span');
+    num.className = 'nav-num';
+    num.textContent = String(idx + 1).padStart(2, '0');
+
+    const main = document.createElement('span');
+    main.className = 'nav-main';
+    main.textContent = item.label;
+
+    // Bottom border element
+    const bot = document.createElement('span');
+    bot.className = 'nav-border-bot';
+
+    el.appendChild(bot);
+    el.appendChild(num);
+    el.appendChild(main);
+    list.appendChild(el);
+
+    el.addEventListener('mouseenter', () => {
+        list.classList.add('has-hover');
+        el.classList.add('hovered');
+    });
+
+    el.addEventListener('mousemove', (e) => {
+        const r  = el.getBoundingClientRect();
+        const rx = ((e.clientY - r.top)  / r.height - 0.5) * -10;
+        const ry = ((e.clientX - r.left) / r.width  - 0.5) *  14;
+        el.style.transform = `perspective(600px) rotateX(${rx}deg) rotateY(${ry}deg)`;
+    });
+
+    el.addEventListener('mouseleave', () => {
+        list.classList.remove('has-hover');
+        el.classList.remove('hovered');
+        el.style.transform = '';
+    });
+
+    el.addEventListener('click', (e) => {
+        e.preventDefault();
+        const flash = document.getElementById('flash');
+        flash.style.transition = 'opacity 0.04s';
+        flash.style.opacity = '0.2';
+        document.body.classList.remove('scene-glitch');
+        void document.body.offsetWidth;
+        document.body.classList.add('scene-glitch');
+        setTimeout(() => {
+            flash.style.transition = 'opacity 0.35s';
+            flash.style.opacity = '0';
+            document.body.classList.remove('scene-glitch');
+            // window.location.href = item.href;
+        }, 460);
+    });
+});
+</script>
+</body>
+</html>
