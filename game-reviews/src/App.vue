@@ -51,11 +51,26 @@
 </template>
 
 <script setup>
-import { ref, computed, onMounted, onUnmounted } from 'vue'
+import { ref, computed, onMounted, onUnmounted, provide } from 'vue'
 import { games } from './data/games.js'
 import GameRow from './components/GameRow.vue'
 
 const hoveredIdx = ref(null)
+
+/* ── Responsive fold breakpoints ─────────────────────
+   As the viewport narrows, columns fold out of the table and into each row's
+   blurb. These px values are the single JS source of truth, shared with every
+   row via provide/inject (one matchMedia pair instead of one per row).
+   The CSS @media blocks in style.css mirror these same numbers. */
+const FOLD_HOURS_BP = 600   // HRS leaves the table
+const FOLD_SCORES_BP = 480  // Mohammed + Enoch leave the table
+const foldHours = ref(false)
+const foldScores = ref(false)
+provide('foldHours', foldHours)
+provide('foldScores', foldScores)
+let mqFoldHours, mqFoldScores
+const syncFoldHours = (e) => { foldHours.value = e.matches }
+const syncFoldScores = (e) => { foldScores.value = e.matches }
 
 /* ── Typed-in title ──────────────────────────────── */
 const fullTitle = 'CO-OP GAME REVIEWS'
@@ -135,15 +150,20 @@ function askTiltPermission() {
 
 /* ── Ambient flicker: random elements glitch at random times ── */
 let ambientTimer = null
+// node sets are static after the load-in, so query them once and reuse
+let flickerChrome = null
+let flickerRows = null
 
 function scheduleAmbientFlicker() {
+  if (!flickerChrome) {
+    flickerChrome = document.querySelectorAll('.hud, .table-header, h1')
+    flickerRows = document.querySelectorAll('.game-row')
+  }
   const delay = 500 + Math.random() * 2000
   ambientTimer = setTimeout(() => {
     // 50/50 chrome vs rows, so the hud/header flicker far more often
     // than uniform selection over 65 rows would give them
-    const chrome = document.querySelectorAll('.hud, .table-header, h1')
-    const rows = document.querySelectorAll('.game-row')
-    const pool = Math.random() < 0.5 ? chrome : rows
+    const pool = Math.random() < 0.5 ? flickerChrome : flickerRows
     const el = pool[Math.floor(Math.random() * pool.length)]
     // WAAPI so the CSS load-in animations are never touched/restarted
     if (el) {
@@ -175,6 +195,14 @@ onMounted(() => {
   startTyping()
   // wait for the load-in sequence to finish before ambient glitches start
   setTimeout(scheduleAmbientFlicker, 4500)
+
+  mqFoldHours = window.matchMedia(`(max-width: ${FOLD_HOURS_BP}px)`)
+  mqFoldScores = window.matchMedia(`(max-width: ${FOLD_SCORES_BP}px)`)
+  foldHours.value = mqFoldHours.matches
+  foldScores.value = mqFoldScores.matches
+  mqFoldHours.addEventListener('change', syncFoldHours)
+  mqFoldScores.addEventListener('change', syncFoldScores)
+
   if (!isTouch) {
     tiltStatus.value = 'listening: cursor'
     window.addEventListener('mousemove', onMouseTilt)
@@ -194,6 +222,8 @@ onUnmounted(() => {
   window.removeEventListener('touchend', askTiltPermission)
   window.removeEventListener('mousemove', onMouseTilt)
   clearTimeout(ambientTimer)
+  mqFoldHours && mqFoldHours.removeEventListener('change', syncFoldHours)
+  mqFoldScores && mqFoldScores.removeEventListener('change', syncFoldScores)
 })
 </script>
 
@@ -287,8 +317,8 @@ main {
 /* ── Table header ────────────────────────────────── */
 .table-header {
   display: grid;
-  grid-template-columns: 18px minmax(0, 1fr) 6rem 3.8rem 3rem 3.8rem;
-  gap: 0 1.2rem;
+  grid-template-columns: var(--grid-cols);
+  gap: var(--grid-gap);
   padding: 0.3rem 1.4rem 0.3rem 0.7rem;
   font-size: 1rem;
   letter-spacing: 0.18em;
@@ -330,13 +360,11 @@ main {
   .page-header h1 { font-size: 2.4rem; }
 
   .table-header {
-    grid-template-columns: 9px minmax(0, 1fr) 5rem 3.3rem 3.3rem;
-    gap: 0 0.45rem;
     padding: 0.3rem 0.7rem 0.3rem 0.2rem;
     font-size: 0.85rem;
   }
 
-  /* Hide HRS column header (5th span) */
+  /* HRS column folds out (grid track count handled by --grid-cols) */
   .table-header span:nth-child(5) {
     display: none;
   }
@@ -344,9 +372,6 @@ main {
 
 /* compact: drop the Mohammed (3rd) + Enoch (4th) headers too — GAME + SCORE only */
 @media (max-width: 480px) {
-  .table-header {
-    grid-template-columns: 9px minmax(0, 1fr) 3.3rem;
-  }
   .table-header span:nth-child(3),
   .table-header span:nth-child(4) {
     display: none;
@@ -391,13 +416,11 @@ main {
   width: 0.55em;
   height: 0.75em;
   background: var(--text);
-  /* step-end: visible during the first half of each blink cycle */
-  animation: cursor-blink 0.9s step-end infinite;
+  /* step-end: visible during the first half of each blink cycle.
+     Reuses the @keyframes blink defined above. */
+  animation: blink 0.9s step-end infinite;
 }
 .type-cursor.solid { animation: none; }
-@keyframes cursor-blink {
-  50% { opacity: 0; }
-}
 
 /* Table header flickers on in place — no horizontal motion */
 .table-header {

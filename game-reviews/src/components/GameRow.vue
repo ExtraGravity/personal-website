@@ -49,39 +49,21 @@
 </template>
 
 <script setup>
-import { ref, computed, onMounted, onUnmounted } from 'vue'
+import { ref, computed, inject, watch } from 'vue'
 
 const props = defineProps({ game: Object })
 const isOpen = ref(false)
 const hasBlurb = computed(() => props.game.enochBlurb || props.game.moBlurb)
 
-/* two fold stages as the viewport narrows (keep in sync with the CSS):
-   ≤600 HRS leaves the table, ≤480 Mohammed/Enoch leave too — each value
-   folds into the blurb as soon as its column goes */
-const foldHours = ref(false)
-const foldScores = ref(false)
-let mqHours, mqScores
-function closeIfStranded() {
-  // a no-blurb row is only expandable while something is folded in
-  if (!foldHours.value && !hasBlurb.value) isOpen.value = false
-}
-function onHours(e) { foldHours.value = e.matches; closeIfStranded() }
-function onScores(e) { foldScores.value = e.matches }
-onMounted(() => {
-  mqHours = window.matchMedia('(max-width: 600px)')
-  mqScores = window.matchMedia('(max-width: 480px)')
-  foldHours.value = mqHours.matches
-  foldScores.value = mqScores.matches
-  mqHours.addEventListener('change', onHours)
-  mqScores.addEventListener('change', onScores)
-})
-onUnmounted(() => {
-  mqHours && mqHours.removeEventListener('change', onHours)
-  mqScores && mqScores.removeEventListener('change', onScores)
-})
+/* fold state is owned by App.vue (one matchMedia pair for the whole list) and
+   shared down: ≤600 HRS folds into the blurb, ≤480 Mohammed/Enoch do too */
+const foldHours = inject('foldHours')
+const foldScores = inject('foldScores')
 
 // expandable if there's a blurb, or anything has folded into the blurb
 const canExpand = computed(() => hasBlurb.value || foldHours.value)
+// an open row can't stay open once it's no longer expandable (grew past a fold)
+watch(canExpand, (v) => { if (!v) isOpen.value = false })
 
 const avgClass = computed(() => {
   const a = props.game.avg
@@ -161,8 +143,8 @@ function toggle() {
 .row-main {
   position: relative;
   display: grid;
-  grid-template-columns: 18px minmax(0, 1fr) 6rem 3.8rem 3rem 3.8rem;
-  gap: 0 1.2rem;
+  grid-template-columns: var(--grid-cols);
+  gap: var(--grid-gap);
   align-items: center;
   padding: 0.65rem 1.4rem 0.65rem 0.7rem;
   font-size: 1.15rem;
@@ -275,8 +257,6 @@ function toggle() {
 
 @media (max-width: 600px) {
   .row-main {
-    grid-template-columns: 9px minmax(0, 1fr) 5rem 3.3rem 3.3rem;
-    gap: 0 0.45rem;
     padding: 0.6rem 0.7rem 0.6rem 0.2rem;
     font-size: 1.05rem;
     /* keep numbers on the first line when a name wraps */
@@ -306,11 +286,9 @@ function toggle() {
   .blurb-entry p { font-size: 0.95rem; }
 }
 
-/* compact: drop Mohammed/Enoch from the table — only GAME + AVG remain */
+/* compact: drop Mohammed/Enoch from the table — only GAME + SCORE remain
+   (grid track count handled by --grid-cols) */
 @media (max-width: 480px) {
-  .row-main {
-    grid-template-columns: 9px minmax(0, 1fr) 3.3rem;
-  }
   .col-score { display: none; }
 }
 

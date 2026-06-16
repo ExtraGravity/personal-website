@@ -8,6 +8,28 @@
   --text-dim: rgba(221, 238, 255, 0.45);
   --font-hud: 'Share Tech Mono', monospace;
   --font-display: 'Bebas Neue', monospace;
+
+  /* Shared table grid — the header (.table-header) and each row (.row-main)
+     consume these so their columns always line up. As columns fold out at
+     narrower widths, the track list shrinks here in one place.
+     NOTE: the matching JS fold breakpoints live in App.vue (FOLD_*_BP). */
+  --grid-cols: 18px minmax(0, 1fr) 6rem 3.8rem 3rem 3.8rem;
+  --grid-gap: 0 1.2rem;
+}
+
+/* ≤600: HRS column folds out */
+@media (max-width: 600px) {
+  :root {
+    --grid-cols: 9px minmax(0, 1fr) 5rem 3.3rem 3.3rem;
+    --grid-gap: 0 0.45rem;
+  }
+}
+
+/* ≤480: Mohammed + Enoch fold out, leaving GAME + SCORE */
+@media (max-width: 480px) {
+  :root {
+    --grid-cols: 9px minmax(0, 1fr) 3.3rem;
+  }
 }
 
 html, body {
