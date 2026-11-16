@@ -2,6 +2,7 @@
   <div id="shell">
     <!-- Background layers -->
     <div class="bg-grid"></div>
+    <WireframeShape ref="shape" />
     <div class="bg-vignette"></div>
     <div class="scanlines"></div>
 
@@ -42,8 +43,9 @@
           :game="game"
           :class="{ dimmed: hoveredIdx !== null && hoveredIdx !== i }"
           :style="{ animationDelay: (2.7 + Math.min(i * 0.055, 1.8)) + 's' }"
-          @mouseenter="hoveredIdx = i"
+          @mouseenter="onRowHover(i)"
           @mouseleave="hoveredIdx = null"
+          @toggle="onRowToggle"
         />
       </div>
     </main>
@@ -54,8 +56,20 @@
 import { ref, computed, onMounted, onUnmounted, provide } from 'vue'
 import { games } from './data/games.js'
 import GameRow from './components/GameRow.vue'
+import WireframeShape from './components/WireframeShape.vue'
 
 const hoveredIdx = ref(null)
+const shape = ref(null)   // WireframeShape ref — kicked on each interaction
+const KICK_HOVER = 0.018  // bg-shape spin nudge on row hover
+const KICK_CLICK = 0.058  // bigger nudge (lingers) when a row expands/collapses
+
+function onRowHover(i) {
+  hoveredIdx.value = i
+  shape.value?.kick(KICK_HOVER)
+}
+function onRowToggle() {
+  shape.value?.kick(KICK_CLICK, false)
+}
 
 /* ── Responsive fold breakpoints ─────────────────────
    As the viewport narrows, columns fold out of the table and into each row's
@@ -80,7 +94,8 @@ const isTyping = ref(false)
 
 function startTyping() {
   // hold for two full blink cycles (0.9s each); offset by one char interval
-  // so the first character lands exactly at 1.8s, in sync with the flickers
+  // so the first character lands exactly at 1.8s, in sync with the flickers.
+  // NOTE: WireframeShape's START_DELAY is tuned to land just before this 1.8s.
   const perChar = 55
   const start = performance.now() + 1800 - perChar
   // time-based so throttled timers catch up instead of stalling
@@ -247,7 +262,8 @@ onUnmounted(() => {
   position: fixed; inset: 0;
   background: radial-gradient(ellipse at center, transparent 15%, rgba(2,4,14,0.88) 100%);
   pointer-events: none;
-  z-index: 1;
+  /* above the wireframe shape (z 1) so it fades the shape's edges into the bg */
+  z-index: 2;
 }
 .scanlines {
   position: fixed; inset: 0;

@@ -52,7 +52,10 @@
 import { ref, computed, inject, watch } from 'vue'
 
 const props = defineProps({ game: Object })
+const emit = defineEmits(['toggle'])
 const isOpen = ref(false)
+// let the parent know whenever this row opens/closes (drives the bg spin)
+watch(isOpen, (v) => emit('toggle', v))
 const hasBlurb = computed(() => props.game.enochBlurb || props.game.moBlurb)
 
 /* fold state is owned by App.vue (one matchMedia pair for the whole list) and
