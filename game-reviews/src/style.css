@@ -9,42 +9,72 @@
   --font-hud: 'Share Tech Mono', monospace;
   --font-display: 'Bebas Neue', monospace;
 
+  /* player-count rating colours */
+  --lvl-green: #8ef08e;
+  --lvl-yellow: #f0d080;
+  --lvl-red: #f07070;
+  --lvl-grey: rgba(221, 238, 255, 0.16);
+
   /* Shared table grid — the header (.table-header) and each row (.row-main)
-     consume these so their columns always line up. As columns fold out at
-     narrower widths, the track list shrinks here in one place.
-     NOTE: the matching JS fold breakpoints live in App.vue (FOLD_*_BP). */
-  --grid-cols: 18px minmax(0, 1fr) 6rem 3.8rem 3rem 3.8rem;
-  --grid-gap: 0 1.2rem;
+     consume these so their columns always line up.
+     Columns: marker | GAME | PLAYERS | JUPITER | JELLY | HRS | EA | DONE | DEVS | COST | SCORE
+     As the screen narrows they fold away in this order: EA, DONE and DEVS, then
+     COST, then HRS, then the two personal scores. GAME, PLAYERS and SCORE
+     always stay.
+     The track list shrinks here; the .col-* rules below hide the cells. */
+  --grid-cols: 18px minmax(0, 1fr) 5.2rem 4.8rem 3.9rem 2.6rem 1.8rem 2.9rem 2.9rem 3.4rem 3.6rem;
+  --grid-gap: 0 0.7rem;
 }
 
-/* ≤600: HRS column folds out */
+/* ≤860: EA, DONE and DEVS fold away */
+@media (max-width: 860px) {
+  :root {
+    --grid-cols: 18px minmax(0, 1fr) 5.2rem 4.8rem 3.9rem 3.2rem 3.8rem 3.6rem;
+    --grid-gap: 0 0.9rem;
+  }
+  .col-flag { display: none !important; }
+}
+
+/* ≤760: COST folds away */
+@media (max-width: 760px) {
+  :root {
+    --grid-cols: 18px minmax(0, 1fr) 5.2rem 4.8rem 3.9rem 3.2rem 3.6rem;
+    --grid-gap: 0 0.65rem;
+  }
+  .col-cost { display: none !important; }
+}
+
+/* ≤600: HRS folds away */
 @media (max-width: 600px) {
   :root {
-    --grid-cols: 9px minmax(0, 1fr) 5rem 3.3rem 3.3rem;
+    --grid-cols: 9px minmax(0, 1fr) 4.3rem 4.4rem 3.5rem 3.1rem;
     --grid-gap: 0 0.45rem;
   }
+  .col-hours { display: none !important; }
 }
 
-/* ≤480: Mohammed + Enoch fold out, leaving GAME + SCORE */
+/* ≤480: Jupiter + Jelly fold away, leaving GAME, PLAYERS, SCORE */
 @media (max-width: 480px) {
   :root {
-    --grid-cols: 9px minmax(0, 1fr) 3.3rem;
+    --grid-cols: 9px minmax(0, 1fr) 4.3rem 3.1rem;
   }
+  .col-person { display: none !important; }
 }
 
 html, body {
-  height: 100%;
   /* reserve scrollbar space so the page doesn't shift as rows load in */
   scrollbar-gutter: stable;
   background: var(--bg);
   color: var(--text);
   font-family: var(--font-hud);
-  /* scroll (not clip) when the viewport is below the min-width */
-  overflow-x: auto;
   scrollbar-width: thin;
   scrollbar-color: rgba(42, 245, 255, 0.2) transparent;
   min-width: 300px;
 }
+
+/* the window stays the scroller (the page transition relies on
+   window.scrollY); only the root clips sideways overflow */
+html { overflow-x: hidden; }
 
 body::-webkit-scrollbar { width: 4px; }
 body::-webkit-scrollbar-track { background: transparent; }
@@ -54,3 +84,49 @@ body::-webkit-scrollbar-thumb { background: rgba(42, 245, 255, 0.2); border-radi
   min-height: 100vh;
   position: relative;
 }
+
+a { color: var(--accent); }
+
+button {
+  font: inherit;
+  color: inherit;
+  background: none;
+  border: 0;
+  cursor: pointer;
+}
+
+:focus-visible {
+  outline: 1px solid var(--accent);
+  outline-offset: 2px;
+}
+
+/* score colour bands: 9+, 7+, 5+, below 5 */
+.avg-great { color: var(--accent); text-shadow: 0 0 8px rgba(42,245,255,0.5); }
+.avg-good  { color: #a0f0a0; }
+.avg-ok    { color: #f0d080; }
+.avg-bad   { color: #f07070; }
+
+.sr-only {
+  position: absolute;
+  width: 1px; height: 1px;
+  padding: 0; margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* small back link used on the game and About pages */
+.back-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-family: var(--font-hud);
+  font-size: 0.8rem;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: rgba(42, 245, 255, 0.65);
+  text-decoration: none;
+}
+.back-link:hover { color: var(--accent); }
+.back-link svg { width: 8px; height: 10px; transform: rotate(180deg); fill: currentColor; }

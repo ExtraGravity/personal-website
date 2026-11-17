@@ -76,7 +76,11 @@ defineExpose({ kick })
 /* one-time load-in: edges trace on first, then faces tint in. Frame-counted
    (not wall-clock) so it always plays out whenever rendering happens — e.g.
    if the page first loads in a background tab and is viewed later. */
-const START_DELAY = 1500    // ms — begin just before the header starts typing (1.8s)
+/* ms — begin just before the header starts typing. The intro length varies
+   per visit (lib/intro.js), so App passes the matching delay in:
+   1500 for the full intro (typing at 1.8s), 600 for the short one, 0 for none */
+const props = defineProps({ startDelay: { type: Number, default: 1500 } })
+const START_DELAY = props.startDelay
 const EDGE_STEP = 1 / 66    // ~1.1s of edge-drawing at 60fps
 const FACE_STEP = 1 / 78    // ~1.3s for the staggered face fade-in
 const FACE_STAGGER = 0.6    // fraction of the face stage spent offsetting starts

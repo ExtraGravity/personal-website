@@ -1,52 +1,36 @@
 <template>
-  <div id="shell">
+  <div id="shell" :class="`intro-${introModeName}`" :style="introVars">
     <!-- Background layers -->
     <div class="bg-grid"></div>
-    <WireframeShape ref="shape" />
+    <WireframeShape ref="shape" :start-delay="timings.shapeAt" />
     <div class="bg-vignette"></div>
     <div class="scanlines"></div>
 
     <!-- HUD chrome -->
-    <div class="hud hud-top">ENOCH &amp; MOHAMMED — CO-OP GAME REVIEWS</div>
-    <div class="hud tilt-readout">
-      {{ tiltStatus }} · events: {{ tiltEvents }} · β {{ tilt.x.toFixed(1) }} / γ {{ tilt.y.toFixed(1) }}
-    </div>
+    <a class="hud hud-top hud-link" :href="listHref" @click.prevent="goToList">
+      {{ JELLY }} &amp; {{ JUPITER }} — CO-OP GAME REVIEWS
+    </a>
+    <RouterLink class="hud hud-about hud-link" :to="{ name: 'about' }">About</RouterLink>
     <div class="hud hud-bottom">
       <span class="blink">▶</span>&nbsp;
       {{ games.length }} GAMES LOGGED
     </div>
 
     <!-- Main content -->
-    <main :style="tiltStyle">
-      <header class="page-header">
-        <h1>{{ typedTitle }}<span v-if="cursorVisible" class="type-cursor" :class="{ solid: isTyping }"></span></h1>
-      </header>
-
-      <!-- Table header -->
-      <div class="table-header">
-        <span></span>
-        <span>GAME</span>
-        <span class="right">MOHAMMED</span>
-        <span class="right">ENOCH</span>
-        <span class="right">HRS</span>
-        <span class="right">SCORE</span>
-      </div>
-
-      <!-- Game rows -->
-      <div
-        class="game-list"
-        :class="{ 'has-hover': hoveredIdx !== null }"
-      >
-        <GameRow
-          v-for="(game, i) in games"
-          :key="game.name"
-          :game="game"
-          :class="{ dimmed: hoveredIdx !== null && hoveredIdx !== i }"
-          :style="{ animationDelay: (2.7 + Math.min(i * 0.055, 1.8)) + 's' }"
-          @mouseenter="onRowHover(i)"
-          @mouseleave="hoveredIdx = null"
-          @toggle="onRowToggle"
-        />
+    <main>
+      <div ref="view" class="view-wrap">
+        <!-- the list never unmounts: on a game page it stays behind as a
+             dimmed "ghost", slid half off screen (lib/warp.js) -->
+        <div
+          v-show="route.name === 'list' || onGame"
+          class="list-clip"
+          :class="{ ghost: onGame }"
+        >
+          <div ref="list" class="list-inner">
+            <ListView />
+          </div>
+        </div>
+        <RouterView />
       </div>
     </main>
   </div>
@@ -54,134 +38,60 @@
 
 <script setup>
 import { ref, computed, onMounted, onUnmounted, provide } from 'vue'
-import { games } from './data/games.js'
-import GameRow from './components/GameRow.vue'
+import { useRoute, useRouter } from 'vue-router'
+import { games, JELLY, JUPITER } from './lib/games.js'
+import { introMode, introTimings } from './lib/intro.js'
+import { registerWarp, syncGhost, navState } from './lib/warp.js'
 import WireframeShape from './components/WireframeShape.vue'
+import ListView from './views/ListView.vue'
 
-const hoveredIdx = ref(null)
+const router = useRouter()
+const route = useRoute()
+const onGame = computed(() => route.name === 'game')
 const shape = ref(null)   // WireframeShape ref — kicked on each interaction
+const view = ref(null)
+const list = ref(null)
 const KICK_HOVER = 0.018  // bg-shape spin nudge on row hover
-const KICK_CLICK = 0.058  // bigger nudge (lingers) when a row expands/collapses
+const KICK_CLICK = 0.058  // bigger nudge (lingers) when a row is opened
 
-function onRowHover(i) {
-  hoveredIdx.value = i
-  shape.value?.kick(KICK_HOVER)
-}
-function onRowToggle() {
-  shape.value?.kick(KICK_CLICK, false)
-}
+provide('kickShape', (big = false) => shape.value?.kick(big ? KICK_CLICK : KICK_HOVER, !big))
 
-/* ── Responsive fold breakpoints ─────────────────────
-   As the viewport narrows, columns fold out of the table and into each row's
-   blurb. These px values are the single JS source of truth, shared with every
-   row via provide/inject (one matchMedia pair instead of one per row).
-   The CSS @media blocks in style.css mirror these same numbers. */
-const FOLD_HOURS_BP = 600   // HRS leaves the table
-const FOLD_SCORES_BP = 480  // Mohammed + Enoch leave the table
-const foldHours = ref(false)
-const foldScores = ref(false)
-provide('foldHours', foldHours)
-provide('foldScores', foldScores)
-let mqFoldHours, mqFoldScores
-const syncFoldHours = (e) => { foldHours.value = e.matches }
-const syncFoldScores = (e) => { foldScores.value = e.matches }
-
-/* ── Typed-in title ──────────────────────────────── */
-const fullTitle = 'CO-OP GAME REVIEWS'
-const typedTitle = ref('')
-const cursorVisible = ref(true)
-const isTyping = ref(false)
-
-function startTyping() {
-  // hold for two full blink cycles (0.9s each); offset by one char interval
-  // so the first character lands exactly at 1.8s, in sync with the flickers.
-  // NOTE: WireframeShape's START_DELAY is tuned to land just before this 1.8s.
-  const perChar = 55
-  const start = performance.now() + 1800 - perChar
-  // time-based so throttled timers catch up instead of stalling
-  const timer = setInterval(() => {
-    const n = Math.max(0, Math.floor((performance.now() - start) / perChar))
-    // solid (non-blinking) cursor while characters are being typed
-    isTyping.value = n > 0 && n < fullTitle.length
-    typedTitle.value = fullTitle.slice(0, n)
-    if (n >= fullTitle.length) {
-      clearInterval(timer)
-      // let the block blink a few times, then drop it
-      setTimeout(() => { cursorVisible.value = false }, 2000)
-    }
-  }, 30)
+/* ── Intro timing (shared with ListView through CSS vars) ─────────── */
+const introModeName = introMode()
+const timings = introTimings()
+const introVars = {
+  '--hud-delay': `${timings.typeAt}ms`,
+  '--header-delay': `${Math.max(0, timings.typeAt - 250)}ms`,
 }
 
-/* ── Device-tilt parallax (touch devices only) ───── */
-const tilt = ref({ x: 0, y: 0 })
-const tiltStatus = ref('waiting…')
-const tiltEvents = ref(0)
-let baseBeta = null
-let baseGamma = null
-
-// only touch devices tilt the page; on PC the readout still tracks the
-// cursor but no transform is applied
-const isTouch = window.matchMedia('(hover: none)').matches
-
-const tiltStyle = computed(() =>
-  isTouch && (tilt.value.x || tilt.value.y)
-    ? { transform: `perspective(1100px) rotateX(${tilt.value.x}deg) rotateY(${tilt.value.y}deg)` }
-    : {}
-)
-
-function onOrientation(e) {
-  tiltEvents.value = (tiltEvents.value + 1) % 1000
-  if (e.beta == null || e.gamma == null) return
-  if (baseBeta === null) {
-    baseBeta = e.beta
-    baseGamma = e.gamma
-  }
-  // baseline slowly follows the current angle, so the page eases back
-  // to flat when you settle into a new holding position
-  baseBeta += (e.beta - baseBeta) * 0.02
-  baseGamma += (e.gamma - baseGamma) * 0.02
-  const clamp = (v) => Math.max(-2, Math.min(2, v))
-  tilt.value = {
-    x: clamp((e.beta - baseBeta) * -0.08),
-    y: clamp((e.gamma - baseGamma) * 0.08),
-  }
+/* "Back to list" from anywhere: step back in history if the list is right
+   behind us (keeps scroll + filters), otherwise open it with the last query */
+const listHref = computed(() => router.resolve({ name: 'list', query: navState.listQuery }).href)
+function goToList() {
+  const route = router.currentRoute.value
+  if (route.name === 'list') { window.scrollTo({ top: 0, behavior: 'smooth' }); return }
+  const back = window.history.state?.back
+  if (back && router.resolve(back).name === 'list') router.back()
+  else router.push({ name: 'list', query: navState.listQuery })
 }
-
-function enableTilt() {
-  tiltStatus.value = 'listening'
-  window.addEventListener('deviceorientation', onOrientation)
-}
-
-function askTiltPermission() {
-  tiltStatus.value = 'asking permission'
-  DeviceOrientationEvent.requestPermission()
-    .then((p) => {
-      tiltStatus.value = 'permission: ' + p
-      if (p === 'granted') enableTilt()
-    })
-    .catch((err) => { tiltStatus.value = 'error: ' + err })
-  window.removeEventListener('touchend', askTiltPermission)
-}
+provide('goToList', goToList)
 
 /* ── Ambient flicker: random elements glitch at random times ── */
 let ambientTimer = null
-// node sets are static after the load-in, so query them once and reuse
-let flickerChrome = null
-let flickerRows = null
 
 function scheduleAmbientFlicker() {
-  if (!flickerChrome) {
-    flickerChrome = document.querySelectorAll('.hud, .table-header, h1')
-    flickerRows = document.querySelectorAll('.game-row')
-  }
   const delay = 500 + Math.random() * 2000
   ambientTimer = setTimeout(() => {
     // 50/50 chrome vs rows, so the hud/header flicker far more often
-    // than uniform selection over 65 rows would give them
-    const pool = Math.random() < 0.5 ? flickerChrome : flickerRows
+    // than uniform selection over 70 rows would give them.
+    // Queried each time: the visible rows change with routes and filters.
+    const pool = Math.random() < 0.5
+      ? document.querySelectorAll('.hud, .table-header, h1')
+      : document.querySelectorAll('.game-row')
     const el = pool[Math.floor(Math.random() * pool.length)]
     // WAAPI so the CSS load-in animations are never touched/restarted
-    if (el) {
+    // (the dimmed list behind an open game stays still)
+    if (el && !el.closest('.ghost, .dim')) {
       el.animate(
         [
           { opacity: 1 },
@@ -197,48 +107,22 @@ function scheduleAmbientFlicker() {
   }, delay)
 }
 
-// desktop: same page tilt, driven by cursor position instead of gyro
-function onMouseTilt(e) {
-  tiltEvents.value = (tiltEvents.value + 1) % 1000
-  tilt.value = {
-    x: (e.clientY / window.innerHeight - 0.5) * -4,
-    y: (e.clientX / window.innerWidth - 0.5) * 4,
-  }
-}
-
 onMounted(() => {
-  startTyping()
+  registerWarp({
+    view: view.value,
+    list: list.value,
+    kick: () => shape.value?.kick(KICK_CLICK, false),
+  })
+  // the ghost list's position depends on the window size and on row heights
+  window.addEventListener('resize', syncGhost)
+  document.fonts?.ready.then(syncGhost)
   // wait for the load-in sequence to finish before ambient glitches start
-  setTimeout(scheduleAmbientFlicker, 4500)
-
-  mqFoldHours = window.matchMedia(`(max-width: ${FOLD_HOURS_BP}px)`)
-  mqFoldScores = window.matchMedia(`(max-width: ${FOLD_SCORES_BP}px)`)
-  foldHours.value = mqFoldHours.matches
-  foldScores.value = mqFoldScores.matches
-  mqFoldHours.addEventListener('change', syncFoldHours)
-  mqFoldScores.addEventListener('change', syncFoldScores)
-
-  if (!isTouch) {
-    tiltStatus.value = 'listening: cursor'
-    window.addEventListener('mousemove', onMouseTilt)
-    return
-  }
-  if (typeof DeviceOrientationEvent !== 'undefined' && DeviceOrientationEvent.requestPermission) {
-    // iOS requires a user gesture before granting motion access
-    tiltStatus.value = 'tap anywhere to grant motion access'
-    window.addEventListener('touchend', askTiltPermission)
-  } else {
-    enableTilt()
-  }
+  setTimeout(scheduleAmbientFlicker, timings.ambientAt)
 })
 
 onUnmounted(() => {
-  window.removeEventListener('deviceorientation', onOrientation)
-  window.removeEventListener('touchend', askTiltPermission)
-  window.removeEventListener('mousemove', onMouseTilt)
+  window.removeEventListener('resize', syncGhost)
   clearTimeout(ambientTimer)
-  mqFoldHours && mqFoldHours.removeEventListener('change', syncFoldHours)
-  mqFoldScores && mqFoldScores.removeEventListener('change', syncFoldScores)
 })
 </script>
 
@@ -247,6 +131,8 @@ onUnmounted(() => {
 #shell {
   min-height: 100vh;
   position: relative;
+  /* the page pans sideways during transitions: never scroll horizontally */
+  overflow-x: clip;
 }
 
 .bg-grid {
@@ -290,14 +176,30 @@ onUnmounted(() => {
   z-index: 90;
   pointer-events: none;
 }
+.hud-link {
+  pointer-events: auto;
+  text-decoration: none;
+  transition: color 0.2s;
+}
+.hud-link:hover, .hud-link:focus-visible { color: var(--accent); }
 .hud-top    { top: 18px; left: 50%; transform: translateX(-50%); }
-.tilt-readout {
-  top: 3px;
-  left: 50%;
-  transform: translateX(-50%);
-  font-size: 0.6rem;
-  letter-spacing: 0.14em;
-  color: rgba(42, 245, 255, 0.45);
+/* About: a proper button, so it reads as the way to the site's explanation */
+.hud-about {
+  top: 14px;
+  right: 18px;
+  padding: 0.45rem 0.95rem;
+  font-size: 0.92rem;
+  letter-spacing: 0.24em;
+  color: var(--accent);
+  border: 1px solid rgba(42,245,255,0.55);
+  background: rgba(7,11,24,0.75);
+  box-shadow: 0 0 12px rgba(42,245,255,0.15);
+  transition: color 0.2s, background 0.2s, box-shadow 0.2s;
+}
+.hud-about:hover, .hud-about:focus-visible {
+  color: var(--bg);
+  background: var(--accent);
+  box-shadow: 0 0 16px rgba(42,245,255,0.45);
 }
 .hud-bottom { bottom: 18px; left: 50%; transform: translateX(-50%); }
 .blink { animation: blink 1.6s step-start infinite; }
@@ -310,110 +212,80 @@ main {
   max-width: 860px;
   margin: 0 auto;
   padding: 5rem 1.5rem 5rem;
-  transition: transform 0.1s linear;
-  will-change: transform;
 }
 
-.page-header {
-  margin-bottom: 2.5rem;
-  text-align: left;
+/* ── List behind a game page ─────────────────────── */
+.view-wrap {
+  position: relative;
+  min-height: calc(100vh - 10rem);
+}
+/* out of the flow, so the page sets the document height; clipped at the
+   page's bottom, free to hang off the left of the screen. The tall top
+   margin just keeps the rows above the game's row unclipped. */
+.list-clip.ghost {
+  position: absolute;
+  top: -100vh;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  overflow-x: visible;
+  overflow-y: clip;
 }
 
-
-.page-header h1 {
-  font-family: var(--font-display);
-  font-size: 5rem;
-  letter-spacing: 0.15em;
-  line-height: 1.05;
-  color: var(--text);
-  display: inline-block;
-  white-space: nowrap;
-}
-
-/* ── Table header ────────────────────────────────── */
-.table-header {
-  display: grid;
-  grid-template-columns: var(--grid-cols);
-  gap: var(--grid-gap);
-  padding: 0.3rem 1.4rem 0.3rem 0.7rem;
-  font-size: 1rem;
-  letter-spacing: 0.18em;
-  color: rgba(42,245,255,0.6);
-  text-transform: uppercase;
-  border-bottom: 1px solid rgba(42,245,255,0.12);
-  margin-bottom: 0.15rem;
-}
-.table-header .right { text-align: right; }
-
-/* ── Game list ───────────────────────────────────── */
-.game-list {
-  display: flex;
-  flex-direction: column;
-}
-
-@media (max-width: 765px) {
-  .page-header h1 { font-size: 3.9rem; }
-}
-  
 @media (max-width: 600px) {
   main {
-    padding: 3rem 0.75rem 4.5rem;
+    padding: 3.2rem 0.75rem 4.5rem;
   }
 
-  /* Top HUD is redundant with the h1 and wider than the screen */
+  /* Top HUD title is wider than the screen; the About link stays */
   .hud-top { display: none; }
-
+  .hud-about { top: 10px; right: 10px; padding: 0.3rem 0.6rem; font-size: 0.74rem; letter-spacing: 0.2em; }
 
   .hud-bottom {
     font-size: 0.62rem;
     letter-spacing: 0.2em;
     bottom: 12px;
   }
-
-  .page-header { margin-bottom: 1.5rem; }
-
-  /* small enough that the full title fits one line */
-  .page-header h1 { font-size: 2.4rem; }
-
-  .table-header {
-    padding: 0.3rem 0.7rem 0.3rem 0.2rem;
-    font-size: 0.85rem;
-  }
-
-  /* HRS column folds out (grid track count handled by --grid-cols) */
-  .table-header span:nth-child(5) {
-    display: none;
-  }
 }
 
-/* compact: drop the Mohammed (3rd) + Enoch (4th) headers too — GAME + SCORE only */
-@media (max-width: 480px) {
-  .table-header span:nth-child(3),
-  .table-header span:nth-child(4) {
-    display: none;
-  }
-}
-
-/* Alternating row shading */
-.game-list > :nth-child(even) {
-  background: rgba(42, 245, 255, 0.028);
-}
-
-/* Dim non-hovered rows */
-.game-list .dimmed {
-  transition: opacity 0.18s ease;
-  opacity: 0.5;
-}
-
-
-@media (max-width: 400px) {
-  .page-header h1 { font-size: 1.8rem; }
-}
 /* ── Load-in sequence ────────────────────────────── */
-/* HUD chrome flickers on like a CRT powering up */
-.hud {
-  animation: flicker-in 0.9s linear 1.8s backwards;
+/* HUD chrome flickers on like a CRT powering up (timed by the intro) */
+.intro-full .hud,
+.intro-short .hud,
+.intro-quick .hud {
+  animation: flicker-in 0.9s linear var(--hud-delay) backwards;
 }
+</style>
+
+<style>
+/* While a game is open, everything in the list except that game's row is
+   dimmed (.dim: lib/warp.js, while it animates; .ghost: once it is open;
+   .bright: not yet, the opening animation on a direct link is about to run) */
+.list-clip .list-view > :not(.game-list),
+.list-clip .game-list > .game-row {
+  transition: opacity 0.3s ease;
+}
+.list-clip.dim .list-view > :not(.game-list),
+.list-clip.ghost:not(.bright) .list-view > :not(.game-list),
+.list-clip.dim .game-list > .game-row:not(.open):not([data-opening]),
+.list-clip.ghost:not(.bright) .game-list > .game-row:not(.open):not([data-opening]) {
+  opacity: 0.3;
+}
+/* ...and ignores the pointer: rows sliding under a still cursor would
+   otherwise each fire their hover highlight on the way past */
+.list-clip.dim .game-list > .game-row:not(.open):not([data-opening]),
+.list-clip.ghost .game-list > .game-row:not(.open):not([data-opening]) {
+  pointer-events: none;
+}
+/* no row reacts to the pointer until a transition has finished */
+.list-clip[data-moving] .game-row { pointer-events: none; }
+/* every other row has a faint stripe: not under an opened row's band */
+.list-clip .game-list > .game-row.open,
+.list-clip .game-list > .game-row[data-opening] {
+  background: transparent;
+}
+
+/* shared by the HUD and the list's table header */
 @keyframes flicker-in {
   0%   { opacity: 0; }
   7%   { opacity: 1; }
@@ -423,34 +295,5 @@ main {
   34%  { opacity: 1; }
   41%  { opacity: 0.6; }
   48%, 100% { opacity: 1; }
-}
-
-/* Block cursor for the typed-in title */
-/* full-height solid block, like a terminal cursor */
-.type-cursor {
-  display: inline-block;
-  width: 0.55em;
-  height: 0.75em;
-  background: var(--text);
-  /* step-end: visible during the first half of each blink cycle.
-     Reuses the @keyframes blink defined above. */
-  animation: blink 0.9s step-end infinite;
-}
-.type-cursor.solid { animation: none; }
-
-/* Table header flickers on in place — no horizontal motion */
-.table-header {
-  animation: flicker-in 0.5s linear 1.55s backwards;
-}
-
-/* Rows print in like terminal lines: instant on, highlighted, decaying */
-.game-list :deep(.game-row) {
-  animation: row-in 0.45s linear backwards;
-}
-@keyframes row-in {
-  0%   { opacity: 0; }
-  1%   { opacity: 1; background-color: rgba(42, 245, 255, 0.22); filter: brightness(2.2); }
-  45%  { background-color: rgba(42, 245, 255, 0.08); filter: brightness(1.4); }
-  100% { opacity: 1; background-color: transparent; filter: brightness(1); }
 }
 </style>

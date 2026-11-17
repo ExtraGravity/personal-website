@@ -1,3 +1,28 @@
+/* Game data. Display names: `enoch` = Jelly, `mo` = Jupiter.
+
+   Required: name, enoch, mo, hours, avg
+   Optional (older entries simply leave them out):
+     note, enochBlurb, moBlurb
+     whyPlay       one line: "Why you should play this game"
+     players       rating per player count, index 0 = 1 player, up to 12:
+                   'green' recommended | 'yellow' OK | 'red' bad experience | 'grey' not supported
+     playersBlurb  freeform text for the Players section
+     mode          ['online', 'couch']
+     crossplay     true / false
+     price         number, CAD
+     whoBuys       'everyone' | 'one' | 'free'
+     costHeader    overrides the "Cost: $X per person" header
+     costBlurb     what you have to buy
+     coopBlurb     co-op details; shown in the Players section, under playersBlurb
+     recommends    { top: 'Game Name', also: ['Game Name', ...] }  "if you liked this game":
+                   one main pick and any number of others, by exact `name` of another entry
+     tags          ids from src/data/tags.js
+     enochSpoiler, moSpoiler   full alternate review text with spoilers
+     reviewed, updated         'YYYY-MM-DD'
+     completed     false if we didn't finish it; left out = finished
+     earlyAccess   true if we played and reviewed it during early access
+     devs          who made it: 'S' | 'M' | 'L' (see DEV_SIZES in src/lib/games.js)
+     steamUrl */
 export const games = [
   {
     name: 'Factorio',
@@ -39,7 +64,10 @@ export const games = [
     mo: 9,
     hours: 67,
     avg: 9,
-    enochBlurb: `This was the best survival crafting game I've played, excellent build tree with fun and wacky upgrades Getting supplies was also fun and not tedious, hard thing to do. The level design also always made moving to the next area feel fresh and exciting. I do wish the cooking and fishing were more impactful to the game though, examples of that would be cooking in Valheim and fishing in Stardew Valley. It's the best survival crafting game I've ever played, but why is it only an 8 you might ask? Cause of the ending, last warning for spoilers. The ending leaves a sour taste that all you were doing was for nothing, and you actually ended up doing a horrible thing but you had no agency to choose otherwise.`,
+    // spoiler-free version: the original text minus the part about the ending
+    enochBlurb: `This was the best survival crafting game I've played, excellent build tree with fun and wacky upgrades Getting supplies was also fun and not tedious, hard thing to do. The level design also always made moving to the next area feel fresh and exciting. I do wish the cooking and fishing were more impactful to the game though, examples of that would be cooking in Valheim and fishing in Stardew Valley.`,
+    // full original text, including the ending
+    enochSpoiler: `This was the best survival crafting game I've played, excellent build tree with fun and wacky upgrades Getting supplies was also fun and not tedious, hard thing to do. The level design also always made moving to the next area feel fresh and exciting. I do wish the cooking and fishing were more impactful to the game though, examples of that would be cooking in Valheim and fishing in Stardew Valley. It's the best survival crafting game I've ever played, but why is it only an 8 you might ask? Cause of the ending, last warning for spoilers. The ending leaves a sour taste that all you were doing was for nothing, and you actually ended up doing a horrible thing but you had no agency to choose otherwise.`,
     moBlurb: `This is the best survival crafting game I've played, hands down. It has some of the best level design in video games I've ever played. Each level is large, unique, and full of new things to explore, but is designed in a way that when you come back to it, it's familiar and very easy to get around. Resource gathering is fun, even going back to get prior resources isn't tedious like in most other survival games I've played. The crafting develops in a fun way with good options that allow to slowly build and upgrade your base at just the right pace. The atmosphere of the game is both funny/goofy with a splash of creepy in just the right places. Readers of SCP in particular will enjoy reading through the log files. The ending puts a bit of a damper on things, but I would highly recommend this game both alone or with a friend.`,
   },
   {
@@ -107,6 +135,7 @@ export const games = [
     mo: 7,
     hours: 26,
     avg: 8,
+    completed: false,
     enochBlurb: `This game does a great job of fulfilling its fantasy, being a small squad of soldiers ripping through hordes of enemies of all sizes in an alien planet. Smooth gunplay and lots of interaction between friends makes for a grand time every time.`,
     moBlurb: `This is a beautiful game and I think does coop shooters in a really unique way. Many of the weapons require you and your friends to work together on shooting and reloading which I think is a really interesting feature not found in other coop games. It does feel like they built this game to be played coop. Perhaps what holds the game back is the missions are all standalone without a significant sense of story progression. I think if this game had a story it would've kept me interested much longer.`,
   },
@@ -125,6 +154,7 @@ export const games = [
     mo: 8,
     hours: 14,
     avg: 8,
+    completed: false,
   },
   {
     name: 'Gears of War 5',
@@ -139,6 +169,7 @@ export const games = [
     mo: 8,
     hours: 29,
     avg: 8,
+    earlyAccess: true,
     enochBlurb: `Pretty fun survival crafting game with a good horror vibe to it. The base building was ok, but the story was good and material gathering was also fun. Combat, or more, inability to combat, was also pretty fun although you do gain the ability to kill things later pretty easily which takes away the horror part, which is fine. It had some uniquely realism-esque mechanics like your inventory being a laid out backpack instead of a menu, which I enjoyed. Unfortunately we played this game right before it's 1.0 release so we got almost the full game but didn't get the real ending.`,
     moBlurb: `I never played the original The Forest, but this was a well polished and clean survival game with a horror element. The exploration was a lot of fun and kept you on edge and hugging your friend for safety. Unfortunately the game was early access when we played it and the story wasn't complete which led to a worse overall experience (this specifically is one of the examples of why we avoid playing early access games).`,
   },
@@ -166,6 +197,7 @@ export const games = [
     mo: 5,
     hours: 20,
     avg: 7.5,
+    earlyAccess: true,
     enochBlurb: `I finished this game separately without Mohammed.`,
   },
   {
@@ -174,6 +206,7 @@ export const games = [
     mo: 7,
     hours: 37,
     avg: 7.5,
+    completed: false,
     enochBlurb: `Really fun playing a third person tower defense game, and you have your own weapons and platforming. Thoughtful levels, mobs, and leveling with a fun theme to it. We didn't end up finishing the game, we dropped it when we got some of the flyer only levels, it seemed to detract from the spirit of the game, routing units through your towers in a maze of your concoction.`,
     moBlurb: `This is the only tower defense game we've played together so far, but we had tons of fun solving it. Most of the levels are about the right difficulty and it feels satisfying to look back at your perfect orc killing machine. The solutions do start to feel a little same-y after a while, and it did feel towards the end like we were rebuilding the same machines.`,
   },
@@ -217,6 +250,7 @@ export const games = [
     mo: 6,
     hours: 9,
     avg: 7,
+    completed: false,
     enochBlurb: `Ready or not is a game erring on realism as a swat team doing various missions. Most include securing some target, either killing or capturing them. Ther was a lot of variety in the weapon choices available that had interesting effects. The missions were hard and I felt like a real swat member having to plan out our execution. Although the game is quite unforgiving, I think that's ok given the genre.`,
     moBlurb: `I'm personally not a big fan of slow tactical shooters, if you are you might enjoy this game more than myself. As far this genre goes it's a very polished game. The large number of different gear load options also feels a little overwhelming right from the start.`,
   },
@@ -269,6 +303,7 @@ export const games = [
     mo: 7,
     hours: 40,
     avg: 7,
+    earlyAccess: true,
   },
   {
     name: 'Astroneer',
@@ -276,6 +311,58 @@ export const games = [
     mo: 7,
     hours: 43,
     avg: 7,
+  },
+  {
+    name: 'Big Walk',
+    enoch: 7,
+    mo: 7,
+    hours: 12,
+    avg: 7,
+    whyPlay: `A unique gaming take on hanging out with your friends.`,
+    players: ['red', 'green', 'green', 'green', 'yellow', 'yellow', 'yellow', 'yellow', 'yellow', 'yellow', 'yellow', 'yellow'],
+    playersBlurb: `We played with three. The puzzles are different depending on how many players you have, so two, three, and four are each a slightly different experience, and we think the more the better. It's built around walking and talking with friends, so we wouldn't play it alone. The game supports up to 12 players, but we haven't tried more than three, so we're not really sure how it'd play out with five or more.`,
+    mode: ['online'],
+    crossplay: true,
+    price: 25.99,
+    whoBuys: 'everyone',
+    coopBlurb: `It needs everyone: this is one integrated multiplayer experience, not two single player games side by side. Co-op was very solid, with no bugs or disconnects, and setting it up was smooth. The proximity voice chat is good and it's the only way to communicate in the game, which is the point.`,
+    tags: ['chill', 'non-gamer-friendly'],
+    reviewed: '2026-11-16',
+    steamUrl: 'https://store.steampowered.com/app/1478500/Big_Walk/',
+    recommends: {
+      top: 'Escape Simulator 2',
+      also: ['Stardew Valley', 'PEAK', 'We Were Here'],
+    },
+    enochBlurb: `You walk around a big map solving puzzles, and a lot of the time you're just traveling and meant to hang out with each other. Finding your way without much guidance, and finding each other over long distances, is a big part of it. I think that was an interesting part of the game, but I don't know if I personally liked it that much.
+
+For the first half I was actually not enjoying it, it was too easy and too much traveling. Maybe I just wasn't in the hanging out mindset and wanted to play a game. The game got better as it went on, the puzzles in the second half were much better and the end was good.
+
+The frustrating parts were only being able to hold one item for most of the game, and the night, which is just too dark to play without a light, so you end up sitting there waiting.
+
+The moment to moment really isn't that interesting, the game shines as a whole, as a way to hang out together and do things. It doesn't really force you to talk though, and sometimes I just left to grab something to eat or took a nap. If you wouldn't go on a road trip with these people, don't play it with them. If you want something intense, this isn't it.
+
+It's a new idea and I'm glad it exists, kind of like A Way Out when it first came out, but it just wasn't that fun in particular.`,
+    moBlurb: `It feels like a road trip simulator with your friends, except you're walking instead of driving. It's a puzzle game where you walk from puzzle to puzzle and solve them together, but the walking is a very big part of it. You have to figure out where to go, plot a route, and find whoever got lost. Quote me on this, it's not called the Small Walk.
+
+A lot of the puzzles were kind of easy and just alright, so if you're looking for a challenging puzzle game this isn't it. We got mad at the day night cycle while playing, but now that I've ruminated on it I think it fits the game. Night makes wayfinding intentionally harder, and if you accept that wayfinding is part of the game, I can see what it adds.
+
+The concept is really interesting and it's a great tool to just hang out with your friends for a couple of hours, and it does that better than friendslop does. It's very polished, we had no bugs, and the environment is beautiful. The game parts don't match the scenery at all, which is amusing and also means you can tell from far away what's a puzzle and what's backdrop. It didn't overstay its welcome, though some of the gameplay can lull a little.`,
+    enochSpoiler: `You walk around a big map solving puzzles, and a lot of the time you're just traveling and meant to hang out with each other. Finding your way without much guidance, and finding each other over long distances, is a big part of it. I think that was an interesting part of the game, but I don't know if I personally liked it that much.
+
+For the first half I was actually not enjoying it, it was too easy and too much traveling. Maybe I just wasn't in the hanging out mindset and wanted to play a game. The game got better as it went on, the puzzles in the second half were much better, and when the ending started it was the best part of the game for sure. It suddenly makes you not able to communicate, and you have to do some form of all the puzzles you did together before, without talking. We didn't get any chance to prep beforehand, and we also didn't know who was who because they made us all the same colour, which was really fun and pretty hilarious.
+
+The frustrating parts were only being able to hold one item for most of the game, because we found the backpacks early and didn't know they were backpacks, and the night, which is just too dark to play without a light, so you end up sitting there waiting.
+
+The moment to moment really isn't that interesting, the game shines as a whole, as a way to hang out together and do things. It doesn't really force you to talk though, and sometimes I just left to grab something to eat or took a nap. If you wouldn't go on a road trip with these people, don't play it with them. If you want something intense, this isn't it.
+
+It's a new idea and I'm glad it exists, kind of like A Way Out when it first came out, but it just wasn't that fun in particular.`,
+    moSpoiler: `It feels like a road trip simulator with your friends, except you're walking instead of driving. It's a puzzle game where you walk from puzzle to puzzle and solve them together, but the walking is a very big part of it. You have to figure out where to go, plot a route, decide if the best way there is the train (spoiler alert, there's a train), and find whoever got lost. Quote me on this, it's not called the Small Walk.
+
+A lot of the puzzles were kind of easy and just alright, so if you're looking for a challenging puzzle game this isn't it.
+
+The last few puzzles were the most entertaining part of the game. You can't talk any more, so it's mostly mime, and everyone is the same colour so you can't tell who is who, which was pretty funny. We got mad at the day night cycle while playing, but now that I've ruminated on it I think it fits the game. Night makes wayfinding intentionally harder, and if you accept that wayfinding is part of the game, I can see what it adds.
+
+The concept is really interesting and it's a great tool to just hang out with your friends for a couple of hours, and it does that better than friendslop does. It's very polished, we had no bugs, and the environment is beautiful. The game parts don't match the scenery at all, which is amusing and also means you can tell from far away what's a puzzle and what's backdrop. It didn't overstay its welcome, though some of the gameplay can lull a little.`,
   },
   {
     name: 'Ship of Fools',
@@ -317,6 +404,7 @@ export const games = [
     mo: 7,
     hours: 41,
     avg: 6.5,
+    completed: false,
     enochBlurb: `The game looks so good, really polished to a T, lots of elements of coop games that I like, but somehow it just didn't do it for me. I think there wasn't quite enough freedom in base building, getting resources to build I think was a little harder than I would've liked. Maybe I just don't like boss fights in these kinds of games that are more about mechanics than preparation.`,
     moBlurb: `This is a vampire RPG with basebuilding elements. I thought it was a great vampire simulator, the sun avoidance and kidnapping villages was well done, and I liked the feeling of hunting down and slaying powerful foes to steal their abilities. The combat was fun and I felt the boss fights gave a significant challenge. The basebuilding wasn't as positive, feeling kinda slow and many of the recipes have long crafting/wait times. I heard adjustment of server settings helps with this problem but we played the game with native settings. I'd recommend this to anyone who really wants a "vampire in the wild" experience.`,
   },
@@ -326,6 +414,7 @@ export const games = [
     mo: 6,
     hours: 12,
     avg: 6.5,
+    earlyAccess: true,
     note: 'We only played the initial release',
     enochBlurb: `The game starts off so strong, a fun tutorial, gripping beginning, and a ton of fun mechanics. But I think I just felt "too strong" later? There was a lot of feel of danger at first, being a drug dealer, running from the cops, not enough money for everything. But all those went away at some point and the game loses its charm.`,
     moBlurb: `I feel conflicted about this game. While it has a very strong start, and a satisfying gameplay loop, somewhere in the mid game it loses me. I didn't feel the game did anything particularly wrong, but ultimately I didn't feel very driven to keep pushing into the content.`,
@@ -345,6 +434,7 @@ export const games = [
     mo: 6,
     hours: 20,
     avg: 6.5,
+    completed: false,
     enochBlurb: `Very intense game with a beautiful cute-anime aesthetic. It did a great job of bringing co-op into the bullet hell genre with unique enemies and characters to mix and match with. Unfortunately, I think I sucked too much at the game to really enjoy it to its fullest. If someone finds it's their kind of game, it's definitely something you'd sink countless hours into, but I think the gameplay mechanics lack mass appeal.`,
     moBlurb: `Maybe I'm just not a huge fan of bullet hells but this game didn't quite do it for me. The varying classes were fun and playing with friends does lead to fun learning and cooperation, but it's not a game I felt compelled to continue playing to learn the highest level of boss mechanics.`,
   },
@@ -368,6 +458,7 @@ export const games = [
     mo: 5,
     hours: 43,
     avg: 6,
+    completed: false,
     enochBlurb: `This is a difficult and unforgiving survival, but not to its detriment, the difficulty is what gives it its charm. It has an interesting world, with creative creatures with unique behaviors. It's a similar struggle to other survival crafting games, scraping together what you can to get by. There are noticeable ways to make it less painful with new discoveries, as most survival games do, but the issue is that it's equally hard to recreate the new powerups as the game goes on. So just surviving doesn't really get much easier, it's always a chore to tend to your garden and cook the OP food. The other issue is that there isn't much guidance on what to do next, we got through about 2 years but couldn't figure out what to do next without a wiki. In general, I'm think games should be self guided so that is a con to me.`,
     moBlurb: `This game is very polished and the art style is beautiful, but I found the gameplay way too punishing to be fun. I know the game is called don't starve, but even very late into the save we were spending 60% of our time trying not to starve. It felt like we could hardly make progress on the main game as a result. I also found the combat incredibly boring, consisting mainly of run up, hit, and run away until the boss is dead. Perhaps my dislike of this game is a skill issue, but having played a lot of difficult games in my life, but I think this game is too overtly punishing regarding mistakes and death, which leads to every mistake leading to 3 hours of recovering resources you lost.`,
   },
@@ -377,6 +468,7 @@ export const games = [
     mo: 6,
     hours: 24,
     avg: 6,
+    completed: false,
     enochBlurb: `I had very high hopes for this game, but it fell flat. The worst part is the very standard story, for a RPG I think a good story is quite important. Not much else other than you're the chosen heroes, go and defeat the evil in the world. The main characters were also very boring, no growth or quirks. We kept hoping for something exciting and surprising to happen in the story, but it never came.\n\nThen the gameplay itself, was actually not bad, turn based combat with quick time events, and reasonable amount of decision making. I think the core loop there was actually pretty good, which is why we kept playing the game for as long as we did. The problem was that we didn't get meaningful choices between fights, the only choice was which stat to increase more of when leveling up. Otherwise we didn't get to choose any of our skills or equipment. Equipment was just a linear upgrade system.\n\nWe kept playing until we could guess the rest of the story, looked it up and we were right. But the art was nice.`,
     moBlurb: `We had high expectations for this game, it felt like the kind of thing we would really like, especially since recently we'd been really enjoying coop turn based RPGs, however I think after the first dozen or so hours the games faults start to show. The protagonists are bland and the worst crime is the story is very boring. The gameplay doesn't do enough to carry it and I felt got kinda repetitive after a while. This game would've really benefited from more ways to customize your characters and more interesting equipment (and a less generic story). The puzzles were also incredibly easy, to the point that I wondered why they even bothered to include them. At least the art direction and visuals were quite nice.`,
   },
@@ -418,6 +510,7 @@ export const games = [
     mo: 6,
     hours: 5,
     avg: 6,
+    completed: false,
   },
   {
     name: 'We Were Here',
@@ -432,6 +525,7 @@ export const games = [
     mo: 6,
     hours: 5,
     avg: 5.5,
+    completed: false,
   },
   {
     name: 'Unravel 2',
@@ -439,6 +533,7 @@ export const games = [
     mo: 6,
     hours: 20,
     avg: 5.5,
+    completed: false,
     enochBlurb: `This game looked fun and right up our alley, when we booted it up it is actually gorgeous. Unfortunately I didn't really have fun playing it for some reason. I think the puzzles weren't quite interesting enough and there was some kind of semblance of a story, but it wasn't cohesive it was just a series of scenes in the background which didn't end up really meaning anything, so it didn't really hook me in. The platforming itself was solid, but somehow I just really didn't have fun playing this game.`,
     moBlurb: `I was excited when I heard this is another coop platformer, but unfortunately it's no Split Fiction. You can tell the game was designed to be completed as single player and during times, the optimal way to play was for one player to "latch on" to the other and afk while the other did the jumping. I didn't really understand the story either. Overall the gameplay was serviceable. The game did hit its environment and art style well and looks beautiful overall, which is its biggest saving grace.`,
   },
@@ -448,6 +543,7 @@ export const games = [
     mo: 5,
     hours: 2,
     avg: 5.5,
+    completed: false,
   },
   {
     name: 'Fight Crab',
@@ -464,6 +560,7 @@ export const games = [
     mo: 5,
     hours: 8,
     avg: 5,
+    completed: false,
     enochBlurb: `This game was actually pretty fun, and with such a high budget I think we'd all expect it to rate higher. But the issue was that multiplayer was basically unplayable with all the bugs. There wasn't any way to reconnect with progress either, so we'd have to throw away entire runs when someone disconnected. I did enjoy the gunplay, although for a roguelike the choices didn't seem flexible enough. Most runs I felt like I was doing the same thing over and over.`,
     moBlurb: `This was a fun and polished high fidelity rogue-lite, it seems rare to see this genre at a AAA production value and I was really excited for this. Unfortunately it's nearly unplayable in coop, as there are bugs that cause one player to disconnect and lose all progress, and since runs last several hours, it's almost inevitable you won't make it through. We gave up after the third time in a row this happened to us.`,
   },
@@ -473,6 +570,7 @@ export const games = [
     mo: 4,
     hours: 5,
     avg: 5,
+    completed: false,
     enochBlurb: `A challenging game, but makes sense, I bet being a hobo is challenging. I felt the progression was fairly not obvious, but you're being pitted against many forces; hunger, disease, thirst. So we actually had a couple runs, and near the end of each one we figured out some progression, but we were already almost dead and couldn't really continue. The most major issue though is that there aren't really meaningful ways to play together with your friends, it's coop, but it ended up more like 3 single player games in the same world.`,
     moBlurb: `I felt like this game didn't deliver on the premise I expected. It felt rather monotonous to me and probably the most offensive part was that we couldn't do missions together with friends. This left me with an experience of playing almost a single player game while my friends were off doing other things. The base building elements were also very sparse. Personally for me I also felt the overall theme of the game to be in somewhat poor taste.`,
   },
@@ -489,6 +587,7 @@ export const games = [
     mo: 5,
     hours: 12,
     avg: 5,
+    completed: false,
   },
   {
     name: 'Octodad',
@@ -503,6 +602,7 @@ export const games = [
     mo: 4,
     hours: 2,
     avg: 4.5,
+    completed: false,
     enochBlurb: `Cute game, thought it would be fun to play casually, but the controls just weren't quite that fun. Things moved too quick almost? I think this is probably a general difficulty of making a mobile action game.`,
     moBlurb: `I don't have a lot to say about this game, it feels a little underbaked to me. It's a mobile roguelite but it doesn't feel like it does anything particularly unique. The movement also feels extremely jank.`,
   },
@@ -512,6 +612,7 @@ export const games = [
     mo: 4,
     hours: 1,
     avg: 4.5,
+    completed: false,
     enochBlurb: `Hilarious concept, it's "Getting Over It" but you're a fish out of water. The controls fit the vibe, and we dedicated some good hours trying to get as high as we could. The checkpoint system wasn't very clear, but once we understood it was a fair addition to this type of game. Well-made, but not my kind of game. I'm sure if it had some more marketing it could've built a strong dedicated fandom.`,
     moBlurb: `This is definitely a "we have nothing to do for 2 hours today" kinda game. We had some laughs watching each other fall down the mountain, but overall it's not a game that's likely to keep your attention for very long. If you really like intentionally clunky platformers you may like this, but otherwise it's mostly a meme than a full game. Also it doesn't feel like a real co-op experience, as the addition of extra players doesn't alter your own gameplay in any way.`,
   },
@@ -521,6 +622,7 @@ export const games = [
     mo: 3,
     hours: 2,
     avg: 4,
+    completed: false,
   },
   {
     name: 'Aaero2',
@@ -546,6 +648,7 @@ export const games = [
     mo: 3,
     hours: 7,
     avg: 3.5,
+    completed: false,
     enochBlurb: `Absolutely heartbreaking how much I didn't like this game, we loved loved Anno 1800 and really wanted some more of it hoping this game would scratch that itch. It probably doesn't actually deserve a rating this low, but it's getting one because of how much of a disappointment it was. The combat was much worse and it didn't have quite the depth of engineering as Anno 1800. The mission style of the game was also not nearly as fun, one of the best parts was building your empire from nothing to everything, but having missions means your empires are short-lived.`,
     moBlurb: `I think the low rating here is partly because we came in to this with very high expectations after playing Anno 1800, and were met with crushing disappointment. It's hard to pinpoint exactly why, I would blame it partly on the UI and graphics being significantly harder to parse. Perhaps this game had to run so 1800 could fly, but ultimately it's hard to find much joy in this one. I'd recommend skipping it and going straight to Anno 1800.`,
   },
@@ -555,6 +658,7 @@ export const games = [
     mo: 4,
     hours: 1,
     avg: 3,
+    completed: false,
     enochBlurb: `This game is like overcooked, but with really frustrating controls. Choosing what to pick up was really difficult, putting down the tent, which you have to do every round, was excruciatingly painful, and not being able to stop the squirrels from taking your resources felt so unfair. I'm also just really not a fan of the comic-style graphics, and rarely do I feel a game's sound design was annoying but many sound effects were really like scratching a chalkboard to me.`,
     moBlurb: `This is an overcooked style game that misses the mark. I didn't feel the levels added enough variety to the gameplay, and each level feels kinda samey pretty fast. Imagine if overcooked had way less charm and a lot more clunkiness.`,
   },
@@ -564,6 +668,7 @@ export const games = [
     mo: 3,
     hours: 1,
     avg: 3,
+    completed: false,
     enochBlurb: `You're driving a truck, that's it. There's a bit of a unique challenge of trying to park an 18 wheeler, but you really get what the game says, a truck driving simulator. Can't say it's much of a game.`,
     moBlurb: `I think Enoch and I just didn't really get this game. At one point I had to explain to him that it really was just driving trucks from place to place, and we both took a few minutes to ponder what was the point of it all.`,
   },
@@ -573,6 +678,7 @@ export const games = [
     mo: 3,
     hours: 2,
     avg: 2.5,
+    completed: false,
     enochBlurb: `I don't really understand how this is a game? I felt like I was just pressing some buttons on command. Art style wasn't very pretty either almost AI generated looking before AI image generation was a thing.`,
     moBlurb: `I thought this might be an overcooked style game, but boy was I wrong. I think the main issue with this game is that the mechanics feel very detached from the games presentation. You cook by inputting a series of arrow key codes and then food is served. This hardly feels like cooking, and the gameplay isn't fun at all.`,
   },
@@ -591,6 +697,7 @@ export const games = [
     mo: 1,
     hours: 2,
     avg: 1,
+    completed: false,
     enochBlurb: `This is probably not the game you're thinking of, you can watch our playthrough at https://www.youtube.com/watch?v=jU8v79LoimE`,
   },
 ];

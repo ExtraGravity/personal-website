@@ -1,0 +1,341 @@
+<template>
+  <section class="list-view" :class="{ 'intro-on': intro.mode !== 'none' }" :style="introVars">
+    <header class="page-header" :inert="openSlug !== null">
+      <h1>{{ typedTitle }}<span v-if="cursorVisible" class="type-cursor" :class="{ solid: isTyping }"></span></h1>
+    </header>
+
+    <SearchFilters
+      class="intro-chrome"
+      :inert="openSlug !== null"
+      :state="state"
+      :search="searchText"
+      :counts="counts"
+      :can-clear="canClear"
+      :lucky-available="luckyCount > 0"
+      @search="onSearch"
+      @update="patch"
+      @clear="clearAll"
+      @lucky="feelingLucky"
+    />
+
+    <p class="sr-only" aria-live="polite">{{ statusText }}</p>
+
+    <!-- Table header -->
+    <div class="table-header intro-chrome" :inert="openSlug !== null">
+      <span></span>
+      <span>GAME</span>
+      <span><HeadTip align="left" :text="TIPS.players">PLAYERS</HeadTip></span>
+      <span class="right col-person"><HeadTip :text="`${JUPITER}'s score, out of 10.`">{{ JUPITER.toUpperCase() }}</HeadTip></span>
+      <span class="right col-person"><HeadTip :text="`${JELLY}'s score, out of 10.`">{{ JELLY.toUpperCase() }}</HeadTip></span>
+      <span class="right col-hours"><HeadTip :text="TIPS.hours">HRS</HeadTip></span>
+      <span class="center col-flag"><HeadTip :text="TIPS.earlyAccess">EA</HeadTip></span>
+      <span class="center col-flag"><HeadTip :text="TIPS.completed">DONE</HeadTip></span>
+      <span class="center col-flag"><HeadTip :text="TIPS.devs">DEVS</HeadTip></span>
+      <span class="right col-cost"><HeadTip :text="costTip">COST</HeadTip></span>
+      <span class="right">
+        <HeadTip :text="TIPS.score">SCORE</HeadTip>
+      </span>
+    </div>
+
+    <!-- Game rows -->
+    <div
+      class="game-list"
+      :class="{ 'has-hover': hovered !== null, 'rows-intro': rowsIntro }"
+    >
+      <GameRow
+        v-for="(row, i) in rows"
+        :key="row.game.slug"
+        :game="row.game"
+        :positions="row.match && row.match.positions"
+        :group-size="groupSize"
+        :unrated="row.unrated"
+        :open="openSlug === row.game.slug"
+        :inert="openSlug !== null && openSlug !== row.game.slug"
+        :class="{ dimmed: hovered !== null && hovered !== row.game.slug }"
+        :style="rowsIntro ? { animationDelay: rowDelay(i) } : null"
+        @mouseenter="onRowHover(row.game.slug)"
+        @mouseleave="hovered = null"
+      />
+    </div>
+
+    <p v-if="!rows.length" class="empty">
+      No games match that.
+      <button type="button" class="link-btn" @click="clearAll">Clear filters</button>
+    </p>
+
+    <p v-if="hiddenCount && !state.all" class="hidden-note">
+      {{ hiddenCount }} older game{{ hiddenCount === 1 ? " isn't" : "s aren't" }} rated for this yet.
+      <button type="button" class="link-btn" @click="patch({ all: true })">Show them anyway</button>
+    </p>
+    <p v-else-if="state.all && hiddenCount" class="hidden-note">
+      Including {{ hiddenCount }} older game{{ hiddenCount === 1 ? '' : 's' }} not rated for this yet (dimmed).
+      <button type="button" class="link-btn" @click="patch({ all: false })">Hide them</button>
+    </p>
+  </section>
+</template>
+
+<script setup>
+import { ref, computed, watch, inject, onMounted, onUnmounted } from 'vue'
+import { useRoute, useRouter } from 'vue-router'
+import GameRow from '../components/GameRow.vue'
+import SearchFilters from '../components/SearchFilters.vue'
+import HeadTip from '../components/HeadTip.vue'
+import { games, gameBySlug, JELLY, JUPITER, DEV_SIZES } from '../lib/games.js'
+import {
+  stateFromQuery, queryFromState, applyFilters, activeCounts,
+  groupSize as groupSizeOf, luckyPool, emptyState,
+} from '../lib/filters.js'
+import { takeListIntro } from '../lib/intro.js'
+import { navState } from '../lib/warp.js'
+
+const route = useRoute()
+const router = useRouter()
+const kickShape = inject('kickShape', () => {})
+
+/* ── State lives in the URL query ─────────────────── */
+// The list stays mounted behind game pages: there it keeps showing the last
+// query it had, and marks the open game's row.
+const state = computed(() => stateFromQuery(route.name === 'list' ? route.query : navState.listQuery))
+const openSlug = computed(() => (route.name === 'game' ? route.params.slug : null))
+const searchText = ref(state.value.q)
+// back/forward or a pasted link: keep the input in step with the URL
+watch(() => (route.name === 'list' ? route.query : navState.listQuery).q, (q) => {
+  const v = typeof q === 'string' ? q : ''
+  if (v !== searchText.value) searchText.value = v
+})
+
+function patch(p) {
+  if (route.name !== 'list') return
+  router.replace({ query: queryFromState({ ...state.value, q: searchText.value, ...p }) })
+}
+function onSearch(v) {
+  searchText.value = v
+  patch({ q: v })
+}
+function clearAll() {
+  searchText.value = ''
+  router.replace({ query: queryFromState(emptyState()) })
+}
+
+const result = computed(() => applyFilters(games, state.value))
+// the open game always has its row, even if the current filters hide it
+const rows = computed(() => {
+  const list = result.value.rows
+  const slug = openSlug.value
+  if (!slug || list.some((r) => r.game.slug === slug)) return list
+  const game = gameBySlug.get(slug)
+  return game ? [{ game, match: null, unrated: false }, ...list] : list
+})
+const hiddenCount = computed(() => result.value.hiddenCount)
+const counts = computed(() => activeCounts(state.value))
+const groupSize = computed(() => groupSizeOf(state.value))
+const canClear = computed(() => !!state.value.q || counts.value.total > 0 || state.value.all)
+const luckyCount = computed(() => luckyPool(games, state.value, rows.value).length)
+const statusText = computed(() => `${rows.value.length} game${rows.value.length === 1 ? '' : 's'} shown`)
+
+/* ── Feeling lucky ────────────────────────────────── */
+function feelingLucky() {
+  const pool = luckyPool(games, state.value, rows.value)
+  if (!pool.length) return
+  const g = pool[Math.floor(Math.random() * pool.length)]
+  router.push({ name: 'game', params: { slug: g.slug } })
+}
+
+/* ── Hover dim + background kick ──────────────────── */
+const hovered = ref(null)
+watch(() => route.name, () => { hovered.value = null })
+function onRowHover(slug) {
+  hovered.value = slug
+  kickShape(false)
+}
+
+/* ── Column heading explanations (shown on hover) ─── */
+const TIPS = {
+  players: `How well it plays with each number of players, from 1 up.
+
+Green: the best way to experience the game.
+Yellow: works fine, but not the best way to play.
+Red: technically supported, but we wouldn't recommend it.
+Grey: not officially supported by the game.`,
+  hours: 'Hours we played it.',
+  earlyAccess: 'We played and reviewed it during early access, so the game may have changed since.',
+  completed: "A tick means we finished it. What counts as finished can be subjective: sometimes it's the credits, sometimes it's when we felt we'd seen what the game has to offer.",
+  devs: `Who made it.
+
+${Object.entries(DEV_SIZES).map(([id, d]) => `${id}: ${d.label}`).join('\n')}`,
+  score: `Our score: the average of ${JELLY}'s and ${JUPITER}'s, out of 10. The list is ordered by score, highest first.`,
+}
+const costTip = computed(() =>
+  `What each person pays for the cheapest way to play together, assuming ${groupSize.value} players ` +
+  '(or the smallest group in the Players filter). If one copy is enough for the group, its price ' +
+  'is split between the maximum number of players.')
+
+/* ── Intro: typed title + rows printing in ────────── */
+const intro = takeListIntro()
+const fullTitle = 'CO-OP GAME REVIEWS'
+const typedTitle = ref(intro.mode === 'none' ? fullTitle : '')
+const cursorVisible = ref(intro.mode !== 'none')
+const isTyping = ref(false)
+const rowsIntro = ref(intro.mode !== 'none')
+const introVars = { '--header-delay': `${Math.max(0, intro.typeAt - 250)}ms` }
+const rowDelay = (i) => `${intro.rowsAt + Math.min(i * intro.rowStep, intro.rowSpread)}ms`
+
+let typeTimer = null
+let cursorTimer = null
+let rowsTimer = null
+
+function startTyping() {
+  // hold for the intro's blink cycles (0.9s each); offset by one char interval
+  // so the first character lands exactly at typeAt, in sync with the flickers.
+  // NOTE: WireframeShape's start delay is tuned to land just before this.
+  const perChar = 55
+  const start = performance.now() + intro.typeAt - perChar
+  // time-based so throttled timers catch up instead of stalling
+  typeTimer = setInterval(() => {
+    const n = Math.max(0, Math.floor((performance.now() - start) / perChar))
+    // solid (non-blinking) cursor while characters are being typed
+    isTyping.value = n > 0 && n < fullTitle.length
+    typedTitle.value = fullTitle.slice(0, n)
+    if (n >= fullTitle.length) {
+      clearInterval(typeTimer)
+      // let the block blink a few times, then drop it
+      cursorTimer = setTimeout(() => { cursorVisible.value = false }, 2000)
+    }
+  }, 30)
+}
+
+onMounted(() => {
+  if (intro.mode === 'none') return
+  startTyping()
+  // once every row has printed in, drop the intro animation so rows that
+  // appear later (search/filters) just show up
+  rowsTimer = setTimeout(() => { rowsIntro.value = false }, intro.rowsAt + intro.rowSpread + 600)
+})
+onUnmounted(() => {
+  clearInterval(typeTimer)
+  clearTimeout(cursorTimer)
+  clearTimeout(rowsTimer)
+})
+</script>
+
+<style scoped>
+.page-header {
+  margin-bottom: 2rem;
+  text-align: left;
+}
+
+.page-header h1 {
+  font-family: var(--font-display);
+  font-size: 5rem;
+  letter-spacing: 0.15em;
+  line-height: 1.05;
+  color: var(--text);
+  display: inline-block;
+  white-space: nowrap;
+  /* reserve the line while the title types in */
+  min-height: 1.05em;
+}
+
+/* ── Table header ────────────────────────────────── */
+.table-header {
+  display: grid;
+  grid-template-columns: var(--grid-cols);
+  gap: var(--grid-gap);
+  align-items: end;
+  padding: 0.3rem 1.4rem 0.3rem 0.7rem;
+  font-size: 0.92rem;
+  letter-spacing: 0.15em;
+  color: rgba(42,245,255,0.6);
+  text-transform: uppercase;
+  border-bottom: 1px solid rgba(42,245,255,0.12);
+  margin-bottom: 0.15rem;
+  white-space: nowrap;
+}
+.table-header .right { text-align: right; }
+
+.table-header .center { text-align: center; }
+
+/* ── Game list ───────────────────────────────────── */
+.game-list {
+  display: flex;
+  flex-direction: column;
+}
+
+/* Alternating row shading */
+.game-list > :nth-child(even) {
+  background: rgba(42, 245, 255, 0.028);
+}
+
+/* Dim non-hovered rows */
+.game-list .dimmed {
+  transition: opacity 0.18s ease;
+  opacity: 0.5;
+}
+
+.empty, .hidden-note {
+  margin-top: 1.2rem;
+  padding: 0 0.7rem;
+  font-size: 0.9rem;
+  letter-spacing: 0.06em;
+  color: var(--text-dim);
+}
+.empty { font-size: 1rem; color: var(--text); }
+.link-btn {
+  margin-left: 0.4rem;
+  font-family: inherit;
+  letter-spacing: inherit;
+  color: var(--accent);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+.link-btn:hover { color: #fff; }
+
+@media (max-width: 765px) {
+  .page-header h1 { font-size: 3.9rem; }
+}
+
+@media (max-width: 600px) {
+  .page-header { margin-bottom: 1.3rem; }
+
+  /* small enough that the full title fits one line */
+  .page-header h1 { font-size: 2.4rem; }
+
+  .table-header {
+    padding: 0.3rem 0.6rem 0.3rem 0.2rem;
+    font-size: 0.78rem;
+    letter-spacing: 0.1em;
+  }
+}
+
+@media (max-width: 400px) {
+  .page-header h1 { font-size: 1.8rem; }
+}
+
+/* ── Load-in sequence (only on the visits that get an intro) ─────── */
+/* Block cursor for the typed-in title: full-height solid block */
+.type-cursor {
+  display: inline-block;
+  width: 0.55em;
+  height: 0.75em;
+  background: var(--text);
+  animation: blink 0.9s step-end infinite;
+}
+.type-cursor.solid { animation: none; }
+@keyframes blink { 50% { opacity: 0; } }
+
+/* search + table header flicker on in place, just before the title types */
+.intro-on .intro-chrome {
+  animation: flicker-in 0.5s linear var(--header-delay) backwards;
+}
+
+/* Rows print in like terminal lines: instant on, highlighted, decaying */
+.rows-intro :deep(.game-row) {
+  animation: row-in 0.45s linear backwards;
+}
+@keyframes row-in {
+  0%   { opacity: 0; }
+  1%   { opacity: 1; background-color: rgba(42, 245, 255, 0.22); filter: brightness(2.2); }
+  45%  { background-color: rgba(42, 245, 255, 0.08); filter: brightness(1.4); }
+  100% { opacity: 1; background-color: transparent; filter: brightness(1); }
+}
+</style>
