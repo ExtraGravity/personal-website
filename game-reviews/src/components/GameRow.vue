@@ -18,7 +18,10 @@
           <span class="sweep-border-top"></span>
           <span class="sweep-border-bot"></span>
 
-          <!-- row content (column folding: see .col-* rules in style.css) -->
+          <!-- row content (column folding: see .col-* rules in style.css).
+               The number cells draw their value from data-v with CSS
+               (::before), so the link's text is just the game's name for
+               crawlers; screen readers get the full aria-label. -->
           <span class="row-main" aria-hidden="true">
             <span class="expand-arrow">
               <svg viewBox="0 0 87 100" fill="currentColor">
@@ -31,14 +34,14 @@
               :class="{ hit: seg.hit }"
             >{{ seg.text }}</span></span>
             <span class="col-players"><PlayerIcons :players="game.players" /></span>
-            <span class="col-score col-person">{{ game.mo }}</span>
-            <span class="col-score col-person">{{ game.enoch }}</span>
-            <span class="col-hours">{{ game.hours }}</span>
-            <span class="col-flag col-ea">{{ game.earlyAccess ? 'EA' : '' }}</span>
-            <span class="col-flag col-done">{{ game.completed === false ? '' : '✓' }}</span>
-            <span class="col-flag col-devs" :class="{ none: !game.devs }">{{ game.devs || '—' }}</span>
-            <span class="col-cost" :class="{ none: cost === null }">{{ formatCost(cost) }}</span>
-            <span class="col-avg" :class="scoreClass(game.avg)">{{ game.avg }}</span>
+            <span class="col-score col-person" :data-v="game.mo"></span>
+            <span class="col-score col-person" :data-v="game.enoch"></span>
+            <span class="col-hours" :data-v="game.hours"></span>
+            <span class="col-flag col-ea" :data-v="game.earlyAccess ? 'EA' : ''"></span>
+            <span class="col-flag col-done" :data-v="game.completed === false ? '' : '✓'"></span>
+            <span class="col-flag col-devs" :class="{ none: !game.devs }" :data-v="game.devs || '—'"></span>
+            <span class="col-cost" :class="{ none: cost === null }" :data-v="formatCost(cost)"></span>
+            <span class="col-avg" :class="scoreClass(game.avg)" :data-v="game.avg"></span>
           </span>
 
           <!-- open: the whole band is the way back -->
@@ -263,6 +266,8 @@ const ariaLabel = computed(() => {
   font-size: 1.15rem;
   letter-spacing: 0.06em;
 }
+
+.row-main [data-v]::before { content: attr(data-v); }
 
 .expand-arrow {
   display: flex;

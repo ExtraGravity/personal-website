@@ -3,7 +3,13 @@ import { games as rawGames } from '../data/games.js'
 /* Display names. Data keys stay `enoch` / `mo`. */
 export const JELLY = 'Jelly'      // data key: enoch
 export const JUPITER = 'Jupiter'  // data key: mo
-export const SITE_TITLE = 'Co-op Reviews'
+export const SITE_TITLE = 'Better Together Gaming'
+
+/* Page titles, shared by router.js (the tab) and scripts/postbuild.js (the
+   HTML crawlers and link previews get), so the two always match. */
+export const HOME_TITLE = `${SITE_TITLE} · Co-op Game Reviews`
+export const ABOUT_TITLE = `About · ${SITE_TITLE}`
+export const gameTitle = (g) => `${g.name} co-op review (${g.avg}/10) · ${SITE_TITLE}`
 
 export function slugify(name) {
   return name

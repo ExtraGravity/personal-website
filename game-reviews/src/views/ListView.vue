@@ -1,7 +1,13 @@
 <template>
   <section class="list-view" :class="{ 'intro-on': intro.mode !== 'none' }" :style="introVars">
     <header class="page-header" :inert="openSlug !== null">
-      <h1>{{ typedTitle }}<span v-if="cursorVisible" class="type-cursor" :class="{ solid: isTyping }"></span></h1>
+      <SiteLogo class="header-logo intro-chrome" />
+      <div class="header-text">
+        <!-- the page's h1 only on the list itself: on a game page the game's name
+             is the h1, and this stays behind as a plain heading-styled line -->
+        <component :is="route.name === 'list' ? 'h1' : 'p'" class="site-title">{{ typedTitle }}<span v-if="cursorVisible" class="type-cursor" :class="{ solid: isTyping }"></span></component>
+        <p class="subtitle" :class="{ shown: subtitleShown }">{{ SUBTITLE }}</p>
+      </div>
     </header>
 
     <SearchFilters
@@ -80,7 +86,8 @@ import { useRoute, useRouter } from 'vue-router'
 import GameRow from '../components/GameRow.vue'
 import SearchFilters from '../components/SearchFilters.vue'
 import HeadTip from '../components/HeadTip.vue'
-import { games, gameBySlug, JELLY, JUPITER, DEV_SIZES } from '../lib/games.js'
+import SiteLogo from '../components/SiteLogo.vue'
+import { games, gameBySlug, JELLY, JUPITER, DEV_SIZES, SITE_TITLE } from '../lib/games.js'
 import {
   stateFromQuery, queryFromState, applyFilters, activeCounts,
   groupSize as groupSizeOf, luckyPool, emptyState,
@@ -172,8 +179,11 @@ const costTip = computed(() =>
 
 /* ── Intro: typed title + rows printing in ────────── */
 const intro = takeListIntro()
-const fullTitle = 'CO-OP GAME REVIEWS'
+const fullTitle = SITE_TITLE.toUpperCase()
+const SUBTITLE = 'CO-OP GAME REVIEWS'
 const typedTitle = ref(intro.mode === 'none' ? fullTitle : '')
+// the subtitle flickers on once the title has finished typing
+const subtitleShown = ref(intro.mode === 'none')
 const cursorVisible = ref(intro.mode !== 'none')
 const isTyping = ref(false)
 const rowsIntro = ref(intro.mode !== 'none')
@@ -198,6 +208,7 @@ function startTyping() {
     typedTitle.value = fullTitle.slice(0, n)
     if (n >= fullTitle.length) {
       clearInterval(typeTimer)
+      subtitleShown.value = true
       // let the block blink a few times, then drop it
       cursorTimer = setTimeout(() => { cursorVisible.value = false }, 2000)
     }
@@ -220,21 +231,45 @@ onUnmounted(() => {
 
 <style scoped>
 .page-header {
+  display: flex;
+  align-items: center;
+  gap: 1.1rem;
   margin-bottom: 2rem;
   text-align: left;
 }
 
-.page-header h1 {
+/* the mark spans the title and subtitle */
+.header-logo {
+  flex: none;
+  width: 4.9rem;
+  height: 4.9rem;
+}
+
+.header-text { min-width: 0; }
+
+.page-header .site-title {
   font-family: var(--font-display);
-  font-size: 5rem;
-  letter-spacing: 0.15em;
-  line-height: 1.05;
+  font-size: 3.7rem;
+  letter-spacing: 0.12em;
+  line-height: 1;
+  font-weight: bold; /* as an h1, also when it's a <p> */
   color: var(--text);
-  display: inline-block;
   white-space: nowrap;
   /* reserve the line while the title types in */
-  min-height: 1.05em;
+  min-height: 1em;
 }
+
+/* second voice: the HUD's mono face, small, wide, in the accent colour */
+.subtitle {
+  margin: 0.45rem 0 0;
+  font-family: var(--font-hud);
+  font-size: 1rem;
+  letter-spacing: 0.42em;
+  color: var(--accent);
+  white-space: nowrap;
+  opacity: 0;
+}
+.subtitle.shown { opacity: 1; }
 
 /* ── Table header ────────────────────────────────── */
 .table-header {
@@ -291,14 +326,19 @@ onUnmounted(() => {
 .link-btn:hover { color: #fff; }
 
 @media (max-width: 765px) {
-  .page-header h1 { font-size: 3.9rem; }
+  .page-header .site-title { font-size: 2.9rem; }
+  .header-logo { width: 4rem; height: 4rem; }
+  .subtitle { font-size: 0.85rem; }
 }
 
 @media (max-width: 600px) {
   .page-header { margin-bottom: 1.3rem; }
 
   /* small enough that the full title fits one line */
-  .page-header h1 { font-size: 2.4rem; }
+  .page-header { gap: 0.75rem; }
+  .page-header .site-title { font-size: 1.9rem; letter-spacing: 0.1em; }
+  .header-logo { width: 2.9rem; height: 2.9rem; }
+  .subtitle { margin-top: 0.3rem; font-size: 0.68rem; letter-spacing: 0.32em; }
 
   .table-header {
     padding: 0.3rem 0.6rem 0.3rem 0.2rem;
@@ -308,7 +348,13 @@ onUnmounted(() => {
 }
 
 @media (max-width: 400px) {
-  .page-header h1 { font-size: 1.8rem; }
+  .page-header .site-title { font-size: 1.55rem; }
+  .header-logo { width: 2.5rem; height: 2.5rem; }
+  .subtitle { font-size: 0.6rem; letter-spacing: 0.28em; }
+}
+
+@media (max-width: 340px) {
+  .page-header .site-title { font-size: 1.35rem; }
 }
 
 /* ── Load-in sequence (only on the visits that get an intro) ─────── */
@@ -326,6 +372,9 @@ onUnmounted(() => {
 /* search + table header flicker on in place, just before the title types */
 .intro-on .intro-chrome {
   animation: flicker-in 0.5s linear var(--header-delay) backwards;
+}
+.intro-on .subtitle.shown {
+  animation: flicker-in 0.5s linear;
 }
 
 /* Rows print in like terminal lines: instant on, highlighted, decaying */
