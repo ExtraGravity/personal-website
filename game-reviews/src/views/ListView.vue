@@ -8,6 +8,7 @@
         <component :is="route.name === 'list' ? 'h1' : 'p'" class="site-title">{{ typedTitle }}<span v-if="cursorVisible" class="type-cursor" :class="{ solid: isTyping }"></span></component>
         <p class="subtitle" :class="{ shown: subtitleShown }">{{ SUBTITLE }}</p>
       </div>
+      <p class="pitch" :class="{ shown: subtitleShown }">{{ PITCH }}</p>
     </header>
 
     <SearchFilters
@@ -87,7 +88,7 @@ import GameRow from '../components/GameRow.vue'
 import SearchFilters from '../components/SearchFilters.vue'
 import HeadTip from '../components/HeadTip.vue'
 import SiteLogo from '../components/SiteLogo.vue'
-import { games, gameBySlug, JELLY, JUPITER, DEV_SIZES, SITE_TITLE } from '../lib/games.js'
+import { games, gameBySlug, JELLY, JUPITER, DEV_SIZES, SITE_TITLE, PITCH } from '../lib/games.js'
 import {
   stateFromQuery, queryFromState, applyFilters, activeCounts,
   groupSize as groupSizeOf, luckyPool, emptyState,
@@ -232,6 +233,7 @@ onUnmounted(() => {
 <style scoped>
 .page-header {
   display: flex;
+  flex-wrap: wrap;
   align-items: center;
   gap: 1.1rem;
   margin-bottom: 2rem;
@@ -270,6 +272,20 @@ onUnmounted(() => {
   opacity: 0;
 }
 .subtitle.shown { opacity: 1; }
+
+/* the pitch: a sentence from us, not another HUD label, so regular case,
+   no letter-spacing, dimmer; its own line under the logo and title */
+.pitch {
+  flex-basis: 100%;
+  max-width: 34rem;
+  margin: 0.1rem 0 0;
+  font-family: var(--font-hud);
+  font-size: 0.95rem;
+  line-height: 1.5;
+  color: var(--text-dim);
+  opacity: 0;
+}
+.pitch.shown { opacity: 1; }
 
 /* ── Table header ────────────────────────────────── */
 .table-header {
@@ -339,6 +355,7 @@ onUnmounted(() => {
   .page-header .site-title { font-size: 1.9rem; letter-spacing: 0.1em; }
   .header-logo { width: 2.9rem; height: 2.9rem; }
   .subtitle { margin-top: 0.3rem; font-size: 0.68rem; letter-spacing: 0.32em; }
+  .pitch { margin-top: 0; font-size: 0.85rem; }
 
   .table-header {
     padding: 0.3rem 0.6rem 0.3rem 0.2rem;
@@ -373,6 +390,7 @@ onUnmounted(() => {
 .intro-on .intro-chrome {
   animation: flicker-in 0.5s linear var(--header-delay) backwards;
 }
+.intro-on .pitch.shown,
 .intro-on .subtitle.shown {
   animation: flicker-in 0.5s linear;
 }

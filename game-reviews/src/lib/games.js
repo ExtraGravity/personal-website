@@ -7,6 +7,10 @@ export const SITE_TITLE = 'Better Together Gaming'
 
 /* Page titles, shared by router.js (the tab) and scripts/postbuild.js (the
    HTML crawlers and link previews get), so the two always match. */
+/* the one-line pitch under the list's header (and in the prerendered home page) */
+export const PITCH =
+  'Just two guys who play a lot of co-op games together and want to help you and your friends find your next one.'
+
 export const HOME_TITLE = `${SITE_TITLE} · Co-op Game Reviews`
 export const ABOUT_TITLE = `About · ${SITE_TITLE}`
 export const gameTitle = (g) => `${g.name} co-op review (${g.avg}/10) · ${SITE_TITLE}`

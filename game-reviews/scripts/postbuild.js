@@ -11,7 +11,7 @@ import { mkdirSync, readFileSync, writeFileSync } from 'node:fs'
 import { join } from 'node:path'
 import { fileURLToPath } from 'node:url'
 import {
-  games, formatHours, SITE_TITLE, HOME_TITLE, ABOUT_TITLE, gameTitle, JELLY, JUPITER,
+  games, formatHours, SITE_TITLE, HOME_TITLE, ABOUT_TITLE, gameTitle, JELLY, JUPITER, PITCH,
 } from '../src/lib/games.js'
 
 const SITE = 'https://enochtsang.com'
@@ -109,7 +109,7 @@ function listBody() {
   const items = games.map((g) => `<li>${gameLink(g)}: ${g.avg}/10</li>`).join('')
   return (
     `<header><h1>${h(SITE_TITLE)}</h1><p>Co-op game reviews</p></header>` +
-    `<p>${h(`${JELLY} and ${JUPITER} review the co-op games they play together. Best first.`)}</p>` +
+    `<p>${h(PITCH)}</p>` +
     `<ol>${items}</ol>` +
     `<p><a href="/about">About</a></p>`
   )
