@@ -1,6 +1,8 @@
 import { createApp } from 'vue'
 import '@fontsource/bebas-neue/400.css'
 import '@fontsource/share-tech-mono/400.css'
+import '@fontsource/ibm-plex-sans/400.css'
+import '@fontsource/ibm-plex-sans/400-italic.css'
 import './style.css'
 import App from './App.vue'
 import router from './router.js'

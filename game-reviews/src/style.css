@@ -8,6 +8,10 @@
   --text-dim: rgba(221, 238, 255, 0.45);
   --font-hud: 'Share Tech Mono', monospace;
   --font-display: 'Bebas Neue', monospace;
+  /* running text (reviews, notes, the pitch): sentences read in a
+     proportional face; the mono stays for labels, numbers and the HUD */
+  --font-body: 'IBM Plex Sans', system-ui, sans-serif;
+  --text-body: rgba(221, 238, 255, 0.92);
 
   /* player-count rating colours */
   --lvl-green: #8ef08e;

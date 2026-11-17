@@ -279,8 +279,8 @@ onUnmounted(() => {
   flex-basis: 100%;
   max-width: 34rem;
   margin: 0.1rem 0 0;
-  font-family: var(--font-hud);
-  font-size: 0.95rem;
+  font-family: var(--font-body);
+  font-size: 1rem;
   line-height: 1.5;
   color: var(--text-dim);
   opacity: 0;

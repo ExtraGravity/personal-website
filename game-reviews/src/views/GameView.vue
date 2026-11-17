@@ -252,9 +252,9 @@ const tags = computed(() => (game.value?.tags || []).map((id) => TAG_BY_ID[id]).
 .dot { color: var(--accent-dim); }
 
 .why {
-  font-size: 1.1rem;
-  line-height: 1.5;
-  letter-spacing: 0.03em;
+  font-family: var(--font-body);
+  font-size: 1.12rem;
+  line-height: 1.55;
   color: var(--text);
   padding-left: 0.9rem;
   border-left: 2px solid var(--accent);
@@ -288,17 +288,18 @@ const tags = computed(() => (game.value?.tags || []).map((id) => TAG_BY_ID[id]).
 }
 
 .prose {
-  font-size: 0.95rem;
-  line-height: 1.6;
-  letter-spacing: 0.03em;
-  color: rgba(221, 238, 255, 0.78);
+  font-family: var(--font-body);
+  font-size: 1.03rem;
+  line-height: 1.65;
+  color: var(--text-body);
   white-space: pre-line;
   overflow-wrap: anywhere;
 }
 
 .note {
-  font-size: 0.95rem;
-  letter-spacing: 0.08em;
+  font-family: var(--font-body);
+  font-size: 1rem;
+  line-height: 1.6;
   color: var(--accent-dim);
   font-style: italic;
 }

@@ -141,14 +141,14 @@ h2 {
   color: var(--accent);
 }
 p, li {
-  font-size: 0.95rem;
-  line-height: 1.6;
-  letter-spacing: 0.03em;
-  color: rgba(221, 238, 255, 0.8);
+  font-family: var(--font-body);
+  font-size: 1.03rem;
+  line-height: 1.65;
+  color: var(--text-body);
 }
 b { font-weight: normal; color: var(--text); }
 ul { list-style: none; margin-top: 0.5rem; display: flex; flex-direction: column; gap: 0.35rem; }
-.devs b { display: inline-block; width: 1.5rem; color: var(--accent); }
+.devs b { display: inline-block; width: 1.5rem; font-family: var(--font-hud); color: var(--accent); }
 .levels li { display: flex; align-items: center; gap: 0.5rem; flex-wrap: wrap; }
 .levels :deep(.player-icons) { --pi-w: 11px; }
 /* one grid for the whole list, so every meaning starts at the same edge,
