@@ -8,7 +8,7 @@
 
     <!-- HUD chrome -->
     <a class="hud hud-top hud-link" :href="listHref" @click.prevent="goToList">
-      {{ JELLY }} &amp; {{ JUPITER }} — CO-OP GAME REVIEWS
+      {{ JELLY }} &amp; {{ JUPITER }}
     </a>
     <RouterLink class="hud hud-about hud-link" :to="{ name: 'about' }">About</RouterLink>
     <div class="hud hud-bottom">
