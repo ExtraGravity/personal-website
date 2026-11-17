@@ -10,7 +10,14 @@
     <a class="hud hud-top hud-link" :href="listHref" @click.prevent="goToList">
       {{ JELLY }} &amp; {{ JUPITER }}
     </a>
-    <RouterLink class="hud hud-about hud-link" :to="{ name: 'about' }">About</RouterLink>
+    <!-- a toggle: on the About page it's lit, and clicking it again goes back -->
+    <a
+      class="hud hud-about hud-link"
+      :class="{ on: onAbout }"
+      :href="onAbout ? listHref : aboutHref"
+      :aria-current="onAbout ? 'page' : undefined"
+      @click.prevent="toggleAbout"
+    >About</a>
     <div class="hud hud-bottom">
       <span class="blink">▶</span>&nbsp;
       {{ games.length }} GAMES LOGGED
@@ -75,6 +82,16 @@ function goToList() {
   else router.push({ name: 'list', query: navState.listQuery })
 }
 provide('goToList', goToList)
+
+/* About button: open About, or on About go back to wherever we came from
+   (a game or the list); straight to the list if About was opened directly */
+const onAbout = computed(() => route.name === 'about')
+const aboutHref = router.resolve({ name: 'about' }).href
+function toggleAbout() {
+  if (!onAbout.value) { router.push({ name: 'about' }); return }
+  if (window.history.state?.back) router.back()
+  else goToList()
+}
 
 /* ── Ambient flicker: random elements glitch at random times ── */
 let ambientTimer = null
@@ -196,7 +213,7 @@ onUnmounted(() => {
   box-shadow: 0 0 12px rgba(42,245,255,0.15);
   transition: color 0.2s, background 0.2s, box-shadow 0.2s;
 }
-.hud-about:hover, .hud-about:focus-visible {
+.hud-about:hover, .hud-about:focus-visible, .hud-about.on {
   color: var(--bg);
   background: var(--accent);
   box-shadow: 0 0 16px rgba(42,245,255,0.45);
