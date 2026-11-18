@@ -367,11 +367,18 @@ onUnmounted(() => {
 }
 
 /* ── Load-in sequence (only on the visits that get an intro) ─────── */
-/* Block cursor for the typed-in title: full-height solid block */
+/* Block cursor for the typed-in title. Bebas Neue's cap height is 0.7em, but
+   the font only ships a regular weight, so the bold title is synthesised and
+   each letter grows about 0.015em on every side: they ink from 0.015em below
+   the baseline to 0.715em. The block reaches a little past that at top and
+   bottom, and is a little wider than a letter: matched exactly, it looked
+   smaller. */
 .type-cursor {
   display: inline-block;
-  width: 0.55em;
-  height: 0.75em;
+  width: 0.48em;
+  height: 0.79em;
+  height: calc(1cap + 0.09em);
+  vertical-align: -0.045em;
   background: var(--text);
   animation: blink 0.9s step-end infinite;
 }
