@@ -97,6 +97,9 @@ Still to do:
    (GPTBot, CCBot, Google-Extended, ...) is the user's call.
 3. **Sitemap dates.** `lastmod` comes from each game's `updated`/`reviewed`;
    most games don't have those yet, so they go without.
+4. **"No cookies here" popup.** A cute satirical take on cookie banners:
+   the site sets no cookies (Plausible is cookieless), so the popup just
+   says so and is easy to dismiss.
 
 Test on staging first (`deploy-staging.sh`, then curl each route for status,
 redirects, title and canonical), then live.
