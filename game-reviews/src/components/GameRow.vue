@@ -195,7 +195,7 @@ const ariaLabel = computed(() => {
   pointer-events: none;
   transform: scaleX(0);
   transform-origin: left center;
-  transition: transform 0.28s cubic-bezier(0.4, 0, 0.2, 1);
+  transition: transform 0.36s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .sweep-fill {
@@ -229,9 +229,14 @@ const ariaLabel = computed(() => {
   );
 }
 
+/* data-hover: set by lib/rowHover.js (the mouse is on the row, passed over
+   it, or left it less than its minimum ago) */
 .game-row:hover .sweep-fill,
 .game-row:hover .sweep-border-top,
 .game-row:hover .sweep-border-bot,
+.game-row[data-hover] .sweep-fill,
+.game-row[data-hover] .sweep-border-top,
+.game-row[data-hover] .sweep-border-bot,
 .row-head:focus-visible .sweep-fill,
 .row-head:focus-visible .sweep-border-top,
 .row-head:focus-visible .sweep-border-bot,
@@ -275,6 +280,7 @@ const ariaLabel = computed(() => {
 }
 .expand-arrow svg { width: 10px; height: 12px; }
 .game-row:hover .expand-arrow,
+.game-row[data-hover] .expand-arrow,
 .row-head:focus-visible .expand-arrow { color: var(--accent); transform: translateX(2px); }
 
 .col-name {
@@ -288,6 +294,7 @@ const ariaLabel = computed(() => {
 }
 .col-name .hit { color: var(--accent); text-shadow: 0 0 10px rgba(42,245,255,0.55); }
 .game-row:hover .col-name,
+.game-row[data-hover] .col-name,
 .game-row.open .col-name,
 .game-row[data-opening] .col-name,
 .row-head:focus-visible .col-name {
@@ -310,7 +317,10 @@ const ariaLabel = computed(() => {
 .col-cost.none { opacity: 0.5; }
 .game-row:hover .col-score,
 .game-row:hover .col-hours,
-.game-row:hover .col-cost { color: var(--text); }
+.game-row:hover .col-cost,
+.game-row[data-hover] .col-score,
+.game-row[data-hover] .col-hours,
+.game-row[data-hover] .col-cost { color: var(--text); }
 
 .col-avg {
   text-align: right;
@@ -322,7 +332,8 @@ const ariaLabel = computed(() => {
 
 /* shown via "show them anyway": missing data for an active filter */
 .game-row.unrated .row-main { opacity: 0.55; }
-.game-row.unrated:hover .row-main { opacity: 1; }
+.game-row.unrated:hover .row-main,
+.game-row.unrated[data-hover] .row-main { opacity: 1; }
 
 @media (max-width: 600px) {
   .row-main {

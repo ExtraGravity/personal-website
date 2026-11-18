@@ -43,6 +43,7 @@
 
     <!-- Game rows -->
     <div
+      ref="listEl"
       class="game-list"
       :class="{ 'has-hover': hovered !== null, 'rows-intro': rowsIntro }"
     >
@@ -92,6 +93,7 @@ import {
 } from '../lib/filters.js'
 import { takeListIntro } from '../lib/intro.js'
 import { navState } from '../lib/warp.js'
+import { trackRowHover } from '../lib/rowHover.js'
 
 const route = useRoute()
 const router = useRouter()
@@ -147,6 +149,11 @@ function feelingLucky() {
 }
 
 /* ── Hover dim + background kick ──────────────────── */
+// the rows' sweep highlight itself: lib/rowHover.js
+const listEl = ref(null)
+let stopRowHover = null
+onMounted(() => { stopRowHover = trackRowHover(listEl.value) })
+onUnmounted(() => stopRowHover?.())
 const hovered = ref(null)
 watch(() => route.name, () => { hovered.value = null })
 function onRowHover(slug) {
