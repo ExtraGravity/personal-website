@@ -19,89 +19,39 @@ echo -e "${CYAN}[DEPLOY]${NC} Starting deployment process..."
 echo "=========================================="
 echo ""
 
-# Step 1: Build the project
+# Step 1: Build and deploy to staging (deploy-staging.sh). set -e stops here if
+# it fails, so live never gets a build staging didn't. Live then gets a
+# server-side copy of staging's dist: no second build, no second upload.
 echo "=========================================="
-echo -e "${BLUE}[BUILD]${NC} Building project..."
+echo -e "${CYAN}[STAGING]${NC} Building and deploying to staging first..."
 echo "=========================================="
-npm run build
+bash "$(dirname "$0")/deploy-staging.sh"
+echo ""
 
 if [ ! -d "dist" ]; then
     echo ""
-    echo -e "${RED}[ERROR]${NC} dist folder not found after build"
+    echo -e "${RED}[ERROR]${NC} dist folder not found after the staging build"
     exit 1
 fi
 
-echo ""
+# Step 2: Copy staging's dist to live on the server and swap it in. Staging
+# just received this exact build, so nothing is uploaded a second time.
 echo "=========================================="
-echo -e "${GREEN}[BUILD]${NC} Build completed successfully"
-echo "=========================================="
-echo ""
-
-# Step 2: Clean up any existing new-dist folder and copy dist to server
-echo "=========================================="
-echo -e "${YELLOW}[CLEANUP]${NC} Cleaning up any existing temporary deployment folder..."
-echo "=========================================="
-ssh root@enochtsang.com 'rm -rf /var/www/enochtsang/new-dist'
-
-echo ""
-echo "=========================================="
-echo -e "${BLUE}[UPLOAD]${NC} Uploading dist folder to server (temporary location)..."
-echo "=========================================="
-# No trailing slashes: scp creates new-dist as a direct copy of dist.
-# With trailing slashes and a pre-created destination directory, some scp
-# versions nest dist/ inside new-dist/, producing new-dist/dist/.
-scp -r dist root@enochtsang.com:/var/www/enochtsang/new-dist
-
-if [ $? -ne 0 ]; then
-    echo ""
-    echo -e "${RED}[ERROR]${NC} Failed to upload dist folder"
-    exit 1
-fi
-
-echo ""
-echo "=========================================="
-echo -e "${GREEN}[UPLOAD]${NC} Upload completed successfully"
-echo "=========================================="
-echo ""
-
-# Step 3: SSH into server and deploy
-echo "=========================================="
-echo -e "${CYAN}[DEPLOY]${NC} Deploying on server..."
+echo -e "${CYAN}[DEPLOY]${NC} Copying staging's build to live on the server..."
 echo "=========================================="
 ssh root@enochtsang.com << 'ENDSSH'
+    set -e
     cd /var/www/enochtsang/
+    rm -rf new-dist
+    cp -a /var/www/bettertogethergaming-staging/dist new-dist
 
-    # Verify new-dist exists
-    if [ ! -d "new-dist" ]; then
-        echo "[ERROR] new-dist folder not found"
-        exit 1
-    fi
-
-    # Backup current dist (replaces previous backup if it exists)
-    if [ -d "dist" ]; then
-        echo "[BACKUP] Creating backup..."
-        rm -rf dist.backup
-        mv dist dist.backup
-    fi
-
-    # Remove old dist (if it wasn't moved to backup)
-    if [ -d "dist" ]; then
-        echo "[CLEANUP] Removing old dist folder..."
-        rm -rf dist
-    fi
-
-    # Move new dist into place
-    echo "[INSTALL] Installing new dist folder..."
+    # Keep the previous live build as dist.backup
+    rm -rf dist.backup
+    if [ -d dist ]; then mv dist dist.backup; fi
     mv new-dist dist
 
-    echo "[SUCCESS] Deployment completed successfully on server!"
+    echo "[SUCCESS] Live now has staging's build"
 ENDSSH
-
-if [ $? -ne 0 ]; then
-    echo ""
-    echo -e "${RED}[ERROR]${NC} Failed to deploy on server"
-    exit 1
-fi
 
 echo ""
 echo "=========================================="

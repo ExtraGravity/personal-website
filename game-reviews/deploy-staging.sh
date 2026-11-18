@@ -4,7 +4,7 @@
 #   https://staging.bettertogethergaming.com  (/var/www/bettertogethergaming-staging/dist on the server)
 # The live site (deploy.sh) is not touched.
 
-set -e  # Exit on any error
+set -eo pipefail  # Exit on any error, including inside a pipe
 
 SERVER=root@enochtsang.com
 DIR=/var/www/bettertogethergaming-staging
@@ -22,12 +22,15 @@ if [ ! -d "dist" ]; then
     exit 1
 fi
 
-echo -e "${CYAN}[UPLOAD]${NC} Uploading to ${DIR}/new-dist..."
-ssh "$SERVER" "mkdir -p ${DIR} && rm -rf ${DIR}/new-dist"
-# No trailing slashes: scp creates new-dist as a direct copy of dist.
-scp -r dist "$SERVER:${DIR}/new-dist"
-
-echo -e "${CYAN}[DEPLOY]${NC} Swapping into place..."
-ssh "$SERVER" "cd ${DIR} && rm -rf dist.backup && { [ ! -d dist ] || mv dist dist.backup; } && mv new-dist dist"
+echo -e "${CYAN}[UPLOAD]${NC} Uploading and swapping into ${DIR}/dist..."
+# One gzipped tar stream over one ssh connection: much faster than scp -r,
+# which pays a round trip per file. The swap only runs if the unpack succeeded.
+tar -C dist -czf - . | ssh "$SERVER" "set -e
+  mkdir -p ${DIR} && cd ${DIR}
+  rm -rf new-dist && mkdir new-dist
+  tar -C new-dist -xzf -
+  rm -rf dist.backup
+  if [ -d dist ]; then mv dist dist.backup; fi
+  mv new-dist dist"
 
 echo -e "${GREEN}[SUCCESS]${NC} Staging site is live at https://staging.bettertogethergaming.com"

@@ -7,6 +7,18 @@
     <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Better Together Gaming · Co-op Game Reviews</title>
+    <!-- Privacy-friendly analytics by Plausible. Not loaded on staging, so test
+         visits there don't count in the live stats. -->
+    <script>
+      if (location.hostname !== 'staging.bettertogethergaming.com') {
+        var s = document.createElement('script');
+        s.async = true;
+        s.src = 'https://analytics.betweenspacescounselling.com/js/pa-RFyVXZHmWiRTkexmofyFU.js';
+        document.head.appendChild(s);
+        window.plausible=window.plausible||function(){(plausible.q=plausible.q||[]).push(arguments)},plausible.init=plausible.init||function(i){plausible.o=i||{}};
+        plausible.init()
+      }
+    </script>
   </head>
   <body>
     <div id="app"></div>

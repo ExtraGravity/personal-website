@@ -178,8 +178,28 @@ function gameReviews(g) {
 const jsonLdTag = (data) =>
   `    <script type="application/ld+json">${JSON.stringify(data).replace(/</g, '\\u003c')}</script>`
 
+/* lastmod only where the data has a real date (`updated`, else `reviewed`):
+   a guessed date is worse than none. The list page takes the newest game
+   date, since it changes whenever a game does. */
+function lastmods(all) {
+  const byPath = {}
+  for (const g of games) {
+    const d = g.updated || g.reviewed
+    if (d) byPath[`/games/${g.slug}`] = d
+  }
+  const newest = Object.values(byPath).sort().pop()
+  if (newest) byPath['/'] = newest
+  return byPath
+}
+
 function writeSitemap(all) {
-  const body = all.map((p) => `  <url><loc>${escapeXml(SITE + p.path)}</loc></url>`).join('\n')
+  const mods = lastmods(all)
+  const body = all
+    .map((p) => {
+      const mod = mods[p.path] ? `<lastmod>${mods[p.path]}</lastmod>` : ''
+      return `  <url><loc>${escapeXml(SITE + p.path)}</loc>${mod}</url>`
+    })
+    .join('\n')
   const xml =
     '<?xml version="1.0" encoding="UTF-8"?>\n' +
     '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n' +
@@ -231,6 +251,75 @@ function writePages(all) {
   console.log(`pages: ${all.length} index.html files with their own head tags`)
 }
 
+/* dist/404.html, served by nginx (`error_page 404 /404.html`) for unknown
+   paths. Same head, fonts and stylesheet as the site, but without the app's
+   script: the router sends unknown paths to "/", which would hide the 404.
+   noindex so it never shows up in search. Asset URLs in the template are
+   absolute, so it works at any depth (/games/nope too). */
+function write404(template) {
+  const html = template
+    .replace(/<title>[\s\S]*?<\/title>/, `<title>${escapeXml(`Page not found · ${SITE_TITLE}`)}</title>`)
+    .replace(/\s*<script type="module"[^>]*><\/script>/, '')
+    .replace(
+      /\s*<\/head>/,
+      `
+    <meta name="robots" content="noindex" />
+    <style>
+      .notfound {
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 1.2rem;
+        padding: 2rem 16px;
+        text-align: center;
+      }
+      .notfound .code {
+        font-family: var(--font-display);
+        font-size: clamp(5rem, 22vw, 9rem);
+        line-height: 1;
+        letter-spacing: 0.06em;
+        color: var(--accent);
+        text-shadow: 0 0 18px rgba(42, 245, 255, 0.45);
+      }
+      .notfound .msg {
+        font-family: var(--font-hud);
+        letter-spacing: 0.2em;
+        text-transform: uppercase;
+        color: var(--text-dim);
+      }
+      .notfound p { font-family: var(--font-body); color: var(--text-body); max-width: 32rem; }
+      .notfound a {
+        font-family: var(--font-hud);
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+        text-decoration: none;
+        border: 1px solid var(--accent-dim);
+        padding: 0.7rem 1.2rem;
+      }
+      .notfound a:hover { border-color: var(--accent); }
+    </style>
+  </head>`,
+    )
+    .replace(
+      '<div id="app"></div>',
+      `<main class="notfound">
+      <div class="code">404</div>
+      <div class="msg">Page not found</div>
+      <p>${escapeXml(`There's nothing here. The game you're looking for might not be reviewed yet.`)}</p>
+      <a href="/">All reviews</a>
+    </main>`,
+    )
+  if (html.includes('type="module"') || !html.includes('class="notfound"')) {
+    throw new Error('404.html: could not remove the app script or add the page body')
+  }
+  writeFileSync(join(dist, '404.html'), html)
+  console.log('404.html: written')
+}
+
 const all = pages()
+const template = readFileSync(join(dist, 'index.html'), 'utf8')
 writeSitemap(all)
 writePages(all)
+write404(template)

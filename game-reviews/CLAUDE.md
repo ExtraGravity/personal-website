@@ -13,8 +13,10 @@ data key `mo`. Use the display names in anything a visitor sees.
 - Keep changes small and to what was asked. Don't race ahead.
 - Don't commit unless asked. Work has been on branch `coop-reviews-public`.
 - Don't deploy unless asked; show changes on the local dev server instead.
-  `bash deploy-staging.sh` updates the staging copy (builds, uploads, swaps
-  `dist`); `deploy.sh` is the live site.
+  `bash deploy-staging.sh` builds and updates the staging copy (one tar
+  stream over ssh, then swaps `dist`). `bash deploy.sh` runs
+  `deploy-staging.sh` first, then copies staging's `dist` to live on the
+  server: live always gets exactly what staging has, with no second build.
 - `npm run build` must pass. Dev server: preview config `game-reviews`
   (port 5173) in `.claude/launch.json`.
 - To add or fill in a game from a review transcript, use the `add-game` skill
@@ -55,6 +57,10 @@ page's title, description, canonical and Open Graph tags. `#app` stays empty,
 so the app and its intro start exactly as from `dist/index.html`. The site's
 URL is the `SITE` constant there and in `public/robots.txt`.
 
+Plausible analytics is in `index.html` (self-hosted at
+analytics.betweenspacescounselling.com). It doesn't load on the staging host,
+so test visits don't count.
+
 ## Server and nginx
 
 The user edits nginx themselves: give them the config text, don't change the
@@ -75,20 +81,23 @@ server. Read-only checks (`nginx -T`, curl) are fine. Server is
 - `enochtsang.com` and `www.enochtsang.com` 301 every path (and query) to the
   same path on bettertogethergaming.com. The old 8443 review copy is gone.
 
+- `scripts/nginx-bettertogethergaming.conf` is a reference copy of the
+  server's `bettertogethergaming` file: 404 page (`error_page 404
+  /404.html`, written by postbuild with `noindex` and no app script), gzip for
+  CSS/JS/XML/SVG, and `Cache-Control` by path (`/assets/` a year and
+  `immutable`, everything else `no-cache`). Keep it in sync when the server
+  file changes. `add_header` stays at server level: one inside a `location`
+  drops all the inherited headers.
+
 Still to do:
 
-1. **Search Console** change of address from enochtsang.com.
-2. **404 page.** 404s show nginx's plain page. Postbuild could write a
-   `404.html` with `noindex`, plus `error_page 404 /404.html;`.
-3. **Compression.** Only HTML is gzipped. Add `gzip_types text/css
-   application/javascript application/json text/xml application/xml
-   image/svg+xml image/x-icon; gzip_vary on;`.
-4. **Caching.** `Cache-Control: no-cache` on HTML; `public, max-age=31536000,
-   immutable` on `/assets/`. Deploys swap `dist` wholesale, so a cached HTML
-   file can point at a deleted bundle.
-5. **Sitemap `lastmod`** per game, from postbuild.
-6. **AI crawlers.** `robots.txt` allows every bot; blocking training crawlers
+1. **Search Console.** bettertogethergaming.com is a property with the
+   sitemap submitted. enochtsang.com never had one, so the change of address
+   is optional; the 301s carry the move.
+2. **AI crawlers.** `robots.txt` allows every bot; blocking training crawlers
    (GPTBot, CCBot, Google-Extended, ...) is the user's call.
+3. **Sitemap dates.** `lastmod` comes from each game's `updated`/`reviewed`;
+   most games don't have those yet, so they go without.
 
 Test on staging first (`deploy-staging.sh`, then curl each route for status,
 redirects, title and canonical), then live.
