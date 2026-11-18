@@ -280,7 +280,7 @@ main {
    .bright: not yet, the opening animation on a direct link is about to run) */
 .list-clip .list-view > :not(.game-list),
 .list-clip .game-list > .game-row {
-  transition: opacity 0.3s ease;
+  transition: opacity 0.25s ease; /* keep in step with SPEED in lib/warp.js */
 }
 .list-clip.dim .list-view > :not(.game-list),
 .list-clip.ghost:not(.bright) .list-view > :not(.game-list),

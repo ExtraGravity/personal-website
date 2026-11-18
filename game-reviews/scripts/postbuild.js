@@ -128,12 +128,13 @@ function gameBody(g) {
   out.push(
     `<p>${h(`Score ${g.avg}/10 · ${JELLY} ${g.enoch} · ${JUPITER} ${g.mo}${g.guest ? ` · ${g.guest.name}${g.guest.score != null ? ` ${g.guest.score}` : ''} (guest)` : ''} · ${formatHours(g.hours)} played`)}</p>`,
   )
-  if (g.whyPlay) out.push(`<p>${h(`Why you should play this game: ${g.whyPlay}`)}</p>`)
+  if (g.whyPlay) out.push(`<h2>Why you should play this game</h2>`, `<p>${h(g.whyPlay)}</p>`)
   if (g.note) out.push(paras(g.note))
   if (g.playersBlurb || g.coopBlurb) {
     out.push(`<h2>Players</h2>`, paras(g.playersBlurb || ''), paras(g.coopBlurb || ''))
   }
   if (g.costBlurb) out.push(`<h2>Cost</h2>`, paras(g.costBlurb))
+  if (g.gist) out.push(`<h2>The gist</h2>`, `<p>${h(g.gist)}</p>`)
   if (g.enochBlurb) out.push(`<h2>${h(JELLY)}'s review</h2>`, paras(g.enochBlurb))
   if (g.moBlurb) out.push(`<h2>${h(JUPITER)}'s review</h2>`, paras(g.moBlurb))
   if (g.guest?.blurb) out.push(`<h2>${h(g.guest.name)}'s review</h2>`, paras(g.guest.blurb))

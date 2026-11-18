@@ -49,6 +49,9 @@ const OUT = 'cubic-bezier(0.2, 0.7, 0.2, 1)'
 // moving the list up/down: quick for a short hop, never a blur for a long one
 const travel = (d) => Math.round(Math.min(360, 140 + Math.abs(d) * 0.4))
 
+// every duration below is scaled by this: lower is faster
+const SPEED = 0.85
+
 let anims = []
 /* animate, leaving the final keyframe's values as inline styles */
 function run(el, keyframes, opts) {
@@ -57,7 +60,11 @@ function run(el, keyframes, opts) {
   delete last.offset
   delete last.easing
   Object.assign(el.style, last)
-  const a = el.animate(keyframes, opts)
+  const a = el.animate(keyframes, {
+    ...opts,
+    duration: Math.round((opts.duration || 0) * SPEED),
+    delay: Math.round((opts.delay || 0) * SPEED),
+  })
   anims.push(a)
   return a.finished.catch(() => {})
 }

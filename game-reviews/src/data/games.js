@@ -4,6 +4,8 @@
    Optional (older entries simply leave them out):
      note, enochBlurb, moBlurb
      whyPlay       one line: "Why you should play this game"
+     gist          "The gist": what the game is and what you do in it, said once
+                   so the reviews don't each repeat it. Shown under Cost
      players       rating per player count, index 0 = 1 player, up to 12:
                    'green' recommended | 'yellow' OK | 'red' bad experience | 'grey' not supported
      playersBlurb  freeform text for the Players section
@@ -321,6 +323,7 @@ export const games = [
     hours: 11,
     avg: 7,
     whyPlay: `A unique gaming take on hanging out with your friends.`,
+    gist: `It feels like a road trip simulator with your friends, except you're walking instead of driving. You explore a big open island together, finding puzzles along the way and passing clues to each other to get past them, with items like walkie-talkies, flares, a laser pointer and maps. Proximity voice chat is the only way to talk, and a lot of the time you're just walking and hanging out.`,
     players: ['red', 'green', 'green', 'green', 'yellow', 'yellow', 'yellow', 'yellow', 'yellow', 'yellow', 'yellow', 'yellow'],
     playersBlurb: `We played with three. The puzzles are different depending on how many players you have, so two, three, and four are each a slightly different experience, and four is probably the ideal way to play it. It's built around walking and talking with friends, so we wouldn't play it alone. Making a room says two to four players, but the Steam page says up to 12. We haven't tried more than three, but bigger groups sound hectic: getting seven people to all do the same thing is hard, and with five to eight you'd probably end up splitting into groups, which defeats the purpose.`,
     mode: ['online'],
@@ -335,12 +338,12 @@ export const games = [
     guest: {
       name: 'Speedy',
       score: 7,
-      blurb: `You explore a big open island, walk around discovering puzzles, and communicate different clues to each other to get past obstacles. There are items like walkie talkies, flares, a laser pointer, and maps that you use to help you along. Between the challenges you can just wander around and mess around with your friends, and I feel like that's what it's meant for.
+      blurb: `There's a lot of walking around the island between the puzzles, and in between you can just mess around with your friends, and I feel like that's what it's meant for.
 
 The proximity chat is what I liked most, like how it gets muffled behind objects. There are very few co-op games that are just about spending time together, and if that's the point, this is perfect. It'd be a perfect game for a long distance relationship. We used to play Animal Crossing together, and I feel like this would be even better.
 
 What I didn't like was getting separated and waiting for people, or just waiting in general. The talking part is fine, they want you to talk, but they also slow you down on purpose, which I don't like. It's kind of janky to navigate around the mountain, and when you fall there's no way to stop, you just roll all the way down and then walk all the way back up, so slowly. I was tilted. I also wish the puzzles were a little harder near the end. The difficulty goes from easy to mid at most, and we figured them out pretty fast.`,
-      spoiler: `You explore a big open island, walk around discovering puzzles, and communicate different clues to each other to get past obstacles. There are items like walkie talkies, flares, a laser pointer, and maps that you use to help you along. Between the challenges you can just wander around and mess around with your friends, and I feel like that's what it's meant for.
+      spoiler: `There's a lot of walking around the island between the puzzles, and in between you can just mess around with your friends, and I feel like that's what it's meant for.
 
 The best part was the last part, when you can't communicate and you don't know who is who. The proximity chat is what I liked most otherwise, like how it gets muffled behind objects. There are very few co-op games that are just about spending time together, and if that's the point, this is perfect. It'd be a perfect game for a long distance relationship. We used to play Animal Crossing together, and I feel like this would be even better.
 
@@ -350,7 +353,7 @@ What I didn't like was getting separated and waiting for people, or just waiting
       top: 'Escape Simulator 2',
       also: ['Stardew Valley', 'PEAK', 'We Were Here'],
     },
-    enochBlurb: `You walk around a big map solving puzzles, and a lot of the time you're just traveling and meant to hang out with each other. Finding your way without much guidance, and finding each other over long distances, is a big part of it. There's literally one puzzle where you're locked in a room together for five minutes, I think just to hang out and chat. I think that was an interesting part of the game, but I don't know if I personally liked it that much.
+    enochBlurb: `A lot of the time you're just traveling and meant to hang out with each other. Finding your way without much guidance, and finding each other over long distances, is a big part of the game. There's literally one puzzle where you're locked in a room together for five minutes, I think just to hang out and chat. I think that was an interesting part of the game, but I don't know if I personally liked it that much.
 
 For the first half I was actually not enjoying it, it was too easy and too much traveling. The first parts were basically a tutorial, mind-numbingly easy, and I feel like they could've put them closer together. Maybe I just wasn't in the hanging out mindset and wanted to play a game. The game got better as it went on, the puzzles in the second half were much better and the end was good.
 
@@ -359,12 +362,12 @@ The frustrating parts were only being able to hold one item for most of the game
 The moment to moment really isn't that interesting, the game shines as a whole, as a way to hang out together and do things. It doesn't really force you to talk though, and sometimes I just left to grab something to eat or took a nap. It'd be a pretty great game if you're long distance with someone, there's a lot of time to just talk. If you wouldn't go on a road trip with these people, don't play it with them. If you want something intense, this isn't it.
 
 Having so many controls for how you move your arms was pretty cool, and the rest of the design is pretty cute, but the character models are kind of ugly. It's a new idea and I'm glad it exists, kind of like A Way Out when it first came out, but it just wasn't that fun in particular.`,
-    moBlurb: `It feels like a road trip simulator with your friends, except you're walking instead of driving. It's a puzzle game where you walk from puzzle to puzzle and solve them together, but the walking is a very big part of it. You have to figure out where to go, plot a route, and find whoever got lost. It really commits to its idea: reading a map, figuring out which direction you're facing, and planning a route with your friends, and it does that very, very well. Quote me on this, it's not called the Small Walk.
+    moBlurb: `Walking is a very big part of this game. You have to figure out where to go, plot a route, and find whoever got lost. It really commits to its idea: reading a map, figuring out which direction you're facing, and planning a route with your friends, and it does that very, very well. Quote me on this, it's not called the Small Walk.
 
 A lot of the puzzles were kind of easy and just alright, so if you're looking for a challenging puzzle game this isn't it. We became frustrated at the day night cycle while playing, but now that I've ruminated on it I think it fits the game. Night makes wayfinding intentionally harder, and if you accept that wayfinding is part of the game, I can see what it adds.
 
 The concept is really interesting, it's a great tool to just hang out with your friends for a couple of hours, and it does that better than most friendslop does. It's very polished, we had no bugs, and the environment is beautiful. The game parts don't match the scenery at all, which is amusing and also means you can tell from far away what's a puzzle and what's backdrop. The characters are very cute and stick out from the environment so much that it's easy to spot your friends at a distance. It didn't overstay its welcome, though some of the gameplay can lull a little. Ultimately this is a unique experience, but like any journey, your enjoyment will really be based on the friends you bring along the way.`,
-    enochSpoiler: `You walk around a big map solving puzzles, and a lot of the time you're just traveling and meant to hang out with each other. Finding your way without much guidance, and finding each other over long distances, is a big part of it. There's literally one puzzle where you're locked in a room together for five minutes, I think just to hang out and chat. I think that was an interesting part of the game, but I don't know if I personally liked it that much.
+    enochSpoiler: `A lot of the time you're just traveling and meant to hang out with each other. Finding your way without much guidance, and finding each other over long distances, is a big part of the game. There's literally one puzzle where you're locked in a room together for five minutes, I think just to hang out and chat. I think that was an interesting part of the game, but I don't know if I personally liked it that much.
 
 For the first half I was actually not enjoying it, it was too easy and too much traveling. The first parts were basically a tutorial, mind-numbingly easy, and I feel like they could've put them closer together. Maybe I just wasn't in the hanging out mindset and wanted to play a game. The game got better as it went on, the puzzles in the second half were much better, and when the ending started it was the best part of the game for sure. It suddenly makes you not able to communicate, and you have to do some form of all the puzzles you did together before, without talking. We didn't get any chance to prep beforehand, and we also didn't know who was who because they made us all the same colour, which was really fun and pretty hilarious.
 
@@ -373,7 +376,7 @@ The frustrating parts were only being able to hold one item for most of the game
 The moment to moment really isn't that interesting, the game shines as a whole, as a way to hang out together and do things. It doesn't really force you to talk though, and sometimes I just left to grab something to eat or took a nap. It'd be a pretty great game if you're long distance with someone, there's a lot of time to just talk. If you wouldn't go on a road trip with these people, don't play it with them. If you want something intense, this isn't it.
 
 Having so many controls for how you move your arms was pretty cool, and the rest of the design is pretty cute, but the character models are kind of ugly. It's a new idea and I'm glad it exists, kind of like A Way Out when it first came out, but it just wasn't that fun in particular.`,
-    moSpoiler: `It feels like a road trip simulator with your friends, except you're walking instead of driving. It's a puzzle game where you walk from puzzle to puzzle and solve them together, but the walking is a very big part of it. You have to figure out where to go, plot a route, decide if the best way there is the train (spoiler alert, there's a train), and find whoever got lost. It really commits to its idea: reading a map, figuring out which direction you're facing, and planning a route with your friends, and it does that very, very well. Quote me on this, it's not called the Small Walk. The train was a little disappointing in its speed, though. A stop button at the station, like the one you can hold on the train, would let you get your friends on and let the train go faster.
+    moSpoiler: `Walking is a very big part of this game. You have to figure out where to go, plot a route, decide if the best way there is the train (spoiler alert, there's a train), and find whoever got lost. It really commits to its idea: reading a map, figuring out which direction you're facing, and planning a route with your friends, and it does that very, very well. Quote me on this, it's not called the Small Walk. The train was a little disappointing in its speed, though. A stop button at the station, like the one you can hold on the train, would let you get your friends on and let the train go faster.
 
 A lot of the puzzles were kind of easy and just alright, so if you're looking for a challenging puzzle game this isn't it.
 
@@ -536,6 +539,7 @@ The concept is really interesting, it's a great tool to just hang out with your 
     hours: 4,
     avg: 6,
     whyPlay: `A short, wacky team-building exercise with exactly two friends.`,
+    gist: `A three-player co-op puzzle game a lot like Keep Talking and Nobody Explodes, where each of you has one sense taken away: one is blind, one is deaf and one is mute. Only one of you has the instruction book, and every few levels a new puzzle comes along that you have to work out how to explain to each other.`,
     players: ['grey', 'grey', 'green'],
     playersBlurb: `It needs exactly three players. We played with three, and the game doesn't support any other count.`,
     mode: ['online'],
@@ -556,16 +560,12 @@ The concept is really interesting, it's a great tool to just hang out with your 
       score: 7,
       blurb: `It's a learning game. Every few levels there's a new mechanic, and figuring it out is the fun part. Some moments were crazy, like getting told to cut the green one. We're good at this kind of game, so it went by quickly for us, but I can definitely see other people struggling. It's sometimes chill, but not really. I like this kind of game, and I had a lot of fun with it. It's just short.`,
     },
-    enochBlurb: `It's Keep Talking and Nobody Explodes with three people, and each of you has one sense taken away: one is blind, one is deaf, and one is mute. Only one person has the instruction book, and they're trying to explain how a puzzle works while the others can't see or hear them properly.
-
-That's kind of frustrating, but it's also one of the best parts, especially when you get to a new puzzle and have to work out how to explain it. We yelled at each other a lot, and trying to explain a sound when you can't talk was basically impossible.
+    enochBlurb: `Not being able to see, hear or talk properly is kind of frustrating, but it's also one of the best parts, especially when you get to a new puzzle and have to work out how to explain it. We yelled at each other a lot, and trying to explain a sound when you can't talk was basically impossible.
 
 It was only hard when a puzzle was new. The puzzles were interesting the first time, but after you'd done them once they weren't that interesting anymore, unfortunately. I think the length was great, but the replayability is about zero. Once you've seen the puzzles, nobody really needs to explain them to you.
 
 I wouldn't want to play it with randos. Everything was public by default, so random people joined our teams, and it's weird for this kind of game to be public by default. It's not a chill game for us, but we have a high bar for chill.`,
-    moBlurb: `It's a three-player cooperative puzzle game with a lot of "see no evil, hear no evil, speak no evil" energy. One of you is blind, one of you is deaf, and one of you is mute, and you have to solve the puzzles together anyway.
-
-Every time a new puzzle shows up, you're figuring out how to communicate all over again. These were definitely the highlights of the game, though the funniest parts are when you yell the color yellow five times because you forgot your friend was deaf.
+    moBlurb: `The whole game has a lot of "see no evil, hear no evil, speak no evil" energy. Every time a new puzzle shows up, you're figuring out how to communicate all over again. These were definitely the highlights of the game, though the funniest parts are when you yell the color yellow five times because you forgot your friend was deaf.
 
 Unfortunately I think between the puzzles the levels felt a little padded. The levels in between are the same puzzles repeated in different combinations, and we usually breezed right through those after solving the first new level. When a new puzzle is added there are four or five levels that repeat it, and we flew through those. The game's so short I feel like they had to pad it a little, or maybe it's designed for more casual gamers in mind. I feel like you'd enjoy this game more if you were newer to gaming. I'd have liked more new puzzles and fewer repeats, though I guess that's a lot of work for the developers. Overall, it still provides a wacky and zany couple hours of lighthearted fun.`,
   },

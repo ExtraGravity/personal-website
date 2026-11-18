@@ -24,7 +24,7 @@
 
     <!-- 2. why play -->
     <p v-if="game.whyPlay" class="why">
-      <span class="why-label">Why you should play this game:</span>
+      <span class="why-label">Why you should play this game</span>
       {{ game.whyPlay }}
     </p>
 
@@ -55,6 +55,12 @@
         <p v-if="game.costBlurb" class="prose">{{ game.costBlurb }}</p>
       </Expander>
     </div>
+
+    <!-- what the game is, said once so the reviews don't each repeat it -->
+    <p v-if="game.gist" class="why">
+      <span class="why-label">The gist</span>
+      {{ game.gist }}
+    </p>
 
     <!-- 6. reviews -->
     <p v-if="game.note" class="note">{{ game.note }}</p>

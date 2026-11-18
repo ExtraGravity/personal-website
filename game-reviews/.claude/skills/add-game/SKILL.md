@@ -57,6 +57,9 @@ Required: `name`, `enoch`, `mo`, `hours`, `avg` (mean of the two scores).
 - `hours`: the playtime they settle on, not idle time.
 - `whyPlay`: one line, their answer to "why you should play this game". If each
   gives their own, merge into one line that both said in substance.
+- `gist`: a few sentences on what the game is and what you do in it, shown as
+  "The gist" under Cost. Facts, not opinions, so each review doesn't need to
+  explain the game again.
 - `players`: one rating per player count from 1 up to the max, from where they
   rate each player count. `'green'` recommended, `'yellow'` OK, `'red'` bad experience,
   `'grey'` not supported. Stop at the max player count.
