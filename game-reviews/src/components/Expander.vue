@@ -8,7 +8,7 @@
         :aria-controls="bodyId"
         @click="open = !open"
       >
-        <svg class="caret" viewBox="0 0 87 100" aria-hidden="true"><path d="M86.6,50 L0,0 L0,100 L86.6,50 Z" /></svg>
+        <ArrowIcon class="caret" />
         <span class="exp-title"><slot name="header" /></span>
       </button>
     </h2>
@@ -25,6 +25,7 @@
 
 <script setup>
 import { ref, useId } from 'vue'
+import ArrowIcon from './ArrowIcon.vue'
 
 const bodyId = `exp-${useId()}`
 const open = ref(false) // closed by default
@@ -54,7 +55,7 @@ const open = ref(false) // closed by default
   background: linear-gradient(90deg, rgba(42,245,255,0.03), rgba(42,245,255,0.12) 85%, rgba(42,245,255,0.22));
   transform: scaleX(0);
   transform-origin: left center;
-  transition: transform 0.28s cubic-bezier(0.4, 0, 0.2, 1);
+  transition: transform 0.28s var(--ease-fold);
   pointer-events: none;
 }
 .exp-btn:hover::before,
@@ -86,12 +87,12 @@ const open = ref(false) // closed by default
   grid-template-rows: 0fr;
   visibility: hidden;
   /* closing: shrink, then hide once it's shut */
-  transition: grid-template-rows 0.3s cubic-bezier(0.4, 0, 0.2, 1), visibility 0s linear 0.3s;
+  transition: grid-template-rows 0.3s var(--ease-fold), visibility 0s linear 0.3s;
 }
 .exp.open .exp-wrap {
   grid-template-rows: 1fr;
   visibility: visible;
-  transition: grid-template-rows 0.3s cubic-bezier(0.4, 0, 0.2, 1), visibility 0s;
+  transition: grid-template-rows 0.3s var(--ease-fold), visibility 0s;
 }
 .exp-body {
   min-height: 0;
@@ -103,7 +104,7 @@ const open = ref(false) // closed by default
   color: rgba(221, 238, 255, 0.78);
   opacity: 0;
   transform: translateY(-4px);
-  transition: opacity 0.2s ease, transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  transition: opacity 0.2s ease, transform 0.3s var(--ease-fold);
 }
 /* the spacing lives inside the clipped box so it grows with it */
 .exp-body > :first-child { margin-top: 0.2rem; }
@@ -111,7 +112,7 @@ const open = ref(false) // closed by default
 .exp.open .exp-body {
   opacity: 1;
   transform: none;
-  transition: opacity 0.25s ease 0.08s, transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  transition: opacity 0.25s ease 0.08s, transform 0.3s var(--ease-fold);
 }
 @media (prefers-reduced-motion: reduce) {
   .exp-wrap, .exp.open .exp-wrap, .exp-body, .exp.open .exp-body { transition: none; }

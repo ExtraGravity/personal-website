@@ -14,9 +14,9 @@
           @click="onClick($event, navigate)"
         >
           <!-- hover sweep layers (closed rows only) -->
-          <span class="sweep-fill"></span>
-          <span class="sweep-border-top"></span>
-          <span class="sweep-border-bot"></span>
+          <span class="sweep sweep-fill"></span>
+          <span class="sweep sweep-border-top"></span>
+          <span class="sweep sweep-border-bot"></span>
 
           <!-- row content (column folding: see .col-* rules in style.css).
                The number cells draw their value from data-v with CSS
@@ -24,9 +24,7 @@
                crawlers; screen readers get the full aria-label. -->
           <span class="row-main" aria-hidden="true">
             <span class="expand-arrow">
-              <svg viewBox="0 0 87 100" fill="currentColor">
-                <path d="M86.6,50 L0,0 L0,100 L86.6,50 Z" />
-              </svg>
+              <ArrowIcon fill="currentColor" />
             </span>
             <span class="col-name"><span
               v-for="(seg, i) in nameParts"
@@ -43,7 +41,7 @@
 
           <!-- open: the whole band is the way back -->
           <span v-if="open" class="back-link band-label" aria-hidden="true">
-            <svg viewBox="0 0 87 100"><path d="M86.6,50 L0,0 L0,100 L86.6,50 Z" /></svg>
+            <ArrowIcon />
             Back to list
           </span>
         </a>
@@ -57,6 +55,7 @@
 <script setup>
 import { computed, inject } from 'vue'
 import PlayerIcons from './PlayerIcons.vue'
+import ArrowIcon from './ArrowIcon.vue'
 import GameView from '../views/GameView.vue'
 import { highlight } from '../lib/fuzzy.js'
 import { scoreClass, costPerPerson, formatCost, JELLY, JUPITER } from '../lib/games.js'
@@ -86,7 +85,7 @@ const nameParts = computed(() => highlight(props.game.name, props.positions))
 const cost = computed(() => costPerPerson(props.game, props.groupSize))
 const ariaLabel = computed(() => {
   const g = props.game
-  const parts = [`${g.name}`, `score ${g.avg}`, `${JUPITER} ${g.mo}`, `${JELLY} ${g.enoch}`, `${g.hours} hours`]
+  const parts = [g.name, `score ${g.avg}`, `${JUPITER} ${g.mo}`, `${JELLY} ${g.enoch}`, `${g.hours} hours`]
   if (cost.value !== null) parts.push(`cost per person ${formatCost(cost.value)}`)
   return parts.join(', ')
 })
@@ -135,6 +134,11 @@ const ariaLabel = computed(() => {
   left: 0;
   width: calc(var(--row-w) + var(--page-w));
   isolation: isolate;
+  --band: linear-gradient(90deg,
+    rgba(42,245,255,0.05) 0%,
+    rgba(42,245,255,0.12) 55%,
+    rgba(42,245,255,0.24) 85%,
+    rgba(42,245,255,0.42) 100%);
   /* One background for the whole piece, so nothing can fail to line up:
      1 top line   2 bottom line under the row   3 bottom line of the page part
      4 the highlight band (full width)   5 dark backdrop of the page part */
@@ -142,11 +146,7 @@ const ariaLabel = computed(() => {
     linear-gradient(rgba(42,245,255,0.85), rgba(42,245,255,0.85)) left top / 100% 1px no-repeat,
     linear-gradient(rgba(42,245,255,0.6), rgba(42,245,255,0.6)) left calc(var(--row-h) - 1px) / var(--row-w) 1px no-repeat,
     linear-gradient(rgba(42,245,255,0.6), rgba(42,245,255,0.6)) right bottom / calc(100% - var(--row-w)) 1px no-repeat,
-    linear-gradient(90deg,
-      rgba(42,245,255,0.05) 0%,
-      rgba(42,245,255,0.12) 55%,
-      rgba(42,245,255,0.24) 85%,
-      rgba(42,245,255,0.42) 100%) left top / 100% var(--row-h) no-repeat,
+    var(--band) left top / 100% var(--row-h) no-repeat,
     linear-gradient(180deg,
       transparent var(--row-h),
       rgba(7, 11, 24, 0.55) calc(var(--row-h) + 90px)) right top / calc(100% - var(--row-w)) 100% no-repeat;
@@ -163,11 +163,7 @@ const ariaLabel = computed(() => {
   left: var(--row-w);
   right: 0;
   height: 180px;
-  background: linear-gradient(90deg,
-    rgba(42,245,255,0.05) 0%,
-    rgba(42,245,255,0.12) 55%,
-    rgba(42,245,255,0.24) 85%,
-    rgba(42,245,255,0.42) 100%) right top / calc(100% + var(--row-w)) 100% no-repeat;
+  background: var(--band) right top / calc(100% + var(--row-w)) 100% no-repeat;
   -webkit-mask-image: linear-gradient(180deg, #000, transparent);
   mask-image: linear-gradient(180deg, #000, transparent);
   pointer-events: none;
@@ -188,9 +184,7 @@ const ariaLabel = computed(() => {
 .row-head:focus-visible .band-label { color: #fff; }
 
 /* ── Sweep layers (hover highlight of a closed row) ──────────────── */
-.sweep-fill,
-.sweep-border-top,
-.sweep-border-bot {
+.sweep {
   position: absolute;
   pointer-events: none;
   transform: scaleX(0);
@@ -231,31 +225,17 @@ const ariaLabel = computed(() => {
 
 /* data-hover: set by lib/rowHover.js (the mouse is on the row, passed over
    it, or left it less than its minimum ago) */
-.game-row:hover .sweep-fill,
-.game-row:hover .sweep-border-top,
-.game-row:hover .sweep-border-bot,
-.game-row[data-hover] .sweep-fill,
-.game-row[data-hover] .sweep-border-top,
-.game-row[data-hover] .sweep-border-bot,
-.row-head:focus-visible .sweep-fill,
-.row-head:focus-visible .sweep-border-top,
-.row-head:focus-visible .sweep-border-bot,
+.game-row:hover .sweep,
+.game-row[data-hover] .sweep,
+.row-head:focus-visible .sweep,
 /* data-lit: set for one frame when a row closes, so the highlight sweeps away */
-.game-row[data-lit] .sweep-fill,
-.game-row[data-lit] .sweep-border-top,
-.game-row[data-lit] .sweep-border-bot {
+.game-row[data-lit] .sweep {
   transform: scaleX(1);
 }
-.game-row[data-lit] .sweep-fill,
-.game-row[data-lit] .sweep-border-top,
-.game-row[data-lit] .sweep-border-bot { transition: none; }
+.game-row[data-lit] .sweep { transition: none; }
 /* opened: the piece's own band replaces the hover highlight */
-.game-row.open .sweep-fill,
-.game-row.open .sweep-border-top,
-.game-row.open .sweep-border-bot,
-.game-row[data-opening] .sweep-fill,
-.game-row[data-opening] .sweep-border-top,
-.game-row[data-opening] .sweep-border-bot { display: none; }
+.game-row.open .sweep,
+.game-row[data-opening] .sweep { display: none; }
 
 /* ── Row layout ──────────────────────────────────── */
 .row-main {

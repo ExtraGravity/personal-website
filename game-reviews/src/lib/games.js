@@ -5,12 +5,12 @@ export const JELLY = 'Jelly'      // data key: enoch
 export const JUPITER = 'Jupiter'  // data key: mo
 export const SITE_TITLE = 'Better Together Gaming'
 
-/* Page titles, shared by router.js (the tab) and scripts/postbuild.js (the
-   HTML crawlers and link previews get), so the two always match. */
 /* the one-line pitch under the list's header (and in the prerendered home page) */
 export const PITCH =
   'Just two guys who play a lot of co-op games together and want to help you and your friends find your next one.'
 
+/* Page titles, shared by router.js (the tab) and scripts/postbuild.js (the
+   HTML crawlers and link previews get), so the two always match. */
 export const HOME_TITLE = `${SITE_TITLE} · Co-op Game Reviews`
 export const ABOUT_TITLE = `About · ${SITE_TITLE}`
 export const gameTitle = (g) => `${g.name} co-op review (${g.avg}/10) · ${SITE_TITLE}`
@@ -26,6 +26,20 @@ export function slugify(name) {
 /* every game gets a slug and its original position (stable tie-break) */
 export const games = rawGames.map((g, i) => ({ ...g, slug: slugify(g.name), order: i }))
 export const gameBySlug = new Map(games.map((g) => [g.slug, g]))
+
+/* first game with a given name (recommendations name games in the data) */
+const gameByName = new Map()
+for (const g of games) if (!gameByName.has(g.name)) gameByName.set(g.name, g)
+
+/* a game's recommendations as game objects; names with no entry are dropped */
+export function recommendedGames(g) {
+  const r = g?.recommends || {}
+  const find = (name) => gameByName.get(name)
+  return {
+    top: (r.top ? [r.top] : []).map(find).filter(Boolean),
+    also: (r.also || []).map(find).filter(Boolean),
+  }
+}
 
 /* score colour bands: 9+, 7+, 5+, below 5 */
 export function scoreClass(avg) {
@@ -86,7 +100,7 @@ export function formatCost(value) {
 }
 
 export function hasCostData(g) {
-  return g.whoBuys === 'free' || (typeof g.price === 'number' && (g.whoBuys === 'everyone' || g.whoBuys === 'one'))
+  return costPerPerson(g) !== null
 }
 
 /* ── Misc formatting ──────────────────────────────── */

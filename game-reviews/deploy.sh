@@ -6,10 +6,7 @@
 set -e  # Exit on any error
 
 # Color codes
-RED='\033[0;31m'
 GREEN='\033[0;32m'
-YELLOW='\033[1;33m'
-BLUE='\033[0;34m'
 CYAN='\033[0;36m'
 NC='\033[0m' # No Color
 
@@ -27,12 +24,6 @@ echo -e "${CYAN}[STAGING]${NC} Building and deploying to staging first..."
 echo "=========================================="
 bash "$(dirname "$0")/deploy-staging.sh"
 echo ""
-
-if [ ! -d "dist" ]; then
-    echo ""
-    echo -e "${RED}[ERROR]${NC} dist folder not found after the staging build"
-    exit 1
-fi
 
 # Step 2: Copy staging's dist to live on the server and swap it in. Staging
 # just received this exact build, so nothing is uploaded a second time.

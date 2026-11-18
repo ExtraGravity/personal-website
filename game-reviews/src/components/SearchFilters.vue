@@ -35,9 +35,9 @@
       aria-controls="more-filters"
       @click="moreOpen = !moreOpen"
     >
-      <svg class="caret" viewBox="0 0 87 100" aria-hidden="true"><path d="M86.6,50 L0,0 L0,100 L86.6,50 Z" /></svg>
+      <ArrowIcon class="caret" />
       Filters
-      <span v-if="!moreOpen && moreTotal" class="badge">{{ moreTotal }} active</span>
+      <span v-if="!moreOpen && counts.total" class="badge">{{ counts.total }} active</span>
     </button>
 
     <!-- each panel's height slides open and shut (see "Open / close" below) -->
@@ -49,27 +49,15 @@
             Players
             <span class="hint">{{ playersHint }}</span>
           </div>
-          <div class="range-row">
-            <span class="range-label">Min</span>
+          <div v-for="r in RANGE_ROWS" :key="r.key" class="range-row">
+            <span class="range-label">{{ r.label }}</span>
             <div class="chips">
               <button
-                v-for="n in MAX_PLAYERS" :key="'min' + n" type="button"
+                v-for="n in MAX_PLAYERS" :key="r.key + n" type="button"
                 class="chip num" :class="{ inrange: inRange(n) }"
-                :aria-pressed="state.pmin === n"
-                :aria-label="`At least ${n} player${n === 1 ? '' : 's'}`"
-                @click="setMin(n)"
-              >{{ n }}</button>
-            </div>
-          </div>
-          <div class="range-row">
-            <span class="range-label">Max</span>
-            <div class="chips">
-              <button
-                v-for="n in MAX_PLAYERS" :key="'max' + n" type="button"
-                class="chip num" :class="{ inrange: inRange(n) }"
-                :aria-pressed="state.pmax === n"
-                :aria-label="`At most ${n} player${n === 1 ? '' : 's'}`"
-                @click="setMax(n)"
+                :aria-pressed="state[r.key] === n"
+                :aria-label="`${r.aria} ${n} player${n === 1 ? '' : 's'}`"
+                @click="r.set(n)"
               >{{ n }}</button>
             </div>
           </div>
@@ -125,7 +113,7 @@
           aria-controls="even-more-filters"
           @click="evenOpen = !evenOpen"
         >
-          <svg class="caret" viewBox="0 0 87 100" aria-hidden="true"><path d="M86.6,50 L0,0 L0,100 L86.6,50 Z" /></svg>
+          <ArrowIcon class="caret" />
           Even more filters
           <span v-if="!evenOpen && counts.evenMore" class="badge">{{ counts.evenMore }} active</span>
         </button>
@@ -183,9 +171,10 @@
 
 <script setup>
 import { ref, computed } from 'vue'
-import { MODES, LENGTHS, playerRange, groupSize as groupSizeOf } from '../lib/filters.js'
+import { MODES, LENGTHS, playerRange, groupSize as groupSizeOf, parseCost } from '../lib/filters.js'
 import { TAGS } from '../data/tags.js'
 import HeadTip from './HeadTip.vue'
+import ArrowIcon from './ArrowIcon.vue'
 import { MAX_PLAYERS, DEV_SIZES } from '../lib/games.js'
 
 const props = defineProps({
@@ -200,7 +189,6 @@ const emit = defineEmits(['search', 'update', 'clear', 'lucky'])
 // both panels start closed; a closed toggle shows how many choices inside it are on
 const moreOpen = ref(false)
 const evenOpen = ref(false)
-const moreTotal = computed(() => props.counts.more + props.counts.evenMore)
 
 const range = computed(() => playerRange(props.state))
 const groupSize = computed(() => groupSizeOf(props.state))
@@ -225,9 +213,12 @@ function setMax(n) {
 }
 // empty box (or anything that isn't a number from 0 up) = no limit
 function setCost(v) {
-  const n = v === '' ? null : Number(v)
-  emit('update', { cost: n !== null && Number.isFinite(n) && n >= 0 ? n : null })
+  emit('update', { cost: parseCost(v) })
 }
+const RANGE_ROWS = [
+  { label: 'Min', key: 'pmin', aria: 'At least', set: setMin },
+  { label: 'Max', key: 'pmax', aria: 'At most', set: setMax },
+]
 function toggleIn(key, id) {
   const cur = props.state[key]
   emit('update', { [key]: cur.includes(id) ? cur.filter((x) => x !== id) : [...cur, id] })
@@ -438,8 +429,8 @@ function toggleIn(key, id) {
   margin-top: calc(-1 * var(--fold-gap));
   visibility: hidden;
   transition:
-    grid-template-rows 0.3s cubic-bezier(0.4, 0, 0.2, 1),
-    margin-top 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+    grid-template-rows 0.3s var(--ease-fold),
+    margin-top 0.3s var(--ease-fold),
     visibility 0s linear 0.3s;
 }
 .fold.open {
@@ -447,8 +438,8 @@ function toggleIn(key, id) {
   margin-top: 0;
   visibility: visible;
   transition:
-    grid-template-rows 0.3s cubic-bezier(0.4, 0, 0.2, 1),
-    margin-top 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+    grid-template-rows 0.3s var(--ease-fold),
+    margin-top 0.3s var(--ease-fold),
     visibility 0s;
 }
 .inner-fold { --fold-gap: 1rem; } /* .panel gap */
@@ -464,12 +455,12 @@ function toggleIn(key, id) {
 .fold > .fold-clip > .panel {
   opacity: 0;
   transform: translateY(-4px);
-  transition: opacity 0.2s ease, transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  transition: opacity 0.2s ease, transform 0.3s var(--ease-fold);
 }
 .fold.open > .fold-clip > .panel {
   opacity: 1;
   transform: none;
-  transition: opacity 0.25s ease 0.08s, transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  transition: opacity 0.25s ease 0.08s, transform 0.3s var(--ease-fold);
 }
 @media (prefers-reduced-motion: reduce) {
   .fold, .fold.open, .fold > .fold-clip > .panel, .fold.open > .fold-clip > .panel { transition: none; }

@@ -45,7 +45,7 @@
     <div
       ref="listEl"
       class="game-list"
-      :class="{ 'has-hover': hovered !== null, 'rows-intro': rowsIntro }"
+      :class="{ 'rows-intro': rowsIntro }"
     >
       <GameRow
         v-for="(row, i) in rows"
@@ -102,11 +102,12 @@ const kickShape = inject('kickShape', () => {})
 /* ── State lives in the URL query ─────────────────── */
 // The list stays mounted behind game pages: there it keeps showing the last
 // query it had, and marks the open game's row.
-const state = computed(() => stateFromQuery(route.name === 'list' ? route.query : navState.listQuery))
+const listQuery = computed(() => (route.name === 'list' ? route.query : navState.listQuery))
+const state = computed(() => stateFromQuery(listQuery.value))
 const openSlug = computed(() => (route.name === 'game' ? route.params.slug : null))
 const searchText = ref(state.value.q)
 // back/forward or a pasted link: keep the input in step with the URL
-watch(() => (route.name === 'list' ? route.query : navState.listQuery).q, (q) => {
+watch(() => listQuery.value.q, (q) => {
   const v = typeof q === 'string' ? q : ''
   if (v !== searchText.value) searchText.value = v
 })
@@ -158,7 +159,7 @@ const hovered = ref(null)
 watch(() => route.name, () => { hovered.value = null })
 function onRowHover(slug) {
   hovered.value = slug
-  kickShape(false)
+  kickShape()
 }
 
 /* ── Column heading explanations (shown on hover) ─── */
@@ -303,8 +304,6 @@ onUnmounted(() => {
 }
 .table-header .right { text-align: right; }
 
-.table-header .center { text-align: center; }
-
 /* ── Game list ───────────────────────────────────── */
 .game-list {
   display: flex;
@@ -347,10 +346,8 @@ onUnmounted(() => {
 }
 
 @media (max-width: 600px) {
-  .page-header { margin-bottom: 1.3rem; }
-
   /* small enough that the full title fits one line */
-  .page-header { gap: 0.75rem; }
+  .page-header { margin-bottom: 1.3rem; gap: 0.75rem; }
   .page-header .site-title { font-size: 1.9rem; letter-spacing: 0.1em; }
   .header-logo { width: 2.9rem; height: 2.9rem; }
   .subtitle { margin-top: 0.3rem; font-size: 0.68rem; letter-spacing: 0.32em; }
@@ -390,7 +387,6 @@ onUnmounted(() => {
   animation: blink 0.9s step-end infinite;
 }
 .type-cursor.solid { animation: none; }
-@keyframes blink { 50% { opacity: 0; } }
 
 /* search + table header flicker on in place, just before the title types */
 .intro-on .intro-chrome {

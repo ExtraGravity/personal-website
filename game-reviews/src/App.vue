@@ -47,7 +47,7 @@
 import { ref, computed, onMounted, onUnmounted, provide } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { games, JELLY, JUPITER } from './lib/games.js'
-import { introMode, introTimings } from './lib/intro.js'
+import { appIntro } from './lib/intro.js'
 import { registerWarp, syncGhost, navState } from './lib/warp.js'
 import WireframeShape from './components/WireframeShape.vue'
 import ListView from './views/ListView.vue'
@@ -61,21 +61,16 @@ const list = ref(null)
 const KICK_HOVER = 0.018  // bg-shape spin nudge on row hover
 const KICK_CLICK = 0.058  // bigger nudge (lingers) when a row is opened
 
-provide('kickShape', (big = false) => shape.value?.kick(big ? KICK_CLICK : KICK_HOVER, !big))
+provide('kickShape', () => shape.value?.kick(KICK_HOVER, true))
 
 /* ── Intro timing (shared with ListView through CSS vars) ─────────── */
-const introModeName = introMode()
-const timings = introTimings()
-const introVars = {
-  '--hud-delay': `${timings.typeAt}ms`,
-  '--header-delay': `${Math.max(0, timings.typeAt - 250)}ms`,
-}
+const { mode: introModeName, ...timings } = appIntro()
+const introVars = { '--hud-delay': `${timings.typeAt}ms` }
 
 /* "Back to list" from anywhere: step back in history if the list is right
    behind us (keeps scroll + filters), otherwise open it with the last query */
 const listHref = computed(() => router.resolve({ name: 'list', query: navState.listQuery }).href)
 function goToList() {
-  const route = router.currentRoute.value
   if (route.name === 'list') { window.scrollTo({ top: 0, behavior: 'smooth' }); return }
   const back = window.history.state?.back
   if (back && router.resolve(back).name === 'list') router.back()
@@ -220,7 +215,6 @@ onUnmounted(() => {
 }
 .hud-bottom { bottom: 18px; left: 50%; transform: translateX(-50%); }
 .blink { animation: blink 1.6s step-start infinite; }
-@keyframes blink { 50% { opacity: 0; } }
 
 /* ── Main layout ─────────────────────────────────── */
 main {

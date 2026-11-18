@@ -1,6 +1,6 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import AboutView from './views/AboutView.vue'
-import { gameBySlug, SITE_TITLE, HOME_TITLE, ABOUT_TITLE, gameTitle } from './lib/games.js'
+import { gameBySlug, HOME_TITLE, ABOUT_TITLE, gameTitle } from './lib/games.js'
 import { installWarp } from './lib/warp.js'
 
 // The list is always mounted by App.vue, and a game's page is its own row
@@ -27,8 +27,7 @@ const router = createRouter({
 
 router.afterEach((to) => {
   if (to.name === 'game') {
-    const g = gameBySlug.get(to.params.slug)
-    document.title = g ? gameTitle(g) : `Not found · ${SITE_TITLE}`
+    document.title = gameTitle(gameBySlug.get(to.params.slug))
   } else if (to.name === 'about') {
     document.title = ABOUT_TITLE
   } else {

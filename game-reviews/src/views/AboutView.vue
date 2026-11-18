@@ -1,7 +1,7 @@
 <template>
   <article class="about">
     <a class="back-link" :href="listHref" @click.prevent="goToList">
-      <svg viewBox="0 0 87 100" aria-hidden="true"><path d="M86.6,50 L0,0 L0,100 L86.6,50 Z" /></svg>
+      <ArrowIcon />
       Back to list
     </a>
 
@@ -101,6 +101,7 @@
 import { computed, inject } from 'vue'
 import { useRouter } from 'vue-router'
 import PlayerIcons from '../components/PlayerIcons.vue'
+import ArrowIcon from '../components/ArrowIcon.vue'
 import { LEVELS, JELLY, JUPITER, DEV_SIZES } from '../lib/games.js'
 import { TAGS } from '../data/tags.js'
 import { navState } from '../lib/warp.js'

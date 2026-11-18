@@ -28,6 +28,9 @@
      The track list shrinks here; the .col-* rules below hide the cells. */
   --grid-cols: 18px minmax(0, 1fr) 5.2rem 4.8rem 3.9rem 3.2rem 3.8rem 3.6rem;
   --grid-gap: 0 0.9rem;
+
+  /* easing of the open/close fold (SearchFilters, Expander) */
+  --ease-fold: cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 /* ≤760: COST folds away */
@@ -125,3 +128,5 @@ button {
 }
 .back-link:hover { color: var(--accent); }
 .back-link svg { width: 8px; height: 10px; transform: rotate(180deg); fill: currentColor; }
+
+@keyframes blink { 50% { opacity: 0; } }

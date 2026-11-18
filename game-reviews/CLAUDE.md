@@ -25,8 +25,7 @@ data key `mo`. Use the display names in anything a visitor sees.
 ## Data
 
 - `src/data/games.js`: one entry per game. **Array order is the ranking**, best
-  first. The comment at the top lists every field. Entries with
-  `placeholder: true` hold made-up sample values waiting for real answers.
+  first. The comment at the top lists every field.
 - `src/data/tags.js`: the fixed tag list. Don't add tags without asking.
 - `src/lib/games.js`: slugs, score bands, player ratings, cost per person.
 - `src/lib/filters.js`: filter state, URL query keys, search and sort.

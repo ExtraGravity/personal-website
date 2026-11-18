@@ -12,6 +12,7 @@ import { join } from 'node:path'
 import { fileURLToPath } from 'node:url'
 import {
   games, formatHours, SITE_TITLE, HOME_TITLE, ABOUT_TITLE, gameTitle, JELLY, JUPITER, PITCH,
+  recommendedGames,
 } from '../src/lib/games.js'
 
 const SITE = 'https://bettertogethergaming.com'
@@ -138,10 +139,9 @@ function gameBody(g) {
   if (g.enochBlurb) out.push(`<h2>${h(JELLY)}'s review</h2>`, paras(g.enochBlurb))
   if (g.moBlurb) out.push(`<h2>${h(JUPITER)}'s review</h2>`, paras(g.moBlurb))
   if (g.guest?.blurb) out.push(`<h2>${h(g.guest.name)}'s review</h2>`, paras(g.guest.blurb))
-  // recommendations: names in the data, resolved like GameView.vue does
-  const r = g.recommends || {}
-  const find = (name) => games.find((x) => x.name === name)
-  const recs = [...(r.top ? [r.top] : []), ...(r.also || [])].map(find).filter(Boolean)
+  // recommendations: same lookup as GameView.vue
+  const { top, also } = recommendedGames(g)
+  const recs = [...top, ...also]
   if (recs.length) {
     out.push(
       `<h2>${h(`If you liked ${g.name}`)}</h2>`,
@@ -182,7 +182,7 @@ const jsonLdTag = (data) =>
 /* lastmod only where the data has a real date (`updated`, else `reviewed`):
    a guessed date is worse than none. The list page takes the newest game
    date, since it changes whenever a game does. */
-function lastmods(all) {
+function lastmods() {
   const byPath = {}
   for (const g of games) {
     const d = g.updated || g.reviewed
@@ -194,7 +194,7 @@ function lastmods(all) {
 }
 
 function writeSitemap(all) {
-  const mods = lastmods(all)
+  const mods = lastmods()
   const body = all
     .map((p) => {
       const mod = mods[p.path] ? `<lastmod>${mods[p.path]}</lastmod>` : ''
@@ -234,8 +234,7 @@ function headTags(p) {
   return lines.join('\n')
 }
 
-function writePages(all) {
-  const template = readFileSync(join(dist, 'index.html'), 'utf8')
+function writePages(all, template) {
   const APP = '<div id="app"></div>'
   if (!/<title>[\s\S]*?<\/title>/.test(template) || !template.includes('</head>') || !template.includes(APP)) {
     throw new Error('dist/index.html: no <title>, </head> or empty #app to fill in')
@@ -322,5 +321,5 @@ function write404(template) {
 const all = pages()
 const template = readFileSync(join(dist, 'index.html'), 'utf8')
 writeSitemap(all)
-writePages(all)
+writePages(all, template)
 write404(template)

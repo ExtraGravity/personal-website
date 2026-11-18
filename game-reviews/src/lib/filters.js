@@ -39,8 +39,8 @@ const int = (v) => {
   const n = parseInt(v, 10)
   return n >= 1 && n <= MAX_PLAYERS ? n : null
 }
-// a max cost: any number from 0 up, in dollars
-const money = (v) => {
+// a max cost: any number from 0 up, in dollars; anything else (or '') is null
+export const parseCost = (v) => {
   const n = Number(v)
   return typeof v === 'string' && v !== '' && Number.isFinite(n) && n >= 0 ? n : null
 }
@@ -56,7 +56,7 @@ export function stateFromQuery(query) {
   s.tags = list(query.tags).filter((t) => TAG_BY_ID[t])
   s.devs = list(query.devs).filter((d) => DEV_SIZES[d])
   s.crossplay = query.xplay === '1'
-  s.cost = money(query.cost)
+  s.cost = parseCost(query.cost)
   s.all = query.all === '1'
   return s
 }

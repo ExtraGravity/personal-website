@@ -6,8 +6,8 @@
      visit 1  → full: two blinks (~1.8s)
      visit 2  → short: one blink (~0.9s)
      visit 3+ → quick: no blinking, the title types straight away
-   Landing directly on a game page or About never plays it (none), and going
-   back to the list later in the same load never replays it. */
+   Landing directly on a game page or About never plays it (mode 'none'), and
+   going back to the list later in the same load never replays it. */
 
 const VISITS_KEY = 'coop-reviews:visits'
 const SESSION_KEY = 'coop-reviews:session-counted'
@@ -46,12 +46,9 @@ export function initIntro(initialPath) {
   else mode = visits === 1 ? 'full' : visits === 2 ? 'short' : 'quick'
 }
 
-/* the app-wide mode (HUD flicker, background shape start) */
-export function introMode() {
-  return mode
-}
-export function introTimings() {
-  return TIMINGS[mode]
+/* the app-wide mode and timings (HUD flicker, background shape start) */
+export function appIntro() {
+  return { mode, ...TIMINGS[mode] }
 }
 
 /* the list asks once per mount; only the first mount gets the intro */

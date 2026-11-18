@@ -82,21 +82,11 @@
     </section>
 
     <!-- 7. if you liked this game -->
-    <section v-if="recs.top.length || recs.also.length" class="recs" aria-label="Games we recommend">
-      <template v-if="recs.top.length">
-        <p class="prose">If you liked {{ game.name }} we'd most recommend playing</p>
+    <section v-if="recGroups.length" class="recs" aria-label="Games we recommend">
+      <template v-for="grp in recGroups" :key="grp.key">
+        <p class="prose">{{ grp.lead }}</p>
         <ul class="rec-boxes">
-          <li v-for="r in recs.top" :key="r.slug">
-            <RouterLink class="rec-box" :to="{ name: 'game', params: { slug: r.slug } }">
-              <span class="rec-name">{{ r.name }}</span>
-            </RouterLink>
-          </li>
-        </ul>
-      </template>
-      <template v-if="recs.also.length">
-        <p class="prose">{{ recs.top.length ? 'But we' : 'If you liked ' + game.name + ' we' }}'d also recommend you try</p>
-        <ul class="rec-boxes">
-          <li v-for="r in recs.also" :key="r.slug">
+          <li v-for="r in grp.list" :key="r.slug">
             <RouterLink class="rec-box" :to="{ name: 'game', params: { slug: r.slug } }">
               <span class="rec-name">{{ r.name }}</span>
             </RouterLink>
@@ -135,7 +125,7 @@ import Expander from '../components/Expander.vue'
 import HeadTip from '../components/HeadTip.vue'
 import PlayerIcons from '../components/PlayerIcons.vue'
 import {
-  games, gameBySlug, scoreClass, formatHours, formatDate, hasPlayerData,
+  gameBySlug, recommendedGames, scoreClass, formatHours, formatDate, hasPlayerData,
   costPerPerson, formatCost, hasCostData, DEFAULT_GROUP, JELLY, JUPITER, DEV_SIZES,
 } from '../lib/games.js'
 import { TAG_BY_ID } from '../data/tags.js'
@@ -200,8 +190,9 @@ const costFacts = computed(() => {
 })
 
 /* Reviews, with the spoiler-free switch (ticked by default) */
-const spoilerFree = reactive({ enoch: true, mo: true, guest: true })
-watch(() => route.params.slug, () => { spoilerFree.enoch = true; spoilerFree.mo = true; spoilerFree.guest = true })
+const allSpoilerFree = () => ({ enoch: true, mo: true, guest: true })
+const spoilerFree = reactive(allSpoilerFree())
+watch(() => route.params.slug, () => Object.assign(spoilerFree, allSpoilerFree()))
 const reviews = computed(() => {
   const g = game.value
   const out = []
@@ -215,13 +206,15 @@ const reviews = computed(() => {
 })
 
 /* Recommendations: names in the data, resolved to games that have an entry */
-const recs = computed(() => {
-  const r = game.value?.recommends || {}
-  const find = (name) => games.find((g) => g.name === name)
-  return {
-    top: (r.top ? [r.top] : []).map(find).filter(Boolean),
-    also: (r.also || []).map(find).filter(Boolean),
-  }
+const recs = computed(() => recommendedGames(game.value))
+/* the top pick, then the others, each with its lead sentence */
+const recGroups = computed(() => {
+  const { top, also } = recs.value
+  const name = game.value.name
+  const out = []
+  if (top.length) out.push({ key: 'top', list: top, lead: `If you liked ${name} we'd most recommend playing` })
+  if (also.length) out.push({ key: 'also', list: also, lead: `${top.length ? 'But we' : `If you liked ${name} we`}'d also recommend you try` })
+  return out
 })
 
 /* Tags */
@@ -387,22 +380,25 @@ const tags = computed(() => (game.value?.tags || []).map((id) => TAG_BY_ID[id]).
   flex-wrap: wrap;
   gap: 0.5rem;
 }
-.tag {
-  display: inline-block;
-  padding: 0.4rem 0.8rem;
-  font-size: 0.82rem;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
+/* .tag and .rec-box share their colours, border and hover */
+.tag, .rec-box {
   text-decoration: none;
   color: var(--accent);
   border: 1px solid rgba(42,245,255,0.35);
   background: rgba(42,245,255,0.04);
   transition: background 0.15s, color 0.15s, box-shadow 0.15s;
 }
-.tag:hover, .tag:focus-visible {
+.tag:hover, .tag:focus-visible, .rec-box:hover, .rec-box:focus-visible {
   color: var(--bg);
   background: var(--accent);
   box-shadow: 0 0 12px rgba(42,245,255,0.35);
+}
+.tag {
+  display: inline-block;
+  padding: 0.4rem 0.8rem;
+  font-size: 0.82rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
 }
 
 .recs {
@@ -426,21 +422,11 @@ const tags = computed(() => (game.value?.tags || []).map((id) => TAG_BY_ID[id]).
   align-items: baseline;
   gap: 0.7rem;
   padding: 0.55rem 0.9rem;
-  text-decoration: none;
-  color: var(--accent);
-  border: 1px solid rgba(42,245,255,0.35);
-  background: rgba(42,245,255,0.04);
-  transition: background 0.15s, color 0.15s, box-shadow 0.15s;
 }
 .rec-name {
   font-family: var(--font-display);
   font-size: 1.25rem;
   letter-spacing: 0.1em;
-}
-.rec-box:hover, .rec-box:focus-visible {
-  color: var(--bg);
-  background: var(--accent);
-  box-shadow: 0 0 12px rgba(42,245,255,0.35);
 }
 
 @media (max-width: 600px) {

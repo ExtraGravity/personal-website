@@ -151,12 +151,16 @@ function clearList() {
   els.list.style.opacity = ''
 }
 
+/* place things for a route: the ghost list for a game, the plain list otherwise */
+function placeFor(route) {
+  if (route.name === 'game') placeGhost(route.params.slug)
+  else clearList()
+}
+
 /* re-place everything for the current route (first load, resize, fonts) */
 export function syncGhost() {
   if (!els || !router || busy) return
-  const route = router.currentRoute.value
-  if (route.name === 'game') placeGhost(route.params.slug)
-  else clearList()
+  placeFor(router.currentRoute.value)
 }
 
 /* the row being animated: data-opening gives its piece the opened look and
@@ -172,12 +176,15 @@ function startMoving(row) {
   clip().setAttribute('data-moving', '')
   clip().classList.add('dim')
 }
-function resetPiece() {
-  if (!moving) return
-  const piece = pieceOf(moving)
+function clearPieceSize(piece) {
   piece.style.width = ''
   piece.style.height = ''
   piece.style.minHeight = ''
+}
+function resetPiece() {
+  if (!moving) return
+  const piece = pieceOf(moving)
+  clearPieceSize(piece)
   moving.removeAttribute('data-opening')
   moving = null
 }
@@ -192,9 +199,7 @@ function cleanup() {
   clip().removeAttribute('data-moving')
   clip().classList.remove('dim', 'bright')
   els.view.style.opacity = ''
-  const route = router.currentRoute.value
-  if (route.name === 'game') placeGhost(route.params.slug)
-  else clearList()
+  placeFor(router.currentRoute.value)
 }
 
 /* what is written on the open page (it fades; the piece itself never does) */
@@ -203,17 +208,47 @@ function contents(row) {
   return faded
 }
 
+/* fade the page's text from one opacity to another */
+function fadeText(nodes, from, to, duration, easing) {
+  return Promise.all(nodes.map((el) =>
+    run(el, [{ opacity: from }, { opacity: to }], { duration, easing })))
+}
+
+/* The three steps that open a game, shared by a click and a direct link:
+   stretch + pan (list from fromY, piece from startW), rise (list to toY),
+   drop (piece grows down to the page's height, ending dropW wide). */
+async function playOpen({ piece, g, h, startW, dropW, fromY, toY }) {
+  // 1. stretch + pan: the piece grows to the right edge of the screen
+  await Promise.all([
+    run(els.list, [
+      { transform: shift(0, fromY) },
+      { transform: shift(-g.pan, fromY) },
+    ], { duration: 340, easing: EASE }),
+    run(piece, [{ width: px(startW) }, { width: px(g.width + g.pageW) }], { duration: 340, easing: EASE }),
+  ])
+
+  // 2. rise to the top
+  await run(els.list, [
+    { transform: shift(-g.pan, fromY) },
+    { transform: shift(-g.pan, toY) },
+  ], { duration: travel(toY - fromY), easing: EASE })
+
+  // 3. drop: the piece grows downwards into the page
+  await run(piece, [
+    { width: px(g.width + g.pageW), height: px(h) },
+    { width: px(dropW), height: px(g.vh - g.top) },
+  ], { duration: 260, easing: OUT })
+}
+
 /* ── list → game ─────────────────────────────────── */
 async function warpOut(slug) {
   const row = findRow(slug)
   if (!row) { await fadeOut(); return 'fade' }
   els.kick?.()
   const g = geom()
-  const { vw, vh } = g
   const r = row.getBoundingClientRect()
   const h = r.height
   const rise = g.top - r.top  // the list moves up so the row ends at the top
-  const x1 = r.left - g.pan   // the row's left edge once the list has panned
   const piece = pieceOf(row)
 
   setVars(g, row)
@@ -221,26 +256,7 @@ async function warpOut(slug) {
   piece.style.height = px(h)
   startMoving(row)
 
-  // 1. stretch + pan: the piece grows to the right edge of the screen
-  await Promise.all([
-    run(els.list, [
-      { transform: shift(0, 0) },
-      { transform: shift(-g.pan, 0) },
-    ], { duration: 340, easing: EASE }),
-    run(piece, [{ width: px(r.width) }, { width: px(g.width + g.pageW) }], { duration: 340, easing: EASE }),
-  ])
-
-  // 2. rise to the top
-  await run(els.list, [
-    { transform: shift(-g.pan, 0) },
-    { transform: shift(-g.pan, rise) },
-  ], { duration: travel(rise), easing: EASE })
-
-  // 3. drop: the piece grows downwards into the page
-  await run(piece, [
-    { width: px(g.width + g.pageW), height: px(h) },
-    { width: px(r.width + g.pageW), height: px(vh - g.top) },
-  ], { duration: 260, easing: OUT })
+  await playOpen({ piece, g, h, startW: r.width, dropW: r.width + g.pageW, fromY: 0, toY: rise })
   return 'warp'
 }
 
@@ -248,8 +264,7 @@ async function warpOut(slug) {
    was just animated to, and the page's text has appeared inside it. */
 async function warpIn(slug) {
   const row = findRow(slug)
-  await Promise.all(contents(row).map((el) =>
-    run(el, [{ opacity: 0 }, { opacity: 1 }], { duration: 240, easing: OUT })))
+  await fadeText(contents(row), 0, 1, 240, OUT)
 }
 
 /* ── arriving on a game's link ───────────────────────
@@ -280,9 +295,7 @@ async function introOpen(slug) {
     /* measure the finished layout, then wind back to the plain list */
     let m
     const stage = () => {
-      piece.style.width = ''
-      piece.style.height = ''
-      piece.style.minHeight = ''
+      clearPieceSize(piece)
       placeGhost(slug)
       grow?.disconnect()
       const g = geom()
@@ -292,7 +305,7 @@ async function introOpen(slug) {
       // screen if that is out of view
       const natural = end.top + (end.top - els.list.getBoundingClientRect().top)
       const startTop = natural + h < g.vh - 60 ? natural : Math.round(g.vh * 0.4)
-      m = { g, h, x1: end.left, yEnd: ghostY, yStart: ghostY + (startTop - end.top) }
+      m = { g, h, yEnd: ghostY, yStart: ghostY + (startTop - end.top) }
       els.view.style.minHeight = px(g.vh)
       piece.style.width = px(g.width)
       piece.style.height = px(h)
@@ -309,30 +322,12 @@ async function introOpen(slug) {
     await new Promise((r) => setTimeout(r, 400))
     stage() // the window may have been resized while we waited
 
-    const { g, h, x1, yEnd, yStart } = m
-    const { vw, vh } = g
+    const { g, h, yEnd, yStart } = m
     els.kick?.()
     clip().classList.remove('bright')
-    await Promise.all([
-      run(els.list, [
-        { transform: shift(0, yStart) },
-        { transform: shift(-g.pan, yStart) },
-      ], { duration: 340, easing: EASE }),
-      run(piece, [{ width: px(g.width) }, { width: px(g.width + g.pageW) }], { duration: 340, easing: EASE }),
-    ])
-    await run(els.list, [
-      { transform: shift(-g.pan, yStart) },
-      { transform: shift(-g.pan, yEnd) },
-    ], { duration: travel(yEnd - yStart), easing: EASE })
-    await run(piece, [
-      { width: px(g.width + g.pageW), height: px(h) },
-      { width: px(g.width + g.pageW), height: px(vh - g.top) },
-    ], { duration: 260, easing: OUT })
-    piece.style.width = ''
-    piece.style.height = ''
-    piece.style.minHeight = ''
-    await Promise.all(faded.map((el) =>
-      run(el, [{ opacity: 0 }, { opacity: 1 }], { duration: 240, easing: OUT })))
+    await playOpen({ piece, g, h, startW: g.width, dropW: g.width + g.pageW, fromY: yStart, toY: yEnd })
+    clearPieceSize(piece)
+    await fadeText(faded, 0, 1, 240, OUT)
   } finally {
     cleanup()
     busy = false
@@ -349,8 +344,7 @@ async function coverOut() {
     box = { top: p.top, width: p.width }
   }
   // what is written on the page fades out; the piece stays
-  await Promise.all(contents(row).map((el) =>
-    run(el, [{ opacity: 1 }, { opacity: 0 }], { duration: 140, easing: 'ease-out' })))
+  await fadeText(contents(row), 1, 0, 140, 'ease-out')
   return 'cover'
 }
 
@@ -359,7 +353,7 @@ async function coverOut() {
    stood and walk everything back. */
 async function warpBack(slug) {
   const g = geom()
-  const { vw, vh } = g
+  const { vh } = g
   const row = findRow(slug)
   const r = row && row.getBoundingClientRect()
   if (!r || !box || r.bottom < 0 || r.top > vh) {
@@ -368,7 +362,6 @@ async function warpBack(slug) {
   }
   els.kick?.()
   const h = r.height
-  const x1 = r.left - g.pan
   const from = box.top - r.top // where the ghost list stood
   const piece = pieceOf(row)
   const tall = Math.max(h, vh - box.top)
@@ -478,8 +471,7 @@ export function installWarp(r) {
       if (!els) return
       // the route's own classes take over from the ones set for the animation
       resetPiece()
-      if (to.name === 'game') placeGhost(to.params.slug)
-      else clearList()
+      placeFor(to)
       if (type === 'warp') await warpIn(to.params.slug)
       else if (type === 'cover') await warpBack(from.params.slug)
       else if (type === 'fade') await fadeIn()
