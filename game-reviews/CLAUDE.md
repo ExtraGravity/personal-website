@@ -2,7 +2,8 @@
 
 Jelly and Jupiter's co-op game review site. Vue 3 + Vite + vue-router (history
 mode), no backend. Part of the `personal-website` repo; this folder is the
-whole app. Live at enochtsang.com, review copy at https://enochtsang.com:8443.
+whole app. Live at https://bettertogethergaming.com, staging copy at
+https://staging.bettertogethergaming.com.
 
 Display names: **Jelly** = Enoch = data key `enoch`; **Jupiter** = Mohammed =
 data key `mo`. Use the display names in anything a visitor sees.
@@ -12,7 +13,7 @@ data key `mo`. Use the display names in anything a visitor sees.
 - Keep changes small and to what was asked. Don't race ahead.
 - Don't commit unless asked. Work has been on branch `coop-reviews-public`.
 - Don't deploy unless asked; show changes on the local dev server instead.
-  `bash deploy-review.sh` updates the review copy (builds, uploads, swaps
+  `bash deploy-staging.sh` updates the staging copy (builds, uploads, swaps
   `dist`); `deploy.sh` is the live site.
 - `npm run build` must pass. Dev server: preview config `game-reviews`
   (port 5173) in `.claude/launch.json`.
@@ -54,39 +55,42 @@ page's title, description, canonical and Open Graph tags. `#app` stays empty,
 so the app and its intro start exactly as from `dist/index.html`. The site's
 URL is the `SITE` constant there and in `public/robots.txt`.
 
-## Domain move and nginx: do it all at once
+## Server and nginx
 
-The site is moving to a new domain (planned: Better Together Gaming). Leave
-the server config alone until then and make all of these changes in one go.
-Config is on `root@enochtsang.com` (`nginx -T` shows it); the enochtsang.com
-block on 443 and the review block on 8443 both currently use
-`try_files $uri $uri/ /index.html`.
+The user edits nginx themselves: give them the config text, don't change the
+server. Read-only checks (`nginx -T`, curl) are fine. Server is
+`root@enochtsang.com` (198.199.70.199); DNS is on DigitalOcean.
 
-1. **Trailing slash.** The per-route folders make nginx 301 `/games/x` to
-   `/games/x/`, so every canonical and sitemap URL points at a redirect. Use
-   `try_files $uri $uri/index.html =404;` (no bare `$uri/`) and redirect slash
-   URLs to no-slash: `rewrite ^/(.+)/$ /$1 permanent;`.
-2. **Real 404s.** Unknown paths currently get 200 plus the home page (soft
-   404). With every route a real file, drop the `/index.html` fallback and add
-   `error_page 404 /404.html` (postbuild would need to write a `404.html`
-   with `noindex`).
-3. **www.** `https://www.enochtsang.com` serves a separate, older build with
-   200 (it shows real names). Make www 301 to the bare domain; check where its
-   DNS points.
-4. **Compression.** Only HTML is gzipped. Add `gzip_types text/css
+- One file per site in `/etc/nginx/sites-available/`, symlinked into
+  `sites-enabled/`. This site is `bettertogethergaming` (staging and live
+  blocks); `enochtsang` is now only redirects.
+- `bettertogethergaming.com` serves `/var/www/enochtsang/dist` (`deploy.sh`);
+  `www` 301s to the bare domain. `staging.` serves
+  `/var/www/bettertogethergaming-staging/dist` (`deploy-staging.sh`) with
+  `X-Robots-Tag: noindex, nofollow`.
+- Both use `rewrite ^/(.+)/$ /$1 permanent;` and
+  `try_files $uri $uri/index.html =404;`: no-slash URLs serve the prerendered
+  folder directly, slash URLs 301 to no-slash, unknown paths are real 404s.
+  Canonicals and the sitemap use the no-slash form; keep them matching.
+- `enochtsang.com` and `www.enochtsang.com` 301 every path (and query) to the
+  same path on bettertogethergaming.com. The old 8443 review copy is gone.
+
+Still to do:
+
+1. **Search Console** change of address from enochtsang.com.
+2. **404 page.** 404s show nginx's plain page. Postbuild could write a
+   `404.html` with `noindex`, plus `error_page 404 /404.html;`.
+3. **Compression.** Only HTML is gzipped. Add `gzip_types text/css
    application/javascript application/json text/xml application/xml
    image/svg+xml image/x-icon; gzip_vary on;`.
-5. **Caching.** `Cache-Control: no-cache` on HTML; `public, max-age=31536000,
+4. **Caching.** `Cache-Control: no-cache` on HTML; `public, max-age=31536000,
    immutable` on `/assets/`. Deploys swap `dist` wholesale, so a cached HTML
    file can point at a deleted bundle.
-6. **Review copy.** Keep `X-Robots-Tag: noindex, nofollow` on 8443 (already
-   there) and give it the same `try_files` as live.
-7. **The domain itself.** Update `SITE` in `scripts/postbuild.js` and the
-   sitemap URL in `public/robots.txt`; 301 every old enochtsang.com URL to the
-   same path on the new domain (path preserved, not all to `/`); then use
-   Search Console's change of address.
+5. **Sitemap `lastmod`** per game, from postbuild.
+6. **AI crawlers.** `robots.txt` allows every bot; blocking training crawlers
+   (GPTBot, CCBot, Google-Extended, ...) is the user's call.
 
-Test on 8443 first (`deploy-review.sh`, then curl each route for status,
+Test on staging first (`deploy-staging.sh`, then curl each route for status,
 redirects, title and canonical), then live.
 
 ## Checking animations

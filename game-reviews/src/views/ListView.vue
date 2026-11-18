@@ -35,9 +35,6 @@
       <span class="right col-person"><HeadTip :text="`${JUPITER}'s score, out of 10.`">{{ JUPITER.toUpperCase() }}</HeadTip></span>
       <span class="right col-person"><HeadTip :text="`${JELLY}'s score, out of 10.`">{{ JELLY.toUpperCase() }}</HeadTip></span>
       <span class="right col-hours"><HeadTip :text="TIPS.hours">HRS</HeadTip></span>
-      <span class="center col-flag"><HeadTip :text="TIPS.earlyAccess">EA</HeadTip></span>
-      <span class="center col-flag"><HeadTip :text="TIPS.completed">DONE</HeadTip></span>
-      <span class="center col-flag"><HeadTip :text="TIPS.devs">DEVS</HeadTip></span>
       <span class="right col-cost"><HeadTip :text="costTip">COST</HeadTip></span>
       <span class="right">
         <HeadTip :text="TIPS.score">SCORE</HeadTip>
@@ -88,7 +85,7 @@ import GameRow from '../components/GameRow.vue'
 import SearchFilters from '../components/SearchFilters.vue'
 import HeadTip from '../components/HeadTip.vue'
 import SiteLogo from '../components/SiteLogo.vue'
-import { games, gameBySlug, JELLY, JUPITER, DEV_SIZES, SITE_TITLE, PITCH } from '../lib/games.js'
+import { games, gameBySlug, JELLY, JUPITER, SITE_TITLE, PITCH } from '../lib/games.js'
 import {
   stateFromQuery, queryFromState, applyFilters, activeCounts,
   groupSize as groupSizeOf, luckyPool, emptyState,
@@ -166,11 +163,6 @@ Yellow: works fine, but not the best way to play.
 Red: technically supported, but we wouldn't recommend it.
 Grey: not officially supported by the game.`,
   hours: 'Hours we played it.',
-  earlyAccess: 'We played and reviewed it during early access, so the game may have changed since.',
-  completed: "A tick means we finished it. What counts as finished can be subjective: sometimes it's the credits, sometimes it's when we felt we'd seen what the game has to offer.",
-  devs: `Who made it.
-
-${Object.entries(DEV_SIZES).map(([id, d]) => `${id}: ${d.label}`).join('\n')}`,
   score: `Our score: the average of ${JELLY}'s and ${JUPITER}'s, out of 10. The list is ordered by score, highest first.`,
 }
 const costTip = computed(() =>

@@ -22,6 +22,8 @@
      completed     false if we didn't finish it; left out = finished
      earlyAccess   true if we played and reviewed it during early access
      devs          who made it: 'S' | 'M' | 'L' (see DEV_SIZES in src/lib/games.js)
+     guest         { name, score, blurb?, spoiler? }: a guest reviewer's rating and
+                   review. Shown on the game page only; never counted in avg or the table
      steamUrl */
 export const games = [
   {
@@ -95,7 +97,7 @@ export const games = [
     hours: 40,
     avg: 9,
     enochBlurb: `This game aimed to be one thing, and it did it really well. A coop puzzle platformer with everything you'd expect in one. Mandatory teamwork, mix of easy and optional hard levels, puzzles that require time to think about, and just enough things to yell at your partner for. And in no way was the game lacking content, it was such a great game, but there was still too much content for us to fully get through. It could've had better graphics or a compelling story, but neither was necessary or things the game aimed to do. My only gripe was the robot character always being drawn in the behind human character even though I was controlling the robot, I lost track of my character for the human many times due to draw order. Otherwise, controls, super super tight.`,
-    moBlurb: `In terms of gameplay, this is without a doubt the best coop platformer we've played so far. The gameplay is brutally difficult but never feels unfair and constantly introduces new ways to think about each level. Each level varies the gameplay significantly before it has a chance to become stale. Very few other games require this level of coordination between two players. My only gripe is that it felt like the person playing the robot (Enoch) got the most varied mechanics. If you're looking for a well polished and challenging time with your friend, this game is a must play.`,
+    moBlurb: `In terms of gameplay, this is without a doubt the best coop platformer we've played so far. The gameplay is brutally difficult but never feels unfair and constantly introduces new ways to think about each level. Each level varies the gameplay significantly before it has a chance to become stale. Very few other games require this level of coordination between two players. My only gripe is that it felt like the person playing the robot (Jelly) got the most varied mechanics. If you're looking for a well polished and challenging time with your friend, this game is a must play.`,
   },
   {
     name: 'Deadzone: Rogue',
@@ -189,7 +191,7 @@ export const games = [
     hours: 72,
     avg: 8,
     enochBlurb: `This was a survival crafting game to the core, from chopping trees, to getting metal, to shooting guns. It had a good mission system to it, although the missions themselves were ok. It would've benefitted if what you did in the missions were always interesting, there was a few boring ones. They also asked you to travel really far, we spent a lot of time doing that, which wasn't great. But there are a ton of positive aspects to this game, being able to have a lot of tames, a talent tree, a coziness factor to your home. I also love a good food system which is required to buff you. Alas, there was also a lot of bugs that plagued this game, I crashed a lot, had animals get stuck a lot, and ultimately our run ended from a mission getting soft locked. Despite all that though, I still looked forward to getting on and playing it every day.`,
-    moBlurb: `This game starts off very strong. It looks beautiful, and the building and crafting aspects are well thought out and executed. In terms of overall design and creativity I felt this game was actually pretty top tier for survival crafting. Unfortunately, it is held back quite a lot by frequent bugs that caused us to lose progress and for Enoch to frequently restart. The main goal of the game seems to be the missions, which is a fun and unique idea for the genre, but these also didn't quite live up to their potential, as I felt many of them felt repetitive after a while (and they involve a LOT of running from one part of the map to another). I think the game desperately needed a fast travel system. Regardless of the drawbacks I think this is a great time with friends and would highly recommend for survival crafting enthusiasts to give it a try.`,
+    moBlurb: `This game starts off very strong. It looks beautiful, and the building and crafting aspects are well thought out and executed. In terms of overall design and creativity I felt this game was actually pretty top tier for survival crafting. Unfortunately, it is held back quite a lot by frequent bugs that caused us to lose progress and for Jelly to frequently restart. The main goal of the game seems to be the missions, which is a fun and unique idea for the genre, but these also didn't quite live up to their potential, as I felt many of them felt repetitive after a while (and they involve a LOT of running from one part of the map to another). I think the game desperately needed a fast travel system. Regardless of the drawbacks I think this is a great time with friends and would highly recommend for survival crafting enthusiasts to give it a try.`,
   },
   {
     name: 'Valheim',
@@ -198,7 +200,7 @@ export const games = [
     hours: 20,
     avg: 7.5,
     earlyAccess: true,
-    enochBlurb: `I finished this game separately without Mohammed.`,
+    enochBlurb: `I finished this game separately without Jupiter.`,
   },
   {
     name: 'Orcs Must Die 3',
@@ -217,7 +219,7 @@ export const games = [
     hours: 12,
     avg: 7.5,
     enochBlurb: `I did not love this game, I loved playing side by side with a friend through an RPG, but I did not love this game. I really wanted to love it, it was beautiful, great setup for a good story, and tight controls. Unfortunately I think the story's shallowness really hurt this game a lot for me, and also the puzzles and platforming seemed too easy. I know it was maybe geared towards a more casual audience, but I felt like each new mechanic was only explored just slightly.`,
-    moBlurb: `Probably hailed as the typical boyfriend/girlfriend game, although in my experience people who played it with their non-gamer girlfriends saw them struggle with it a lot. Enoch and I obviously had no such difficulties, in fact we found the game a little too easy. It has a lot of ideas but I felt like it jumped from one to the other a little too quickly without exploring them in depth. That being said, it feels like a huge upgrade over A Way Out (and just you wait until you play Split Fiction). The story didn't resonate with me too much and feels like an early 2000s romcom. Don't let the flaws discourage you though, the game does truly shine in terms of visual appeal, and the controls and platforming feeling extremely smooth. I feel Hazelight deserves the credit for creating an ambitious coop project, and I do highly recommend the game to anyone with a dedicated gaming partner. And in case you're wondering, Enoch played the woman in the relationship.`,
+    moBlurb: `Probably hailed as the typical boyfriend/girlfriend game, although in my experience people who played it with their non-gamer girlfriends saw them struggle with it a lot. Jelly and I obviously had no such difficulties, in fact we found the game a little too easy. It has a lot of ideas but I felt like it jumped from one to the other a little too quickly without exploring them in depth. That being said, it feels like a huge upgrade over A Way Out (and just you wait until you play Split Fiction). The story didn't resonate with me too much and feels like an early 2000s romcom. Don't let the flaws discourage you though, the game does truly shine in terms of visual appeal, and the controls and platforming feeling extremely smooth. I feel Hazelight deserves the credit for creating an ambitious coop project, and I do highly recommend the game to anyone with a dedicated gaming partner. And in case you're wondering, Jelly played the woman in the relationship.`,
   },
   {
     name: 'Core Keeper',
@@ -294,7 +296,7 @@ export const games = [
     mo: 7,
     hours: 87,
     avg: 7,
-    enochBlurb: `The game really did what it was going for, you're controlling a band of mercenaries where people die sometimes. You have to manage your food and finances, which I think was a bit too punishing. Losing people was also much more punishing than allowed for a I think the intended experience, it really resulted in only taking easy fights that you could dominate. There was also a fair amount of coop bugs, which forced a lot of restarts, in the end a game breaking bug also ended our run. Your troop also ends up getting very big, so every engagement ends up being very long and begins to feel tedious. But for all its flaws, I looked forward to playing it and had a great coop experience with Mohammed, discussing how to manage our troop and strategize our fights was very fun.`,
+    enochBlurb: `The game really did what it was going for, you're controlling a band of mercenaries where people die sometimes. You have to manage your food and finances, which I think was a bit too punishing. Losing people was also much more punishing than allowed for a I think the intended experience, it really resulted in only taking easy fights that you could dominate. There was also a fair amount of coop bugs, which forced a lot of restarts, in the end a game breaking bug also ended our run. Your troop also ends up getting very big, so every engagement ends up being very long and begins to feel tedious. But for all its flaws, I looked forward to playing it and had a great coop experience with Jupiter, discussing how to manage our troop and strategize our fights was very fun.`,
     moBlurb: `Where do I even start with this game? We played it a long time and yet I can't say I loved it. It does truly capture the feeling of being "mercenary band simulator". The combat resembles a simplified, more grounded turn based gameplay similar to BG3 and Wasteland 3, but people who enjoy the more fantastical aspects of these games may be disappointed. That being said, the combat is highly tactical with a lot of decision making. I found the story somewhat drab and uninteresting, being mostly a loosely connected series of jobs (as may be typical of a mercenary group). If you like slow turn based gameplay and careful resource management you may like this game, however combat can feel like a long slog sometimes, where each fight takes 30 minutes but feels like it only minimally advances the story. Unfortunately, a plethora of bugs do plague the game, one of which essentially prevented us from advancing the story.`,
   },
   {
@@ -316,53 +318,68 @@ export const games = [
     name: 'Big Walk',
     enoch: 7,
     mo: 7,
-    hours: 12,
+    hours: 11,
     avg: 7,
     whyPlay: `A unique gaming take on hanging out with your friends.`,
     players: ['red', 'green', 'green', 'green', 'yellow', 'yellow', 'yellow', 'yellow', 'yellow', 'yellow', 'yellow', 'yellow'],
-    playersBlurb: `We played with three. The puzzles are different depending on how many players you have, so two, three, and four are each a slightly different experience, and we think the more the better. It's built around walking and talking with friends, so we wouldn't play it alone. The game supports up to 12 players, but we haven't tried more than three, so we're not really sure how it'd play out with five or more.`,
+    playersBlurb: `We played with three. The puzzles are different depending on how many players you have, so two, three, and four are each a slightly different experience, and four is probably the ideal way to play it. It's built around walking and talking with friends, so we wouldn't play it alone. Making a room says two to four players, but the Steam page says up to 12. We haven't tried more than three, but bigger groups sound hectic: getting seven people to all do the same thing is hard, and with five to eight you'd probably end up splitting into groups, which defeats the purpose.`,
     mode: ['online'],
     crossplay: true,
     price: 25.99,
     whoBuys: 'everyone',
-    coopBlurb: `It needs everyone: this is one integrated multiplayer experience, not two single player games side by side. Co-op was very solid, with no bugs or disconnects, and setting it up was smooth. The proximity voice chat is good and it's the only way to communicate in the game, which is the point.`,
+    coopBlurb: `It needs everyone: this is one integrated multiplayer experience, not two single player games side by side, and the puzzles are designed so you need all the players, at least at four and under. Co-op was very solid, with no bugs or disconnects, and setting it up was smooth. The proximity voice chat is good and it's the only way to communicate in the game, which is the point.`,
     tags: ['chill', 'non-gamer-friendly'],
     reviewed: '2026-11-16',
+    updated: '2026-11-17',
     steamUrl: 'https://store.steampowered.com/app/1478500/Big_Walk/',
+    guest: {
+      name: 'Speedy',
+      score: 7,
+      blurb: `You explore a big open island, walk around discovering puzzles, and communicate different clues to each other to get past obstacles. There are items like walkie talkies, flares, a laser pointer, and maps that you use to help you along. Between the challenges you can just wander around and mess around with your friends, and I feel like that's what it's meant for.
+
+The proximity chat is what I liked most, like how it gets muffled behind objects. There are very few co-op games that are just about spending time together, and if that's the point, this is perfect. It'd be a perfect game for a long distance relationship. We used to play Animal Crossing together, and I feel like this would be even better.
+
+What I didn't like was getting separated and waiting for people, or just waiting in general. The talking part is fine, they want you to talk, but they also slow you down on purpose, which I don't like. It's kind of janky to navigate around the mountain, and when you fall there's no way to stop, you just roll all the way down and then walk all the way back up, so slowly. I was tilted. I also wish the puzzles were a little harder near the end. The difficulty goes from easy to mid at most, and we figured them out pretty fast.`,
+      spoiler: `You explore a big open island, walk around discovering puzzles, and communicate different clues to each other to get past obstacles. There are items like walkie talkies, flares, a laser pointer, and maps that you use to help you along. Between the challenges you can just wander around and mess around with your friends, and I feel like that's what it's meant for.
+
+The best part was the last part, when you can't communicate and you don't know who is who. The proximity chat is what I liked most otherwise, like how it gets muffled behind objects. There are very few co-op games that are just about spending time together, and if that's the point, this is perfect. It'd be a perfect game for a long distance relationship. We used to play Animal Crossing together, and I feel like this would be even better.
+
+What I didn't like was getting separated and waiting for people, or just waiting in general. The talking part is fine, they want you to talk, but they also slow you down on purpose, which I don't like. If the walk is slow, everything else should be faster, like the train and the lift. It's kind of janky to navigate around the mountain, and when you fall there's no way to stop, you just roll all the way down and then walk all the way back up, so slowly. I was tilted. I also wish the puzzles were a little harder near the end. The difficulty goes from easy to mid at most, and we figured them out pretty fast.`,
+    },
     recommends: {
       top: 'Escape Simulator 2',
       also: ['Stardew Valley', 'PEAK', 'We Were Here'],
     },
-    enochBlurb: `You walk around a big map solving puzzles, and a lot of the time you're just traveling and meant to hang out with each other. Finding your way without much guidance, and finding each other over long distances, is a big part of it. I think that was an interesting part of the game, but I don't know if I personally liked it that much.
+    enochBlurb: `You walk around a big map solving puzzles, and a lot of the time you're just traveling and meant to hang out with each other. Finding your way without much guidance, and finding each other over long distances, is a big part of it. There's literally one puzzle where you're locked in a room together for five minutes, I think just to hang out and chat. I think that was an interesting part of the game, but I don't know if I personally liked it that much.
 
-For the first half I was actually not enjoying it, it was too easy and too much traveling. Maybe I just wasn't in the hanging out mindset and wanted to play a game. The game got better as it went on, the puzzles in the second half were much better and the end was good.
+For the first half I was actually not enjoying it, it was too easy and too much traveling. The first parts were basically a tutorial, mind-numbingly easy, and I feel like they could've put them closer together. Maybe I just wasn't in the hanging out mindset and wanted to play a game. The game got better as it went on, the puzzles in the second half were much better and the end was good.
 
-The frustrating parts were only being able to hold one item for most of the game, and the night, which is just too dark to play without a light, so you end up sitting there waiting.
+The frustrating parts were only being able to hold one item for most of the game, and the night, which is just too dark to play without a light, so you end up sitting there waiting. The walking is too slow too. I think the game would've been better if it was slightly faster, and it didn't really respect my time. I also got stuck on random stuff walking up hills kind of often.
 
-The moment to moment really isn't that interesting, the game shines as a whole, as a way to hang out together and do things. It doesn't really force you to talk though, and sometimes I just left to grab something to eat or took a nap. If you wouldn't go on a road trip with these people, don't play it with them. If you want something intense, this isn't it.
+The moment to moment really isn't that interesting, the game shines as a whole, as a way to hang out together and do things. It doesn't really force you to talk though, and sometimes I just left to grab something to eat or took a nap. It'd be a pretty great game if you're long distance with someone, there's a lot of time to just talk. If you wouldn't go on a road trip with these people, don't play it with them. If you want something intense, this isn't it.
 
-It's a new idea and I'm glad it exists, kind of like A Way Out when it first came out, but it just wasn't that fun in particular.`,
-    moBlurb: `It feels like a road trip simulator with your friends, except you're walking instead of driving. It's a puzzle game where you walk from puzzle to puzzle and solve them together, but the walking is a very big part of it. You have to figure out where to go, plot a route, and find whoever got lost. Quote me on this, it's not called the Small Walk.
+Having so many controls for how you move your arms was pretty cool, and the rest of the design is pretty cute, but the character models are kind of ugly. It's a new idea and I'm glad it exists, kind of like A Way Out when it first came out, but it just wasn't that fun in particular.`,
+    moBlurb: `It feels like a road trip simulator with your friends, except you're walking instead of driving. It's a puzzle game where you walk from puzzle to puzzle and solve them together, but the walking is a very big part of it. You have to figure out where to go, plot a route, and find whoever got lost. It really commits to its idea: reading a map, figuring out which direction you're facing, and planning a route with your friends, and it does that very, very well. Quote me on this, it's not called the Small Walk.
 
-A lot of the puzzles were kind of easy and just alright, so if you're looking for a challenging puzzle game this isn't it. We got mad at the day night cycle while playing, but now that I've ruminated on it I think it fits the game. Night makes wayfinding intentionally harder, and if you accept that wayfinding is part of the game, I can see what it adds.
+A lot of the puzzles were kind of easy and just alright, so if you're looking for a challenging puzzle game this isn't it. We became frustrated at the day night cycle while playing, but now that I've ruminated on it I think it fits the game. Night makes wayfinding intentionally harder, and if you accept that wayfinding is part of the game, I can see what it adds.
 
-The concept is really interesting and it's a great tool to just hang out with your friends for a couple of hours, and it does that better than friendslop does. It's very polished, we had no bugs, and the environment is beautiful. The game parts don't match the scenery at all, which is amusing and also means you can tell from far away what's a puzzle and what's backdrop. It didn't overstay its welcome, though some of the gameplay can lull a little.`,
-    enochSpoiler: `You walk around a big map solving puzzles, and a lot of the time you're just traveling and meant to hang out with each other. Finding your way without much guidance, and finding each other over long distances, is a big part of it. I think that was an interesting part of the game, but I don't know if I personally liked it that much.
+The concept is really interesting, it's a great tool to just hang out with your friends for a couple of hours, and it does that better than most friendslop does. It's very polished, we had no bugs, and the environment is beautiful. The game parts don't match the scenery at all, which is amusing and also means you can tell from far away what's a puzzle and what's backdrop. The characters are very cute and stick out from the environment so much that it's easy to spot your friends at a distance. It didn't overstay its welcome, though some of the gameplay can lull a little. Ultimately this is a unique experience, but like any journey, your enjoyment will really be based on the friends you bring along the way.`,
+    enochSpoiler: `You walk around a big map solving puzzles, and a lot of the time you're just traveling and meant to hang out with each other. Finding your way without much guidance, and finding each other over long distances, is a big part of it. There's literally one puzzle where you're locked in a room together for five minutes, I think just to hang out and chat. I think that was an interesting part of the game, but I don't know if I personally liked it that much.
 
-For the first half I was actually not enjoying it, it was too easy and too much traveling. Maybe I just wasn't in the hanging out mindset and wanted to play a game. The game got better as it went on, the puzzles in the second half were much better, and when the ending started it was the best part of the game for sure. It suddenly makes you not able to communicate, and you have to do some form of all the puzzles you did together before, without talking. We didn't get any chance to prep beforehand, and we also didn't know who was who because they made us all the same colour, which was really fun and pretty hilarious.
+For the first half I was actually not enjoying it, it was too easy and too much traveling. The first parts were basically a tutorial, mind-numbingly easy, and I feel like they could've put them closer together. Maybe I just wasn't in the hanging out mindset and wanted to play a game. The game got better as it went on, the puzzles in the second half were much better, and when the ending started it was the best part of the game for sure. It suddenly makes you not able to communicate, and you have to do some form of all the puzzles you did together before, without talking. We didn't get any chance to prep beforehand, and we also didn't know who was who because they made us all the same colour, which was really fun and pretty hilarious.
 
-The frustrating parts were only being able to hold one item for most of the game, because we found the backpacks early and didn't know they were backpacks, and the night, which is just too dark to play without a light, so you end up sitting there waiting.
+The frustrating parts were only being able to hold one item for most of the game, because we found the backpacks early and didn't know they were backpacks, and the night, which is just too dark to play without a light, so you end up sitting there waiting. The walking is too slow too. I think the game would've been better if it was slightly faster, and it didn't really respect my time. I also got stuck on random stuff walking up hills kind of often. The train and the lift could've been faster too, though maybe they're slow so non-gamers can get on. We already had trouble getting three people on a lift.
 
-The moment to moment really isn't that interesting, the game shines as a whole, as a way to hang out together and do things. It doesn't really force you to talk though, and sometimes I just left to grab something to eat or took a nap. If you wouldn't go on a road trip with these people, don't play it with them. If you want something intense, this isn't it.
+The moment to moment really isn't that interesting, the game shines as a whole, as a way to hang out together and do things. It doesn't really force you to talk though, and sometimes I just left to grab something to eat or took a nap. It'd be a pretty great game if you're long distance with someone, there's a lot of time to just talk. If you wouldn't go on a road trip with these people, don't play it with them. If you want something intense, this isn't it.
 
-It's a new idea and I'm glad it exists, kind of like A Way Out when it first came out, but it just wasn't that fun in particular.`,
-    moSpoiler: `It feels like a road trip simulator with your friends, except you're walking instead of driving. It's a puzzle game where you walk from puzzle to puzzle and solve them together, but the walking is a very big part of it. You have to figure out where to go, plot a route, decide if the best way there is the train (spoiler alert, there's a train), and find whoever got lost. Quote me on this, it's not called the Small Walk.
+Having so many controls for how you move your arms was pretty cool, and the rest of the design is pretty cute, but the character models are kind of ugly. It's a new idea and I'm glad it exists, kind of like A Way Out when it first came out, but it just wasn't that fun in particular.`,
+    moSpoiler: `It feels like a road trip simulator with your friends, except you're walking instead of driving. It's a puzzle game where you walk from puzzle to puzzle and solve them together, but the walking is a very big part of it. You have to figure out where to go, plot a route, decide if the best way there is the train (spoiler alert, there's a train), and find whoever got lost. It really commits to its idea: reading a map, figuring out which direction you're facing, and planning a route with your friends, and it does that very, very well. Quote me on this, it's not called the Small Walk. The train was a little disappointing in its speed, though. A stop button at the station, like the one you can hold on the train, would let you get your friends on and let the train go faster.
 
 A lot of the puzzles were kind of easy and just alright, so if you're looking for a challenging puzzle game this isn't it.
 
-The last few puzzles were the most entertaining part of the game. You can't talk any more, so it's mostly mime, and everyone is the same colour so you can't tell who is who, which was pretty funny. We got mad at the day night cycle while playing, but now that I've ruminated on it I think it fits the game. Night makes wayfinding intentionally harder, and if you accept that wayfinding is part of the game, I can see what it adds.
+The last few puzzles were the most entertaining part of the game. You can't talk any more, so it's mostly mime, and everyone is the same colour so you can't tell who is who, which was pretty funny. We became frustrated at the day night cycle while playing, but now that I've ruminated on it I think it fits the game. Night makes wayfinding intentionally harder, and if you accept that wayfinding is part of the game, I can see what it adds.
 
-The concept is really interesting and it's a great tool to just hang out with your friends for a couple of hours, and it does that better than friendslop does. It's very polished, we had no bugs, and the environment is beautiful. The game parts don't match the scenery at all, which is amusing and also means you can tell from far away what's a puzzle and what's backdrop. It didn't overstay its welcome, though some of the gameplay can lull a little.`,
+The concept is really interesting, it's a great tool to just hang out with your friends for a couple of hours, and it does that better than most friendslop does. It's very polished, we had no bugs, and the environment is beautiful. The game parts don't match the scenery at all, which is amusing and also means you can tell from far away what's a puzzle and what's backdrop. The characters are very cute and stick out from the environment so much that it's easy to spot your friends at a distance. It didn't overstay its welcome, though some of the gameplay can lull a little. Ultimately this is a unique experience, but like any journey, your enjoyment will really be based on the friends you bring along the way.`,
   },
   {
     name: 'Ship of Fools',
@@ -513,6 +530,46 @@ The concept is really interesting and it's a great tool to just hang out with yo
     completed: false,
   },
   {
+    name: 'BOMBANANA!',
+    enoch: 6,
+    mo: 6,
+    hours: 4,
+    avg: 6,
+    whyPlay: `A short, wacky team-building exercise with exactly two friends.`,
+    players: ['grey', 'grey', 'green'],
+    playersBlurb: `It needs exactly three players. We played with three, and the game doesn't support any other count.`,
+    mode: ['online'],
+    price: 9.65,
+    whoBuys: 'everyone',
+    coopBlurb: `It needs everyone: this is one integrated multiplayer experience, not something you can split up. Co-op was smooth, and we don't remember any significant bugs. The one friction was that games are public by default, so random people joined our lobbies.`,
+    recommends: {
+      top: 'Overcooked 2',
+      also: ['Plate Up', 'Unrailed'],
+    },
+    tags: ['non-gamer-friendly'],
+    reviewed: '2026-11-17',
+    updated: '2026-11-17',
+    steamUrl: 'https://store.steampowered.com/app/4656000/BOMBANANA/',
+    devs: 'S',
+    guest: {
+      name: 'Speedy',
+      score: 7,
+      blurb: `It's a learning game. Every few levels there's a new mechanic, and figuring it out is the fun part. Some moments were crazy, like getting told to cut the green one. We're good at this kind of game, so it went by quickly for us, but I can definitely see other people struggling. It's sometimes chill, but not really. I like this kind of game, and I had a lot of fun with it. It's just short.`,
+    },
+    enochBlurb: `It's Keep Talking and Nobody Explodes with three people, and each of you has one sense taken away: one is blind, one is deaf, and one is mute. Only one person has the instruction book, and they're trying to explain how a puzzle works while the others can't see or hear them properly.
+
+That's kind of frustrating, but it's also one of the best parts, especially when you get to a new puzzle and have to work out how to explain it. We yelled at each other a lot, and trying to explain a sound when you can't talk was basically impossible.
+
+It was only hard when a puzzle was new. The puzzles were interesting the first time, but after you'd done them once they weren't that interesting anymore, unfortunately. I think the length was great, but the replayability is about zero. Once you've seen the puzzles, nobody really needs to explain them to you.
+
+I wouldn't want to play it with randos. Everything was public by default, so random people joined our teams, and it's weird for this kind of game to be public by default. It's not a chill game for us, but we have a high bar for chill.`,
+    moBlurb: `It's a three-player cooperative puzzle game with a lot of "see no evil, hear no evil, speak no evil" energy. One of you is blind, one of you is deaf, and one of you is mute, and you have to solve the puzzles together anyway.
+
+Every time a new puzzle shows up, you're figuring out how to communicate all over again. These were definitely the highlights of the game, though the funniest parts are when you yell the color yellow five times because you forgot your friend was deaf.
+
+Unfortunately I think between the puzzles the levels felt a little padded. The levels in between are the same puzzles repeated in different combinations, and we usually breezed right through those after solving the first new level. When a new puzzle is added there are four or five levels that repeat it, and we flew through those. The game's so short I feel like they had to pad it a little, or maybe it's designed for more casual gamers in mind. I feel like you'd enjoy this game more if you were newer to gaming. I'd have liked more new puzzles and fewer repeats, though I guess that's a lot of work for the developers. Overall, it still provides a wacky and zany couple hours of lighthearted fun.`,
+  },
+  {
     name: 'We Were Here',
     enoch: 6,
     mo: 5,
@@ -631,7 +688,7 @@ The concept is really interesting and it's a great tool to just hang out with yo
     hours: 2,
     avg: 4,
     enochBlurb: `I love rhythm games and was really looking forward to playing this. But it was a huge letdown, there's actually very little rhythm involved. It ended up being like 60% a shooter. What's worse, is the rhythm required you press the trigger on the up beats and release on the down beats, super unintuitive. There also kind of a false incentive to do the rhythm sections, you could actually pass all the levels without shooting anything I think, and just dodging, you would just increase your score by shooting. The songs were also only ok, if they were really good I might've been convinced to play longer.`,
-    moBlurb: `As a guy who's not musically inclined, I play these games purely by looking at the flashing lights and ignoring the beat. Maybe that's why they don't seem to appeal to me as much, but Enoch can tell you all about why he didn't like rhythm based aspects of this game. Treated as a twin stick shooter, the game looks pretty and high action, ultimately I found it boring without much substance below the surface. There's only enough levels for a couple hours of entertainment, and grinding out for the top stars on each level seems like an absolute chore.`,
+    moBlurb: `As a guy who's not musically inclined, I play these games purely by looking at the flashing lights and ignoring the beat. Maybe that's why they don't seem to appeal to me as much, but Jelly can tell you all about why he didn't like rhythm based aspects of this game. Treated as a twin stick shooter, the game looks pretty and high action, ultimately I found it boring without much substance below the surface. There's only enough levels for a couple hours of entertainment, and grinding out for the top stars on each level seems like an absolute chore.`,
   },
   {
     name: 'Maid Moving Boxes',
@@ -670,7 +727,7 @@ The concept is really interesting and it's a great tool to just hang out with yo
     avg: 3,
     completed: false,
     enochBlurb: `You're driving a truck, that's it. There's a bit of a unique challenge of trying to park an 18 wheeler, but you really get what the game says, a truck driving simulator. Can't say it's much of a game.`,
-    moBlurb: `I think Enoch and I just didn't really get this game. At one point I had to explain to him that it really was just driving trucks from place to place, and we both took a few minutes to ponder what was the point of it all.`,
+    moBlurb: `I think Jelly and I just didn't really get this game. At one point I had to explain to him that it really was just driving trucks from place to place, and we both took a few minutes to ponder what was the point of it all.`,
   },
   {
     name: 'Cook Serve Delicious 3',

@@ -14,7 +14,7 @@ import {
   games, formatHours, SITE_TITLE, HOME_TITLE, ABOUT_TITLE, gameTitle, JELLY, JUPITER, PITCH,
 } from '../src/lib/games.js'
 
-const SITE = 'https://enochtsang.com'
+const SITE = 'https://bettertogethergaming.com'
 // link-preview image (public/og-image.png, made by scripts/og-image.sh)
 const OG_IMAGE = {
   url: `${SITE}/og-image.png`,
@@ -126,7 +126,7 @@ function aboutBody() {
 function gameBody(g) {
   const out = [`<p><a href="/">${h(SITE_TITLE)}</a></p>`, `<article><h1>${h(g.name)}</h1>`]
   out.push(
-    `<p>${h(`Score ${g.avg}/10 · ${JELLY} ${g.enoch} · ${JUPITER} ${g.mo} · ${formatHours(g.hours)} played`)}</p>`,
+    `<p>${h(`Score ${g.avg}/10 · ${JELLY} ${g.enoch} · ${JUPITER} ${g.mo}${g.guest ? ` · ${g.guest.name}${g.guest.score != null ? ` ${g.guest.score}` : ''} (guest)` : ''} · ${formatHours(g.hours)} played`)}</p>`,
   )
   if (g.whyPlay) out.push(`<p>${h(`Why you should play this game: ${g.whyPlay}`)}</p>`)
   if (g.note) out.push(paras(g.note))
@@ -136,6 +136,7 @@ function gameBody(g) {
   if (g.costBlurb) out.push(`<h2>Cost</h2>`, paras(g.costBlurb))
   if (g.enochBlurb) out.push(`<h2>${h(JELLY)}'s review</h2>`, paras(g.enochBlurb))
   if (g.moBlurb) out.push(`<h2>${h(JUPITER)}'s review</h2>`, paras(g.moBlurb))
+  if (g.guest?.blurb) out.push(`<h2>${h(g.guest.name)}'s review</h2>`, paras(g.guest.blurb))
   // recommendations: names in the data, resolved like GameView.vue does
   const r = g.recommends || {}
   const find = (name) => games.find((x) => x.name === name)
@@ -168,7 +169,9 @@ function gameReviews(g) {
     ...(g.reviewed && { datePublished: g.reviewed }),
     ...(g.updated && { dateModified: g.updated }),
   })
-  return [review(JELLY, g.enoch, g.enochBlurb), review(JUPITER, g.mo, g.moBlurb)]
+  const out = [review(JELLY, g.enoch, g.enochBlurb), review(JUPITER, g.mo, g.moBlurb)]
+  if (g.guest?.score != null) out.push(review(g.guest.name, g.guest.score, g.guest.blurb))
+  return out
 }
 
 /* JSON inside <script>: escape "<" so review text can never close the tag */

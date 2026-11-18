@@ -29,9 +29,9 @@
     <section>
       <h2>Completed</h2>
       <p>
-        The DONE column has a tick for games we finished. What counts as finished can be subjective:
+        A game's page says whether we finished it. What counts as finished can be subjective:
         sometimes it's the credits, sometimes it's when we felt we'd seen what the game has to offer.
-        Games without a tick we stopped before that, and the review is of what we played.
+        For games we didn't finish, the review is of what we played.
       </p>
     </section>
 
@@ -39,13 +39,13 @@
       <h2>Early access</h2>
       <p>
         We try to avoid scoring early access games, since they can change a lot before release. When
-        we do, the EA column marks it, and the review is of the game as it was when we played it.
+        we do, the game's page says so, and the review is of the game as it was when we played it.
       </p>
     </section>
 
     <section>
       <h2>Devs</h2>
-      <p>The DEVS column is who made the game:</p>
+      <p>A game's page says who made it:</p>
       <ul class="devs">
         <li v-for="(d, id) in DEV_SIZES" :key="id"><b>{{ id }}</b> {{ d.label }}</li>
       </ul>

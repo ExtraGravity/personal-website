@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# Deployment script for enochtsang.com (game-reviews)
+# Deployment script for bettertogethergaming.com (game-reviews)
 # This script builds the project and deploys it to the server
 
 set -e  # Exit on any error
@@ -108,5 +108,5 @@ echo "=========================================="
 echo -e "${GREEN}[SUCCESS]${NC} Deployment completed successfully!"
 echo "=========================================="
 echo ""
-echo -e "${CYAN}[INFO]${NC} Your site should now be live at https://enochtsang.com"
+echo -e "${CYAN}[INFO]${NC} Your site should now be live at https://bettertogethergaming.com"
 echo ""

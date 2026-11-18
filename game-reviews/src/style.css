@@ -21,22 +21,13 @@
 
   /* Shared table grid — the header (.table-header) and each row (.row-main)
      consume these so their columns always line up.
-     Columns: marker | GAME | PLAYERS | JUPITER | JELLY | HRS | EA | DONE | DEVS | COST | SCORE
-     As the screen narrows they fold away in this order: EA, DONE and DEVS, then
-     COST, then HRS, then the two personal scores. GAME, PLAYERS and SCORE
-     always stay.
+     Columns: marker | GAME | PLAYERS | JUPITER | JELLY | HRS | COST | SCORE
+     As the screen narrows they fold away in this order: COST, then HRS, then
+     the two personal scores. GAME, PLAYERS and SCORE always stay. Completed,
+     early access and dev size are on each game's page, not in the table.
      The track list shrinks here; the .col-* rules below hide the cells. */
-  --grid-cols: 18px minmax(0, 1fr) 5.2rem 4.8rem 3.9rem 2.6rem 1.8rem 2.9rem 2.9rem 3.4rem 3.6rem;
-  --grid-gap: 0 0.7rem;
-}
-
-/* ≤860: EA, DONE and DEVS fold away */
-@media (max-width: 860px) {
-  :root {
-    --grid-cols: 18px minmax(0, 1fr) 5.2rem 4.8rem 3.9rem 3.2rem 3.8rem 3.6rem;
-    --grid-gap: 0 0.9rem;
-  }
-  .col-flag { display: none !important; }
+  --grid-cols: 18px minmax(0, 1fr) 5.2rem 4.8rem 3.9rem 3.2rem 3.8rem 3.6rem;
+  --grid-gap: 0 0.9rem;
 }
 
 /* ≤760: COST folds away */

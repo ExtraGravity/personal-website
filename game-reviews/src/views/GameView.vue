@@ -9,6 +9,10 @@
         <span>{{ JELLY }} <b>{{ game.enoch }}</b></span>
         <span class="dot" aria-hidden="true">·</span>
         <span>{{ JUPITER }} <b>{{ game.mo }}</b></span>
+        <template v-if="game.guest">
+          <span class="dot" aria-hidden="true">·</span>
+          <span title="Guest reviewer. Not counted in the score.">{{ game.guest.name }} <b v-if="game.guest.score != null">{{ game.guest.score }}</b> (guest)</span>
+        </template>
         <span class="dot" aria-hidden="true">·</span>
         <span>{{ formatHours(game.hours) }} played</span>
         <template v-for="f in facts" :key="f.text">
@@ -144,7 +148,7 @@ const facts = computed(() => {
     : { text: 'Completed', title: 'We finished it. What counts as finished can be subjective.' }]
   if (g.earlyAccess) out.push({ text: 'Played in early access', title: 'We played and reviewed it during early access, so the game may have changed since.' })
   const d = DEV_SIZES[g.devs]
-  if (d) out.push({ text: d.label, title: `Devs: ${g.devs}` })
+  if (d) out.push({ text: d.page, title: `Devs: ${g.devs}` })
   return out
 })
 
@@ -190,13 +194,15 @@ const costFacts = computed(() => {
 })
 
 /* Reviews, with the spoiler-free switch (ticked by default) */
-const spoilerFree = reactive({ enoch: true, mo: true })
-watch(() => route.params.slug, () => { spoilerFree.enoch = true; spoilerFree.mo = true })
+const spoilerFree = reactive({ enoch: true, mo: true, guest: true })
+watch(() => route.params.slug, () => { spoilerFree.enoch = true; spoilerFree.mo = true; spoilerFree.guest = true })
 const reviews = computed(() => {
   const g = game.value
   const out = []
   if (g.enochBlurb || g.enochSpoiler) out.push({ key: 'enoch', name: JELLY, text: g.enochBlurb, spoiler: g.enochSpoiler })
   if (g.moBlurb || g.moSpoiler) out.push({ key: 'mo', name: JUPITER, text: g.moBlurb, spoiler: g.moSpoiler })
+  // guest reviewer: a review on the page only, never in the score
+  if (g.guest?.blurb || g.guest?.spoiler) out.push({ key: 'guest', name: g.guest.name, text: g.guest.blurb, spoiler: g.guest.spoiler })
   // the spoiler version with its new and changed words marked
   for (const r of out) r.spoilerParts = spoilerParts(r.text, r.spoiler)
   return out

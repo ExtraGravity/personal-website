@@ -37,9 +37,6 @@
             <span class="col-score col-person" :data-v="game.mo"></span>
             <span class="col-score col-person" :data-v="game.enoch"></span>
             <span class="col-hours" :data-v="game.hours"></span>
-            <span class="col-flag col-ea" :data-v="game.earlyAccess ? 'EA' : ''"></span>
-            <span class="col-flag col-done" :data-v="game.completed === false ? '' : '✓'"></span>
-            <span class="col-flag col-devs" :class="{ none: !game.devs }" :data-v="game.devs || '—'"></span>
             <span class="col-cost" :class="{ none: cost === null }" :data-v="formatCost(cost)"></span>
             <span class="col-avg" :class="scoreClass(game.avg)" :data-v="game.avg"></span>
           </span>
@@ -314,20 +311,6 @@ const ariaLabel = computed(() => {
 .game-row:hover .col-score,
 .game-row:hover .col-hours,
 .game-row:hover .col-cost { color: var(--text); }
-
-/* early access / completed */
-.col-flag {
-  text-align: center;
-  color: var(--accent-dim);
-  transition: color 0.2s;
-}
-.col-ea { font-size: 0.85rem; letter-spacing: 0.12em; color: #f0d080; opacity: 0.75; }
-.col-done { font-size: 1.05rem; }
-.col-devs { font-size: 1rem; color: var(--text-dim); }
-.col-devs.none { opacity: 0.5; }
-.game-row:hover .col-devs { color: var(--text); }
-.game-row:hover .col-flag { color: var(--accent); }
-.game-row:hover .col-ea { color: #f0d080; opacity: 1; }
 
 .col-avg {
   text-align: right;

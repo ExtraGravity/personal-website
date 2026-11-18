@@ -36,10 +36,11 @@ export function scoreClass(avg) {
 }
 
 /* ── Developer size (`devs` in games.js) ──────────── */
+// `label` is for the table tooltip, filters and About; `page` is the game page's stats line
 export const DEV_SIZES = {
-  S: { label: 'Small unknown team' },
-  M: { label: 'Team with previous success' },
-  L: { label: 'Established corporation' },
+  S: { label: 'Small unknown team', page: 'Small unknown dev team' },
+  M: { label: 'Team with previous success', page: 'Dev team with previous success' },
+  L: { label: 'Established corporation', page: 'Established dev corporation' },
 }
 
 /* ── Player-count ratings ─────────────────────────── */
